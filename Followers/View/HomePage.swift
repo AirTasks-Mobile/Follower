@@ -8,82 +8,102 @@
 import SwiftUI
 
 struct HomePage<T: HomeViewModelProtocol>: View {
-    private var homeVM = HomeVM()
+    @EnvironmentObject var homeVM : T
+    @EnvironmentObject var lobbyVM : LobbyVM
+    @EnvironmentObject var routeVM : RouteVM
+    
+    @Binding var msg : String
     
     var body: some View {
-        NavigationView {
+        //NavigationView {
             GeometryReader { geometry in
                 VStack {
                     HeaderView()
-                        .frame(width: geometry.size.width, height: geometry.size.height * 0.20)
-                            //.background(Color.green)
+                        .frame(width: geometry.size.width, height: geometry.size.height * 0.15)
                     
                     ScrollView(.vertical) {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 15) {
-                                BadgeButton(name: "Info", action: backToInfo)
-                                NavigationLink(
-                                    destination: Pigeon(),
-                                    label: {
-                                        BadgeTextView(name: "Pigeon")
-                                    })
-                                NavigationLink(
-                                    destination: Pigeon(),
-                                    label: {
-                                        BadgeTextView(name: "Sparrows")
-                                    })
-                                NavigationLink(
-                                    destination: Pigeon(),
-                                    label: {
-                                        BadgeTextView(name: "My States")
-                                    })
-                                NavigationLink(
-                                    destination: Pigeon(),
-                                    label: {
-                                        BadgeTextView(name: "Go")
-                                    })
+                                BadgeButton(name: "Close", action: backToInfo)
+                                Button(action: {
+                                    routeVM.startState()
+                                }, label: {
+                                    BadgeTextView(name: "State")
+                                })
+
+                                Button(action: {
+                                    routeVM.startPigeon()
+                                }, label: {
+                                    BadgeTextView(name: "Pigeon")
+                                })
                                 
-                                NavigationLink(
-                                    destination: Pigeon(),
-                                    label: {
-                                        BadgeTextView(name: "Goo")
-                                    })
+                                Button(action: {
+                                    routeVM.startPigeon()
+                                }, label: {
+                                    BadgeTextView(name: "Saprrows")
+                                })
                                 
-                                NavigationLink(
-                                    destination: Pigeon(),
-                                    label: {
-                                        BadgeTextView(name: "Gooo")
-                                    })
+                                Button(action: {
+                                    routeVM.startPigeon()
+                                }, label: {
+                                    BadgeTextView(name: "Go")
+                                })
+                                
+                                Button(action: {
+                                    routeVM.startPigeon()
+                                }, label: {
+                                    BadgeTextView(name: "Profile")
+                                })
+                                
                             }
+                            //.navigationViewStyle(StackNavigationViewStyle())
                         }
                         .frame(width: geometry.size.width, height: 90)
-                        .padding(.top, 30)
                        
+                        DecodeMsgView(msg: $msg, clearMsg: homeVM.clearMsg, action: decodeMsg, actionScan: startScanner)
+                            .frame(width: geometry.size.width, height: 120)
+                            .padding(.top, 30)
+
+
                         
                         StatisticView()
+                            .padding(.top, 30)
+                        
                     }
+                    
                 }
-                .background(Color(red : 219.0/255, green: 227.0/255, blue: 145.0/255))
-                .ignoresSafeArea()
                 .onAppear(perform: loadInfo)
-            }
+                .background(Color(red : 219.0/255, green: 227.0/255, blue: 145.0/255))
+                .edgesIgnoringSafeArea(.all)
+                
+            //} // end navigationview
         }
         
     }
+    func startScanner()
+    {
+        routeVM.startScanQR()
+    }
     
     func loadInfo(){
+        print("loading.....")
         homeVM.fetchInfo()
     }
     
     func backToInfo(){
-        
+        lobbyVM.startLogOut()
+    }
+    
+    func decodeMsg()
+    {
+        homeVM.getClearMsg(info: msg)
     }
 }
 
 
 struct HomePage_Previews: PreviewProvider {
     static var previews: some View {
-        HomePage<HomeVMUnitTest>()
-            .environmentObject(HomeVMUnitTest(isOnline: true, pigeon: ["Pigeon" : "Number One"], sparrows: ["Sparrow" : "Number Two"], vState: ["State" : "State One"], oState: ["State" : "State Two"]))
+        HomePage<HomeVMUnitTest>(msg: .constant("msg"))
+            .environmentObject(HomeVMUnitTest(isOnline: true, pigeon: ["Pigeon" : "Number One"], sparrows: ["Sparrow" : "Number Two"], vState: ["State" : "State One"], oState: ["State" : "State Two"], clearMsg: "String"))
     }
 }

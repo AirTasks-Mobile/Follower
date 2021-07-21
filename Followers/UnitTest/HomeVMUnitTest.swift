@@ -19,13 +19,16 @@ class HomeVMUnitTest : HomeViewModelProtocol {
     
     var ownedStates: [String : String]
     
-    init(isOnline: Bool, pigeon: [String:String], sparrows:[String:String], vState: [String:String], oState: [String:String]) {
+    var clearMsg: String
+    
+    init(isOnline: Bool, pigeon: [String:String], sparrows:[String:String], vState: [String:String], oState: [String:String], clearMsg: String) {
         //
         self.isOnline = isOnline
         self.pigeon = pigeon
         self.sparrows = sparrows
         self.visitedStates = vState
         self.ownedStates = oState
+        self.clearMsg = clearMsg
     }
     
     func fetchInfo() {
@@ -48,5 +51,7 @@ class HomeVMUnitTest : HomeViewModelProtocol {
         //
     }
     
-    
+    func getClearMsg(info: String) {
+        //
+    }
 }

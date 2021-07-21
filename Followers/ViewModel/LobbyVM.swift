@@ -35,7 +35,7 @@ class LobbyVM : LobbyViewModelProtocol {
                     break
                 default:
                     self.isProcessing = false
-                    self.isOk = true // testtttttt
+                    //self.isOk = true // testtttttt
                     break
                 }
             }, receiveValue: { value in

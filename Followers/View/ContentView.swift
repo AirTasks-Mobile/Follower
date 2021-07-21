@@ -7,17 +7,21 @@
 
 import SwiftUI
 
-struct ContentView<T: LobbyViewModelProtocol>: View {
+struct ContentView<T : LobbyViewModelProtocol>: View {
     @EnvironmentObject var lobbyVM : T
-    var funcList = Features()
-    
+    //var homeVM = HomeVM()
+    var routeVM = RouteVM()
 
     var body: some View {
         if lobbyVM.isOk {
-            HomePage<HomeVM>()
+//            HomePage<HomeVM>()
+//                .environmentObject(homeVM)
+            PageRoute<RouteVM>()
+                .environmentObject(routeVM)
+            
         }
         else {
-            LobbyView<T>()
+            LobbyView<LobbyVM>()
         }
     }
 }

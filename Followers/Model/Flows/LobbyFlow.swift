@@ -20,13 +20,13 @@ class LobbyFlow : BaseFlow {
     
     override func onEnd(info: FlowModel) {
         //
+        print("store this token \(info.token ?? "")")
     }
     
     override func onExecute() -> AnyPublisher<FlowModel, FlowError> {
-        let connectHost = InfoApi()
+        let connectHost = InfoApi(info: FlowModel(type: FLOW.NORMAL))
         return connectHost.connectHost()
             .map{ apiData -> FlowModel in
-                // transform API format to Model format
                 return self.convertApiToFlow(info: apiData)
             }
             .eraseToAnyPublisher()
@@ -58,15 +58,23 @@ class LobbyFlow : BaseFlow {
        
         return LobbyState(isOK: isOk)
     }
-    
-    func convertApiToFlow(info: ResInfo) -> FlowModel{
-
-        let payload = info.payload ?? ""
-        let sec = info.res_sec ?? ""
-        print("payload = \(payload)")
-        print("sec = \(sec)")
-        //let isOK = (status == APPROVED)
+  
+    override func getFlowModel(info: Data) -> FlowModel {
+        struct S_LogIn : Decodable {
+            var status : String
+            var token : String?
+        }
+        let debug = String(data: info, encoding: .utf8) ?? ""
+        print("data= \(debug)")
+        do {
+            let flowData = try JSONDecoder().decode(S_LogIn.self, from: info)
+            print("token = \(flowData.token ?? "")")
+            return FlowModel(isSuccess: true, token: flowData.token)
+        }
+        catch {
+            print("catch you \(error)")
+            return FlowModel(isSuccess: false)
+        }
         
-        return FlowModel(isSuccess: true)
     }
 }

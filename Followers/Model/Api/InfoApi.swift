@@ -22,12 +22,16 @@ struct ResInfo : Decodable {
 }
 
 class InfoApi : ApiInterface {
+    var info : FlowModel?
     
+    init(info: FlowModel){
+        self.info = info
+    }
     func getURL() -> URL {
         let url = "http://192.168.43.11:5000/api"
         
         
-        return URL(string: url + "/mock")!
+        return URL(string: url + "/mock_clear")!
     }
     
     func getMethod() -> String {
@@ -48,7 +52,8 @@ class InfoApi : ApiInterface {
     }
     
     func buildPayload() -> Data {
-        let build = BuildMsg()
+        //print("build payload \(info?.secretMsg)")
+        let build = BuildMsg(info: info!)
         
         return build.getRequestMsg()!
     }
@@ -73,12 +78,4 @@ class InfoApi : ApiInterface {
             .eraseToAnyPublisher()
     }
     
-//    func analyzeResponse(data: Data, type: String) {
-//        if type == "application/json" {
-//            let stringData = String(data: data, encoding: .utf8)
-//            processJsonResponse(res: stringData ?? "")
-//        }
-//    }
-    
- 
 }

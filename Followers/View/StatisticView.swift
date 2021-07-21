@@ -11,8 +11,7 @@ import WebKit
 struct StatisticView: View {
     var body: some View {
         MyWebView(url: URL(string: "http://192.168.43.11:5000/statistic")!)
-            .frame(height: 300, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-            .padding()
+            .frame(height: 350, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
     }
 }
 
@@ -28,7 +27,7 @@ struct MyWebView : UIViewRepresentable {
     }
     
     func updateUIView(_ webview: WKWebView, context: UIViewRepresentableContext<MyWebView>) {
-        let request = URLRequest(url: self.url, cachePolicy: .returnCacheDataElseLoad)
+        let request = URLRequest(url: self.url, cachePolicy: .reloadIgnoringLocalCacheData)
         webview.load(request)
     }
     

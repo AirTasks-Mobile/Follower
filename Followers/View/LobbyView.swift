@@ -10,14 +10,20 @@ import SwiftUI
 struct LobbyView<T: LobbyViewModelProtocol>: View {
     @EnvironmentObject private var lobbyVM : T
     var body: some View {
-        VStack{
+        GeometryReader { geo in
+            VStack{
             if !lobbyVM.isProcessing{
-                IconButton(name: "GO", action: startLogin)
+                BadgeButton(name: "GO", action: startLogin)
             }
             else {
-                IconTextView(name: "Wait")
+                BadgeTextView(name: "Wait", primary: false)
             }
+            }
+            .frame(width: geo.size.width, height: geo.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+            .background(Color(red : 219.0/255, green: 227.0/255, blue: 145.0/255))
         }
+        .edgesIgnoringSafeArea(.all)
+        //.ignoresSafeArea()
     }
     
     func startLogin(){
