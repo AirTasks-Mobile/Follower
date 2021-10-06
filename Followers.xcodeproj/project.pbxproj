@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F0033EB26AAC3BE00EFA014 /* GetSecretMsg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0033EA26AAC3BE00EFA014 /* GetSecretMsg.swift */; };
 		3F59BE7C263B0975005C0861 /* Pigeon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F59BE7B263B0975005C0861 /* Pigeon.swift */; };
 		3F76D386263F94B4006CD0D7 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F76D385263F94B4006CD0D7 /* Profile.swift */; };
 		3F7D35DB263BBD3100A333FE /* HexagonParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7D35DA263BBD3100A333FE /* HexagonParameters.swift */; };
 		3F7D35E0263BBECB00A333FE /* BadgeBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7D35DF263BBECB00A333FE /* BadgeBackground.swift */; };
 		3F9BE36C26A6C599005975E8 /* FollowerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9BE36B26A6C599005975E8 /* FollowerView.swift */; };
 		3FA3250D263BB65D00E181A3 /* FavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA3250C263BB65D00E181A3 /* FavoriteButton.swift */; };
+		3FA4367E26A8650200F5423E /* GetLocalInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA4367D26A8650200F5423E /* GetLocalInfo.swift */; };
 		3FA48EA526A599AF00CD0D5C /* GetClearMsg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA48EA426A599AF00CD0D5C /* GetClearMsg.swift */; };
 		3FACC6BA263C32BA00487ED2 /* BadgeSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FACC6B9263C32BA00487ED2 /* BadgeSymbol.swift */; };
 		3FACC6BF263C346800487ED2 /* RotatedBadgeSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FACC6BE263C346800487ED2 /* RotatedBadgeSymbol.swift */; };
@@ -28,7 +30,6 @@
 		3FD5CC4326A5103000A7E40D /* LobbyVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5CC4226A5103000A7E40D /* LobbyVM.swift */; };
 		3FD5CC4526A5156D00A7E40D /* BaseFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5CC4426A5156D00A7E40D /* BaseFlow.swift */; };
 		3FD5CC4726A5165B00A7E40D /* LobbyFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5CC4626A5165B00A7E40D /* LobbyFlow.swift */; };
-		3FD5CC4926A5178F00A7E40D /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5CC4826A5178F00A7E40D /* ViewState.swift */; };
 		3FD5CC4B26A51ABD00A7E40D /* BuildMsg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5CC4A26A51ABD00A7E40D /* BuildMsg.swift */; };
 		3FD5CC4D26A51C2A00A7E40D /* InfoApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5CC4C26A51C2A00A7E40D /* InfoApi.swift */; };
 		3FD5CC5026A5285300A7E40D /* LobbyVMUnitTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5CC4F26A5285300A7E40D /* LobbyVMUnitTest.swift */; };
@@ -78,12 +79,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3F0033EA26AAC3BE00EFA014 /* GetSecretMsg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetSecretMsg.swift; sourceTree = "<group>"; };
 		3F59BE7B263B0975005C0861 /* Pigeon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pigeon.swift; sourceTree = "<group>"; };
 		3F76D385263F94B4006CD0D7 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		3F7D35DA263BBD3100A333FE /* HexagonParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonParameters.swift; sourceTree = "<group>"; };
 		3F7D35DF263BBECB00A333FE /* BadgeBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeBackground.swift; sourceTree = "<group>"; };
 		3F9BE36B26A6C599005975E8 /* FollowerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerView.swift; sourceTree = "<group>"; };
 		3FA3250C263BB65D00E181A3 /* FavoriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteButton.swift; sourceTree = "<group>"; };
+		3FA4367D26A8650200F5423E /* GetLocalInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLocalInfo.swift; sourceTree = "<group>"; };
 		3FA48EA426A599AF00CD0D5C /* GetClearMsg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetClearMsg.swift; sourceTree = "<group>"; };
 		3FACC6B9263C32BA00487ED2 /* BadgeSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeSymbol.swift; sourceTree = "<group>"; };
 		3FACC6BE263C346800487ED2 /* RotatedBadgeSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotatedBadgeSymbol.swift; sourceTree = "<group>"; };
@@ -99,7 +102,6 @@
 		3FD5CC4226A5103000A7E40D /* LobbyVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyVM.swift; sourceTree = "<group>"; };
 		3FD5CC4426A5156D00A7E40D /* BaseFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFlow.swift; sourceTree = "<group>"; };
 		3FD5CC4626A5165B00A7E40D /* LobbyFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyFlow.swift; sourceTree = "<group>"; };
-		3FD5CC4826A5178F00A7E40D /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
 		3FD5CC4A26A51ABD00A7E40D /* BuildMsg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildMsg.swift; sourceTree = "<group>"; };
 		3FD5CC4C26A51C2A00A7E40D /* InfoApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoApi.swift; sourceTree = "<group>"; };
 		3FD5CC4F26A5285300A7E40D /* LobbyVMUnitTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyVMUnitTest.swift; sourceTree = "<group>"; };
@@ -184,6 +186,14 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		3FA4367C26A864BE00F5423E /* Steps */ = {
+			isa = PBXGroup;
+			children = (
+				3FA4367D26A8650200F5423E /* GetLocalInfo.swift */,
+			);
+			path = Steps;
+			sourceTree = "<group>";
+		};
 		3FD5CC3C26A50D7C00A7E40D /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -208,6 +218,7 @@
 				3FD5CC4426A5156D00A7E40D /* BaseFlow.swift */,
 				3FD5CC4626A5165B00A7E40D /* LobbyFlow.swift */,
 				3FA48EA426A599AF00CD0D5C /* GetClearMsg.swift */,
+				3F0033EA26AAC3BE00EFA014 /* GetSecretMsg.swift */,
 			);
 			path = Flows;
 			sourceTree = "<group>";
@@ -305,6 +316,7 @@
 		3FE7F51726397D8500FF024A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3FA4367C26A864BE00F5423E /* Steps */,
 				3FD5CC4126A50FB800A7E40D /* Flows */,
 				3F956DD1263FD44000383232 /* Api */,
 				3FE7F5322639A43300FF024A /* LoadJsonData.swift */,
@@ -316,7 +328,6 @@
 			isa = PBXGroup;
 			children = (
 				3FD5CC4226A5103000A7E40D /* LobbyVM.swift */,
-				3FD5CC4826A5178F00A7E40D /* ViewState.swift */,
 				3FD5CC5526A537F500A7E40D /* HomeVM.swift */,
 				3FB7E4F326A7C6C40024E639 /* RouteVM.swift */,
 			);
@@ -505,7 +516,6 @@
 				3FE7F52B2639801D00FF024A /* OState.swift in Sources */,
 				3FD5CC5626A537F500A7E40D /* HomeVM.swift in Sources */,
 				3FB7E4F426A7C6C40024E639 /* RouteVM.swift in Sources */,
-				3FD5CC4926A5178F00A7E40D /* ViewState.swift in Sources */,
 				3FE067A22660B31C0040E225 /* Features.swift in Sources */,
 				3FB7E4F226A7BEDB0024E639 /* BagdeIcon.swift in Sources */,
 				3F7D35E0263BBECB00A333FE /* BadgeBackground.swift in Sources */,
@@ -513,9 +523,11 @@
 				3FB7E4EC26A7B2060024E639 /* ScanQRCodeView.swift in Sources */,
 				3F9BE36C26A6C599005975E8 /* FollowerView.swift in Sources */,
 				3FE5FA46265C908D00C101B8 /* QRCodeView.swift in Sources */,
+				3FA4367E26A8650200F5423E /* GetLocalInfo.swift in Sources */,
 				3FA3250D263BB65D00E181A3 /* FavoriteButton.swift in Sources */,
 				3FD5CC3E26A50DAB00A7E40D /* IconTextView.swift in Sources */,
 				3FE7F4DF2639489500FF024A /* FollowersApp.swift in Sources */,
+				3F0033EB26AAC3BE00EFA014 /* GetSecretMsg.swift in Sources */,
 				3FD5CC4326A5103000A7E40D /* LobbyVM.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,9 +9,22 @@ import SwiftUI
 import WebKit
 
 struct StatisticView: View {
+    @EnvironmentObject var lobbyVM : LobbyVM
+    
     var body: some View {
-        MyWebView(url: URL(string: "http://192.168.43.11:5000/statistic")!)
+        MyWebView(url: URL(string: getURL())!)
             .frame(height: 350, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+    }
+    
+    func getURL() -> String {
+        var userID = lobbyVM.userID
+        if userID == "" {
+            userID = "unknown_user"
+        }
+        
+        let url : String = "http://192.168.43.11:5000/statistic/lair?user=" + userID
+        
+        return url
     }
 }
 

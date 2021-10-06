@@ -9,6 +9,12 @@ import Foundation
 import Combine
 
 class HomeVMUnitTest : HomeViewModelProtocol {
+    var secretMsg: String
+    
+    func getSecretMsg(info: String) {
+        //
+    }
+    
     var isOnline: Bool
     
     var pigeon: [String : String]
@@ -29,6 +35,8 @@ class HomeVMUnitTest : HomeViewModelProtocol {
         self.visitedStates = vState
         self.ownedStates = oState
         self.clearMsg = clearMsg
+        
+        secretMsg = ""
     }
     
     func fetchInfo() {

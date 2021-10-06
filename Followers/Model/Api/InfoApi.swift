@@ -30,6 +30,16 @@ class InfoApi : ApiInterface {
     func getURL() -> URL {
         let url = "http://192.168.43.11:5000/api"
         
+        switch info?.type {
+        case .NORMAL:
+            return URL(string: url + "/check_in")!
+        case .GET_CLEAR_MSG:
+           return URL(string: url + "/secure")!
+        case .GET_SECRET_MSG:
+            return URL(string: url + "/secure")!
+        default:
+            break
+        }
         
         return URL(string: url + "/mock_clear")!
     }

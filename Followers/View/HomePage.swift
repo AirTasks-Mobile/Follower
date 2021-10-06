@@ -13,6 +13,7 @@ struct HomePage<T: HomeViewModelProtocol>: View {
     @EnvironmentObject var routeVM : RouteVM
     
     @Binding var msg : String
+    @Binding var backgroundColor : Color
     
     var body: some View {
         //NavigationView {
@@ -73,7 +74,7 @@ struct HomePage<T: HomeViewModelProtocol>: View {
                     
                 }
                 .onAppear(perform: loadInfo)
-                .background(Color(red : 219.0/255, green: 227.0/255, blue: 145.0/255))
+                .background(backgroundColor)
                 .edgesIgnoringSafeArea(.all)
                 
             //} // end navigationview
@@ -103,7 +104,7 @@ struct HomePage<T: HomeViewModelProtocol>: View {
 
 struct HomePage_Previews: PreviewProvider {
     static var previews: some View {
-        HomePage<HomeVMUnitTest>(msg: .constant("msg"))
+        HomePage<HomeVMUnitTest>(msg: .constant("msg"), backgroundColor : .constant(Color(red : 219.0/255, green: 227.0/255, blue: 145.0/255)))
             .environmentObject(HomeVMUnitTest(isOnline: true, pigeon: ["Pigeon" : "Number One"], sparrows: ["Sparrow" : "Number Two"], vState: ["State" : "State One"], oState: ["State" : "State Two"], clearMsg: "String"))
     }
 }

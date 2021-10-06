@@ -9,8 +9,7 @@ import SwiftUI
 import WebKit
 
 struct FollowerView: View {
-    var username : String = "user001"
-    var page = "http://192.168.43.11:5000/statistic/state"
+    @EnvironmentObject var lobbyVM : LobbyVM
     
     @State private var select = 0
     var goBack : () -> Void
@@ -25,39 +24,30 @@ struct FollowerView: View {
                 .frame(width: geo.size.width, height: geo.size.height * 0.15)
                 
                 TabView (selection: $select) {
-                        StateWebView(url: URL(string: getInfo(own: "yes", state: "na"))!)
-                            .padding(.top, 30)
-                            .frame(height: 550, alignment: .center)
+                        StateWebView(url: URL(string: getInfo(own: "yes", all: "na"))!)
+                            //.padding(.top, 30)
+                            //.frame(height: 550, alignment: .center)
                             .tabItem {
-                                    Image(systemName: "house.fill")
+                                    Image(systemName: "flag.circle.fill")
                                     Text("My States")
                                 }
                                 .tag(0)
                      
-                        StateWebView(url: URL(string: getInfo(own: "no", state: "na"))!)
-                        .padding(.top, 30)
-                            .frame(height: 550, alignment: .center)
+                        StateWebView(url: URL(string: getInfo(own: "no", all: "na"))!)
                             .tabItem {
-                                Image(systemName: "bookmark.circle.fill")
+                                Image(systemName: "target")
                                 Text("My Footprints")
                             }
                             .tag(1)
                      
-//                        Text("Video Tab")
-//                            .font(.system(size: 30, weight: .bold, design: .rounded))
-//                            .tabItem {
-//                                Image(systemName: "video.circle.fill")
-//                                Text("Video")
-//                            }
-//                            .tag(2)
-//
-//                        Text("Profile Tab")
-//                            .font(.system(size: 30, weight: .bold, design: .rounded))
-//                            .tabItem {
-//                                Image(systemName: "person.crop.circle")
-//                                Text("Profile")
-//                            }
-//                            .tag(3)
+                        StateWebView(url: URL(string: getInfo(own: "no", all: "yes"))!)
+                            .font(.system(size: 30, weight: .bold, design: .rounded))
+                            .tabItem {
+                                Image(systemName: "globe")
+                                Text("All")
+                            }
+                            .tag(2)
+
                 }
                 
             }
@@ -67,15 +57,23 @@ struct FollowerView: View {
         //.ignoresSafeArea()
     }
     
-    func getInfo(own: String, state: String) -> String {
-        
-        if own == "yes" {
-            let url = page + "?state=" + "BEL" + "&user=" + username
-            return url
+    func getInfo(own: String, all: String) -> String {
+        var username : String = lobbyVM.userID
+        if username == "" {
+            username = "unknown_user"
         }
-        //let url = page + "state=" + "BEL" + "&user=" + username
-        let url = page + "?user=" + username
+        let page = "http://192.168.43.11:5000/statistic/state"
         
+        if all != "yes" {
+            if own == "yes" {
+                let url = page + "?user=" + username + "&owned=yes"
+                return url
+            }
+            let url = page + "?user=" + username + "&visited=yes"
+            return  url
+        }
+        
+        let url = page + "?user=" + username + "&global=yes"
         return url
     }
     
@@ -103,5 +101,6 @@ struct FollowerView_Previews: PreviewProvider {
         FollowerView(goBack: {
             print("back")
         })
+        .environmentObject(LobbyVMUnitTest(isOk: true, isProcessing: false))
     }
 }

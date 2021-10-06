@@ -1,21 +1,21 @@
 //
-//  GetClearMsg.swift
+//  GetSecretMsg.swift
 //  Followers
 //
-//  Created by JEREMY NGUYEN on 19/07/2021.
+//  Created by JEREMY NGUYEN on 23/07/2021.
 //
 
 import Foundation
 import Combine
 
-class GetClearMsg : BaseFlow {
+class GetSecretMsg : BaseFlow {
     private var msg : String = ""
     override func onStart() -> Bool {
         if viewInfo.isEmpty {
             return false
         }
         
-        msg = viewInfo["clearMsg"] ?? ""
+        msg = viewInfo["secretMsg"] ?? ""
         if msg == "" {
             return false
         }
@@ -23,9 +23,8 @@ class GetClearMsg : BaseFlow {
         return true
     }
     
-    
     override func onExecute() -> AnyPublisher<FlowModel, FlowError> {
-        let gw = InfoApi(info : FlowModel(type: FLOW.GET_CLEAR_MSG ,secretMsg: msg))
+        let gw = InfoApi(info : FlowModel(type: FLOW.GET_SECRET_MSG ,clearMsg: msg))
         return gw.connectHost()
             .map{ res -> FlowModel in
                 return self.convertApiToFlow(info: res)
@@ -37,23 +36,23 @@ class GetClearMsg : BaseFlow {
         //let isOk = info.isSuccess
         //let msg = info.message ?? ""
         
-        return FlowModel(clearMsg: info.clearMsg)
+        return FlowModel(secretMsg: info.secretMsg)
     }
     
     override func getFlowModel(info: Data) -> FlowModel {
-        struct S_Clear_Msg : Decodable {
+        struct S_Secret_Msg : Decodable {
             var status : String
-            var clearMsg : String
+            var secretMsg : String
         }
         
         do {
-            let flowData = try JSONDecoder().decode(S_Clear_Msg.self, from: info)
-            print("clear msg = \(flowData.clearMsg)")
+            let flowData = try JSONDecoder().decode(S_Secret_Msg.self, from: info)
+            print("secret msg = \(flowData.secretMsg)")
             if flowData.status.isEmpty || flowData.status == "" {
                 throw FlowError.FAIL
             }
             
-            return FlowModel(isSuccess: true, clearMsg: flowData.clearMsg)
+            return FlowModel(isSuccess: true, secretMsg: flowData.secretMsg)
         }
         catch {
             print("catch you \(error)")

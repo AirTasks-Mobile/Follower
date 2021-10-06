@@ -11,6 +11,7 @@ import Combine
 enum FLOW : String {
     case NORMAL = "NORMAL"
     case GET_CLEAR_MSG = "GET_CLEAR_MSG"
+    case GET_SECRET_MSG = "GET_SECRET_MSG"
 }
 
 enum FlowError : Error {
@@ -34,6 +35,9 @@ struct FlowModel {
     var sparrows : [String:String]?
     var oStates : [String: String]?
     var vStates : [String:String]?
+    
+    var deviceID : String?
+    var userID : String?
 }
 
 protocol FlowProtocol {
@@ -64,10 +68,6 @@ class BaseFlow: FlowProtocol {
             .eraseToAnyPublisher()
     }
     
-//    func convertApiToFlow<T: Decodable >(info: T) -> FlowModel {
-//
-//        return FlowModel(isSuccess: true, message: "it's prototype")
-//    }
     func getFlowModel(info : Data) -> FlowModel{
         return FlowModel(isSuccess: false)
     }
@@ -88,19 +88,19 @@ class BaseFlow: FlowProtocol {
         return getFlowModel(info: data)
     }
     
-    func processFlowTemplate() -> AnyPublisher<Int, FlowError> {
+    func processFlow() -> AnyPublisher<FlowModel, FlowError> {
         if !onStart(){
             // return error
-            return Just(0)
+            return Just(FlowModel())
                 .setFailureType(to: FlowError.self)
                 .eraseToAnyPublisher()
         }
             
         return onExecute()
-                .map{ data -> Int in
-                    self.onEnd(info: data)
+                .map{ data -> FlowModel in
                     
-                    return 0
+                    self.onEnd(info: data)
+                    return data
                 }
                 .eraseToAnyPublisher()
         

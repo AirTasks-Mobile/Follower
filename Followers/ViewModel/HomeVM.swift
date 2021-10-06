@@ -15,7 +15,8 @@ protocol HomeViewModelProtocol : ObservableObject {
     var visitedStates : [String:String] { get set }
     var ownedStates : [String: String] { get set }
     
-    var clearMsg : String {get set}
+    var clearMsg : String { get set }
+    var secretMsg : String { get set }
     
     func fetchInfo()
     func fetchVisitedStates()
@@ -25,6 +26,7 @@ protocol HomeViewModelProtocol : ObservableObject {
     func updateSparrows(info: [String:String])
     
     func getClearMsg(info: String)
+    func getSecretMsg(info: String)
 }
 
 class HomeVM : HomeViewModelProtocol {
@@ -36,6 +38,7 @@ class HomeVM : HomeViewModelProtocol {
     @Published var ownedStates: [String : String] = [:]
     
     @Published var clearMsg: String = ""
+    @Published var secretMsg: String = ""
     
     private var task : AnyCancellable?
     
@@ -85,6 +88,35 @@ class HomeVM : HomeViewModelProtocol {
                 if msg != ""
                 {
                     self.clearMsg = msg
+                }
+            })
+    }
+    
+    func getSecretMsg(info: String) {
+        secretMsg = ""
+        
+        let flow = GetSecretMsg()
+        flow.setViewInfo(info: ["secretMsg" : info])
+        
+        task = flow.processFlow()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { result in
+                switch result {
+                case .finished:
+                    break
+                case .failure(.SERVER):
+                    self.secretMsg = "[server error]"
+                    break
+                default:
+                    self.secretMsg = "[error]"
+                    break
+                }
+            }, receiveValue: { value in
+                let msg : String = value.clearMsg ?? ""
+                //print("get secret msg value \(msg)")
+                if msg != ""
+                {
+                    self.secretMsg = msg
                 }
             })
     }

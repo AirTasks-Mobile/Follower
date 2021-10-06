@@ -13,10 +13,11 @@ struct PageRoute<T: RouteViewModelProtocol>: View {
     var homeVM = HomeVM()
     
     @State var msg : String = ""
+    @State var backgroundColor : Color = Color(red : 219.0/255, green: 227.0/255, blue: 145.0/255)
     
     var body: some View {
         if routeVM.isHome {
-            HomePage<HomeVM>(msg: $msg)
+            HomePage<HomeVM>(msg: $msg, backgroundColor: $backgroundColor)
                 .environmentObject(homeVM)
         }
         else if routeVM.isState {
@@ -27,9 +28,10 @@ struct PageRoute<T: RouteViewModelProtocol>: View {
         }
         else if routeVM.isPigeon {
             Pigeon(goBack: backHome)
+                .environmentObject(homeVM)
         }
         else {
-            LobbyView<LobbyVM>()
+            //LobbyView<LobbyVM>()
         }
     }
     
