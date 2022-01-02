@@ -28,7 +28,7 @@ class InfoApi : ApiInterface {
         self.info = info
     }
     func getURL() -> URL {
-        let url = "http://192.168.43.11:5000/api"
+        let url = "http://192.168.1.103:5000/api"
         
         switch info?.type {
         case .NORMAL:

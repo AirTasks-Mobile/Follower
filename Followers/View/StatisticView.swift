@@ -22,7 +22,7 @@ struct StatisticView: View {
             userID = "unknown_user"
         }
         
-        let url : String = "http://192.168.43.11:5000/statistic/lair?user=" + userID
+        let url : String = "http://192.168.1.103:5000/statistic/lair?user=" + userID
         
         return url
     }

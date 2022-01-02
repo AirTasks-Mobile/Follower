@@ -62,7 +62,7 @@ struct FollowerView: View {
         if username == "" {
             username = "unknown_user"
         }
-        let page = "http://192.168.43.11:5000/statistic/state"
+        let page = "http://192.168.1.103:5000/statistic/state"
         
         if all != "yes" {
             if own == "yes" {
