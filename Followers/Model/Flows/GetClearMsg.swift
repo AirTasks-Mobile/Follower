@@ -25,7 +25,7 @@ class GetClearMsg : BaseFlow {
     
     
     override func onExecute() -> AnyPublisher<FlowModel, FlowError> {
-        let gw = InfoApi(info : FlowModel(type: FLOW.GET_CLEAR_MSG ,secretMsg: msg))
+        let gw = InfoApi(info : FlowModel(type: FLOW.GET_CLEAR_MSG ))
         return gw.connectHost()
             .map{ res -> FlowModel in
                 return self.convertApiToFlow(info: res)
@@ -33,32 +33,10 @@ class GetClearMsg : BaseFlow {
             .eraseToAnyPublisher()
     }
     
-    func convertFlowToView(info : FlowModel) -> FlowModel {
-        //let isOk = info.isSuccess
-        //let msg = info.message ?? ""
+    func convertApiToFlow(info: ResInfo) -> FlowModel{
+
         
-        return FlowModel(clearMsg: info.clearMsg)
-    }
-    
-    override func getFlowModel(info: Data) -> FlowModel {
-        struct S_Clear_Msg : Decodable {
-            var status : String
-            var clearMsg : String
-        }
-        
-        do {
-            let flowData = try JSONDecoder().decode(S_Clear_Msg.self, from: info)
-            print("clear msg = \(flowData.clearMsg)")
-            if flowData.status.isEmpty || flowData.status == "" {
-                throw FlowError.FAIL
-            }
-            
-            return FlowModel(isSuccess: true, clearMsg: flowData.clearMsg)
-        }
-        catch {
-            print("catch you \(error)")
-            return FlowModel(isSuccess: false)
-        }
+        return FlowModel(isSuccess: true, message: "a")
     }
 
 }

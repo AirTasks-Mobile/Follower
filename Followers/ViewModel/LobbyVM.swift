@@ -30,6 +30,12 @@ class LobbyVM : LobbyViewModelProtocol {
     func startLogIn() {
         isProcessing = true
         
+        if isProcessing {
+            isOk = true // testtttttt
+            isProcessing = false
+            return
+        }
+        
         let flow = LobbyFlow()
         flow.setViewInfo(info: ["user_id": userID, "device_id": deviceID])
         task = flow.processFlow()
@@ -40,9 +46,11 @@ class LobbyVM : LobbyViewModelProtocol {
                     break
                 default:
                     self.isProcessing = false
-                    //self.isOk = true // testtttttt
                     break
                 }
+                
+                
+                
             }, receiveValue: { value in
                 let isOK = value.isSuccess
                 let user = value.userID ?? ""

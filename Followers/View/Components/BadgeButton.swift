@@ -19,8 +19,8 @@ struct BadgeButton: View {
                     BadgeBackground()
                         .frame(width: 70, height: 70)
                     Text(name)
-                        .font(.footnote)
-                        .frame(width: 70, height: 20)
+                        .font(Font.custom("Avenir-medium", size: 15))
+                        .foregroundColor(.white)
                 }
             //}
         }

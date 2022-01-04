@@ -9,40 +9,56 @@ import Foundation
 import Combine
 
 class RouteVMUnitTest : RouteViewModelProtocol {
-    var isPigeon: Bool
+    var isAbout: Bool
     
-    func startPigeon() {
-        
+    func startAbout() {
+        //
     }
     
+    var isSol: Bool
+    
+    var isOne: Bool
+    
+    var isMatic: Bool
+    
+    func startScanQR() {
+        //
+    }
+    
+    func startSol() {
+        //
+    }
+    
+    func startOne() {
+        //
+    }
+    
+    func startMatic() {
+        //
+    }
+    
+
     var isOnline: Bool
     
     var isHome: Bool
     
     var isScanQR: Bool
     
-    var isState: Bool
     
-    init(isOnline : Bool, isHome: Bool, isScanQR: Bool, isState: Bool) {
+    init(isOnline : Bool) {
         self.isOnline = isOnline
-        self.isHome = isHome
-        self.isScanQR = isScanQR
-        self.isState = isState
-        
-        self.isPigeon = false
+        self.isHome = false
+        isScanQR = false
+        isMatic = false
+        isOne = false
+        isSol = false
+        isAbout = false
     }
     
     func backHome() {
         //
     }
     
-    func startScanQR() {
-        //
-    }
-    
-    func startState() {
-        //
-    }
-    
+
     
 }

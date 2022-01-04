@@ -10,21 +10,46 @@ import WebKit
 
 struct StatisticView: View {
     @EnvironmentObject var lobbyVM : LobbyVM
+    @Binding var isActive : Bool
+    var type : String = "coin"
+    var isHeader : Bool = false
+    var onGoBack : () -> Void
     
     var body: some View {
-        MyWebView(url: URL(string: getURL())!)
-            .frame(height: 350, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+        GeometryReader { geo in
+            VStack {
+                if isHeader {
+                    ZStack {
+                        HeaderView()
+                        BackButton(action: onGoBack)
+                    }
+                    .frame(width: geo.size.width, height: geo.size.height * 0.10)
+                }
+
+                if isActive {
+                    MyWebView(url: URL(string: getURL())!)
+                        .frame(width: geo.size.width, height: geo.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        .padding()
+                }
+            }
+            .padding(EdgeInsets(top: 15, leading: 0, bottom: 0, trailing: 0))
+            //.edgesIgnoringSafeArea(.all)
+
+        }
     }
     
     func getURL() -> String {
-        var userID = lobbyVM.userID
-        if userID == "" {
-            userID = "unknown_user"
+        if type == GTEXT.SOLANA {
+            return "https://coinmarketcap.com/currencies/solana/"
+        }
+        else if type == GTEXT.HARMONY {
+            return "https://coinmarketcap.com/currencies/harmony/"
+        }
+        else if type == GTEXT.POLYGON {
+            return "https://coinmarketcap.com/currencies/polygon/"
         }
         
-        let url : String = "http://192.168.1.103:5000/statistic/lair?user=" + userID
-        
-        return url
+        return "https://coinmarketcap.com/"
     }
 }
 
@@ -48,6 +73,6 @@ struct MyWebView : UIViewRepresentable {
 
 struct StatisticView_Previews: PreviewProvider {
     static var previews: some View {
-        StatisticView()
+        StatisticView(isActive: .constant(false), onGoBack: { })
     }
 }

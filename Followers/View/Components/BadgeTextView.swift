@@ -8,15 +8,21 @@
 import SwiftUI
 
 struct BadgeTextView: View {
+    @Binding var text : String
     var name : String = "N/A"
     var primary : Bool = true
     
     var body: some View {
         //GeometryReader { geometry in
-            VStack {
+        VStack(alignment: .center, spacing: 0) {
                 //Badge()
                 if primary {
-                BadgeBackground()
+                    ZStack(alignment: .center){
+                        BadgeBackground()
+                        Text("\(text)")
+                            .font(Font.custom("Avenir-black", size: 9))
+                            .foregroundColor(.white)
+                    }
                     .frame(width: 70, height: 70)
                 }
                 else {
@@ -24,8 +30,8 @@ struct BadgeTextView: View {
                         .frame(width: 70, height: 70)
                 }
                 Text(name)
-                    .font(.footnote)
-                    .frame(width: 70, height: 20)
+                    .font(Font.custom("Avenir-medium", size: 15))
+                    .foregroundColor(.white)
             }
         //}
     }
@@ -33,6 +39,6 @@ struct BadgeTextView: View {
 
 struct BadgeTextView_Previews: PreviewProvider {
     static var previews: some View {
-        BadgeTextView()
+        BadgeTextView(text: .constant(""))
     }
 }

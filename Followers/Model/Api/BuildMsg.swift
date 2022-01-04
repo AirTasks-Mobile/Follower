@@ -35,66 +35,94 @@ class BuildMsg {
     
     func getRequestMsg() -> Data? {
         switch reqInfo?.type {
-        case .GET_CLEAR_MSG:
-            return getClearMsgBody()
-        case .GET_SECRET_MSG:
-            return getSecretMsgBody()
-        case .NORMAL:
-            return getLobbyBody()
-        default:
-            break
+            case .NORMAL:
+                return getLobbyBody()
+            case .GET_SOL_BALANCE:
+                return getSolBalanceBody()
+            case .GET_SOL_ACC_INFO:
+                return getSolAccountInfoBody()
+            case .GET_SOL_TXN_INFO:
+                return getSolTransactionInfoBody()
+            case .GET_ONE_BALANCE:
+                return getOneBalanceBody()
+            case .GET_ONE_ACC_INFO:
+                return getOneTransactionBody()
+            case .GET_ONE_STAKE_INFO:
+                return getOneStakeBody()
+            default:
+                break
         }
         
         return getLobbyBody()
     }
     
-    func getSecretMsgBody() -> Data?{
-        let msg = reqInfo?.clearMsg ?? ""
-        if msg == "" {
+    func getSolBalanceBody() -> Data? {
+        struct SolInfo : Codable {
+            var jsonrpc : String = "2.0"
+            var id : Int = 1
+            var method : String = "getBalance"
+            var params : [String]
+            //var params : [ [String] ]
+        }
+        
+        
+        // alice : 9eYn5QXiWEmC6jCqkBUgdqCbAZXJtmopktz5XYwCPGCM
+        // bob : EWBy8H1XxKb4yzs436TZBxJ7hPoPipYePDixzz1KZ71h
+        // my : DpgoQ5ZR6EnjrgWjD9m5cxxGu6NLCypFLTd36nDDjBJb
+        //let accountList = ["9eYn5QXiWEmC6jCqkBUgdqCbAZXJtmopktz5XYwCPGCM", "EWBy8H1XxKb4yzs436TZBxJ7hPoPipYePDixzz1KZ71h"]
+        let sendInfo = SolInfo(params: [reqInfo?.token ?? ""])
+        
+        guard let body = try? JSONEncoder().encode(sendInfo) else {
             return nil
         }
         
-        let pigeon = "pigeon one     !"
-        guard let utf8Pigeon = pigeon.data(using: .utf8) else {
-            return nil
-        }
-        
-        let b64Pigeon = utf8Pigeon.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
-        
-        guard let utf8Msg = msg.data(using: .utf8) else {
-            return nil
-        }
-        let b64Msg = utf8Msg.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
-        
-        let payload = ClearMsg(payload: b64Msg, req_type: "ENC", req_sec: b64Pigeon)
-        guard let body = try? JSONEncoder().encode(payload) else {
-            return nil
-        }
+        //print("body = \(body)")
+        //print("JSON body: \(String(data: body, encoding: .utf8))")
         
         return body
     }
     
-    func getClearMsgBody() -> Data?{
-        let msg = reqInfo?.secretMsg ?? ""
-        if msg == "" {
+    func getSolAccountInfoBody() -> Data? {
+        struct SolInfo : Codable {
+            var jsonrpc : String = "2.0"
+            var id : Int = 1
+            var method : String = "getSignaturesForAddress"
+            var params : [String]
+        }
+        
+        
+        // alice : 9eYn5QXiWEmC6jCqkBUgdqCbAZXJtmopktz5XYwCPGCM
+        // bob : EWBy8H1XxKb4yzs436TZBxJ7hPoPipYePDixzz1KZ71h
+        // my : DpgoQ5ZR6EnjrgWjD9m5cxxGu6NLCypFLTd36nDDjBJb
+        //let accountList = ["9eYn5QXiWEmC6jCqkBUgdqCbAZXJtmopktz5XYwCPGCM", "EWBy8H1XxKb4yzs436TZBxJ7hPoPipYePDixzz1KZ71h"]
+        let sendInfo = SolInfo(params: [reqInfo?.token ?? ""])
+        
+        guard let body = try? JSONEncoder().encode(sendInfo) else {
             return nil
         }
         
-        let sparrow = "sparrow one    !"
-        guard let utf8Sparrow = sparrow.data(using: .utf8) else {
+        //print("body = \(body)")
+        //print("JSON body: \(String(data: body, encoding: .utf8))")
+        
+        return body
+    }
+    
+    func getSolTransactionInfoBody() -> Data? {
+        struct SolInfo : Codable {
+            var jsonrpc : String = "2.0"
+            var id : Int = 1
+            var method : String = "getTransaction"
+            var params : [String]
+        }
+        
+        let sendInfo = SolInfo(params: [reqInfo?.token ?? ""])
+        
+        guard let body = try? JSONEncoder().encode(sendInfo) else {
             return nil
         }
         
-        let b64Sparrow = utf8Sparrow.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
-        
-        if b64Sparrow.isEmpty {
-            return nil
-        }
-        
-        let payload = ClearMsg(payload: msg, req_type: "DEC", req_sec: b64Sparrow)
-        guard let body = try? JSONEncoder().encode(payload) else {
-            return nil
-        }
+        //print("body = \(body)")
+        //print("JSON body: \(String(data: body, encoding: .utf8))")
         
         return body
     }
@@ -135,4 +163,76 @@ class BuildMsg {
         
         return body
     }
+    
+    // One
+    func getOneBalanceBody() -> Data? {
+        struct OneInfo : Codable {
+            var jsonrpc : String = "2.0"
+            var id : String = "1"
+            var method : String = "hmyv2_getBalance"
+            var params : [String]
+        }
+        
+        let sendInfo = OneInfo(params: [reqInfo?.token ?? ""])
+        
+        guard let body = try? JSONEncoder().encode(sendInfo) else {
+            return nil
+        }
+        
+        //print("body = \(body)")
+        //print("JSON body: \(String(data: body, encoding: .utf8))")
+        
+        return body
+    }
+    
+    func getOneTransactionBody() -> Data? {
+        struct Param : Codable {
+            var address : String
+            var pageIndex = 0
+            var pageSize = 1000
+            var fullTx = true
+            var txType = "ALL"
+            var order = "DESC"
+        }
+        
+        struct OneInfo : Codable {
+            var jsonrpc : String = "2.0"
+            var id : String = "1"
+            var method : String = "hmyv2_getTransactionsHistory"
+            var params : [Param]
+        }
+        
+        let sendInfo = OneInfo(params: [Param(address: reqInfo?.token ?? "")])
+        
+        guard let body = try? JSONEncoder().encode(sendInfo) else {
+            return nil
+        }
+        
+        //print("body = \(body)")
+        //print("JSON body: \(String(data: body, encoding: .utf8))")
+        
+        return body
+    }
+    
+    func getOneStakeBody() -> Data? {
+        struct OneInfo : Codable {
+            var jsonrpc : String = "2.0"
+            var id : String = "1"
+            var method : String = "hmy_getDelegationsByDelegator"
+            var params : [String]
+        }
+        
+        let sendInfo = OneInfo(params: [reqInfo?.token ?? ""])
+        
+        guard let body = try? JSONEncoder().encode(sendInfo) else {
+            return nil
+        }
+        
+        //print("body = \(body)")
+        //print("JSON body: \(String(data: body, encoding: .utf8))")
+        
+        return body
+    }
+    
+    // Matic
 }
