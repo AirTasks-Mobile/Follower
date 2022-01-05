@@ -37,6 +37,10 @@ struct PageRoute<T: RouteViewModelProtocol>: View {
             AboutView<RouteVM>()
                 .environmentObject(routeVM)
         }
+        else if routeVM.isBsc{
+            BSCTab<HomeVM>(goBack: backHome)
+                .environmentObject(homeVM)
+        }
         else {
             
         }

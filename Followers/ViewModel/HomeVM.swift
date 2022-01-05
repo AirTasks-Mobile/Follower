@@ -14,21 +14,25 @@ protocol HomeViewModelProtocol : ObservableObject {
     var solCoins : [CoinInfo] { get set }
     var oneCoins : [CoinInfo] { get set }
     var maticCoins : [CoinInfo] { get set }
+    var bscCoins : [CoinInfo] { get set }
     var solAddressList : [String] { get set }
     var oneAddressList : [String] { get set }
     var maticAddressList : [String] { get set }
+    var bscAddressList : [String] { get set }
     
     var solTransactions : [TransactionInfo] { get set }
     var oneTransactions : [TransactionInfo] { get set }
     var maticTransactions : [TransactionInfo] { get set }
+    var bscTransactions : [TransactionInfo] { get set }
     
     var solSignatures : [String] { get set }
     //var oneSignatures : [String] { get set }
-    var maticSignatures : [String] { get set }
+    //var maticSignatures : [String] { get set }
     
     var totalSol : String { get set }
     var totalOne : String { get set }
     var totalMatic : String { get set }
+    var totalBsc : String { get set }
     
     var mainQueue : [String] { get set }
     
@@ -39,6 +43,7 @@ protocol HomeViewModelProtocol : ObservableObject {
     func storeSol(id: String, nick: String)
     func getSolTxn(id : String)
     func fetchSolTxnDetail()
+    func fetchSolStake(sol : [StakeAccountInfo])
     //
     func startOne()
     func storeOne(id: String, nick: String)
@@ -50,6 +55,9 @@ protocol HomeViewModelProtocol : ObservableObject {
     func storeMatic(id: String, nick: String)
     func getMaticTxn(id : String)
     func fetchMaticTxnDetail()
+    //
+    func startBsc()
+    func storeBsc(id: String, nick: String)
 }
 
 class HomeVM : HomeViewModelProtocol {
@@ -58,19 +66,23 @@ class HomeVM : HomeViewModelProtocol {
     @Published var solCoins: [CoinInfo] = []
     @Published var oneCoins: [CoinInfo] = []
     @Published var maticCoins: [CoinInfo] = []
+    @Published var bscCoins: [CoinInfo] = []
     @Published var solAddressList: [String] = []
     @Published var oneAddressList: [String] = []
     @Published var maticAddressList: [String] = []
+    @Published var bscAddressList: [String] = []
     @Published var tempCoins: [CoinInfo] = []
     @Published var solTransactions: [TransactionInfo] = []
     @Published var oneTransactions: [TransactionInfo] = []
     @Published var maticTransactions: [TransactionInfo] = []
+    @Published var bscTransactions: [TransactionInfo] = []
     @Published var solSignatures: [String] = []
     //@Published var oneSignatures: [String] = []
-    @Published var maticSignatures: [String] = []
+    //@Published var maticSignatures: [String] = []
     @Published var totalSol: String = ""
     @Published var totalOne: String = ""
     @Published var totalMatic: String = ""
+    @Published var totalBsc: String = ""
     @Published var mainQueue: [String] = []
     
     private var task : AnyCancellable?
@@ -90,7 +102,12 @@ class HomeVM : HomeViewModelProtocol {
         maticCoins = []
         maticAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.MATIC_LIST) ?? []
         
-        mainQueue = [GTEXT.SOLANA, GTEXT.HARMONY, GTEXT.POLYGON]
+        //
+        bscCoins = []
+        bscAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.BSC_LIST) ?? []
+        
+        mainQueue = [GTEXT.SOLANA, GTEXT.HARMONY, GTEXT.POLYGON, GTEXT.BINANCE]
+        //mainQueue = [GTEXT.POLYGON]
     }
     
     func startSol() {
@@ -206,6 +223,25 @@ class HomeVM : HomeViewModelProtocol {
                 })
             
         }
+    }
+    
+    func fetchSolStake(sol: [StakeAccountInfo]) {
+        if sol.count == 0 {
+            return
+        }
+        
+        let flow = GetSolStake()
+        flow.setStakeList(sol: sol)
+        task = flow.processFlow()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { result in
+                //
+            }, receiveValue: { data in
+                //print("back here !!!! \(data)")
+                if data.isSuccess {
+                    self.solTransactions = data.transactions!
+                }
+            })
     }
     
     func getTotalSol() -> Void {
@@ -412,7 +448,7 @@ class HomeVM : HomeViewModelProtocol {
         let address : String = maticAddressList[0]
         if address != "" {
             //print("\(maticAddressList.count) Address = \(address)")
-            //loadThenRefreshMatic(id: address)
+            loadThenRefreshMatic(id: address)
         }
     }
     
@@ -434,6 +470,7 @@ class HomeVM : HomeViewModelProtocol {
                     self.maticAddressList.removeFirst()
                     
                     // calculate total
+                    self.getTotalMatic()
                 }
                 if self.maticAddressList.count == 0 {
                     self.mainQueue = self.mainQueue.filter(){$0 != GTEXT.POLYGON}
@@ -450,7 +487,27 @@ class HomeVM : HomeViewModelProtocol {
     }
     
     func storeMatic(id: String, nick: String) {
-        //
+        tempList = UserDefaults.standard.stringArray(forKey: GTEXT.MATIC_LIST) ?? []
+        let flow = GetMaticBalance()
+        flow.setViewInfo(info: ["id": id])
+        task = flow.processFlow()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { result in
+                
+            }, receiveValue: { data in
+                //print("back here !!!! \(self.tempList)")
+                let matic = CoinInfo(type: GTEXT.POLYGON, id: id, nick: nick, pic: "", bal: data.balance ?? "", date: "")
+                let key = GTEXT.POLYGON + "_" + id
+                if let encodedMatic = try? JSONEncoder().encode(matic) {
+                    UserDefaults.standard.set(encodedMatic, forKey: key)
+                    self.tempList.append(key)
+                    UserDefaults.standard.set(self.tempList, forKey: GTEXT.MATIC_LIST)
+
+                    self.maticCoins = []
+                    self.maticAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.MATIC_LIST) ?? []
+                    self.mainQueue = [GTEXT.POLYGON]
+                }
+            })
     }
     
     func getMaticTxn(id: String) {
@@ -458,15 +515,162 @@ class HomeVM : HomeViewModelProtocol {
     }
     
     func fetchMaticTxnDetail() -> Void {
-        if maticSignatures.count <= 0 {
+
+    }
+    
+    func getTotalMatic() -> Void {
+        let myMatic = maticCoins
+        if myMatic.count == 0 {
+            totalMatic = ""
+        }
+        
+        var total : Double = 0
+        for sol in myMatic {
+            total += Double(sol.bal) ?? 0
+        }
+        
+        if total > 0 {
+            if total < 1 {
+                totalMatic = String(format: "%.4f", total)
+            }
+            else if total >= 1 && total < 10 {
+                totalMatic = String(format: "%.4f", total)
+            }
+            else if total >= 10 && total < 100 {
+                totalMatic = String(format: "%.3f", total)
+            }
+            else if total >= 100 && total < 1000 {
+                totalMatic = String(format: "%.2f", total)
+            }
+            else if total >= 1000 && total < 10000 {
+                totalMatic = String(format: "%.1f", total)
+            }
+            else if total >= 10000 && total < 100000 {
+                totalMatic = String(format: "%.0f", total)
+            }
+            else if total >= 100000 && total < 1000000 {
+                totalMatic = String(format: "%.0f", total)
+            }
+            else if total >= 1000000 && total < 1000000000 {
+                totalMatic = String(format: "%.0f mil", total / 1000000)
+            }
+            else {
+                totalMatic = String(format: "%.0f bil", total / 1000000000)
+            }
+        }
+    }
+    
+    // Binance
+    func startBsc() {
+        print("?????")
+        if bscAddressList.count <= 0 {
             return
         }
         
-        let txnSignature = maticSignatures[0]
-        if txnSignature != "" {
-            // fetch ...
-            
-            maticSignatures.removeFirst() // test only
+        // refresh
+        let address : String = bscAddressList[0]
+        if address != "" {
+            loadThenRefreshBsc(id: address)
+        }
+    }
+    
+    func loadThenRefreshBsc(id : String){
+        if let bscData = UserDefaults.standard.object(forKey: id) as? Data {
+            if let bscInfo = try? JSONDecoder().decode(CoinInfo.self, from: bscData) {
+                refreshBscInfo(id: bscInfo.id, nick: bscInfo.nick)
+            }
+        }
+    }
+    
+    func refreshBscInfo(id : String , nick: String){
+        let flow = GetBscBalance()
+        flow.setViewInfo(info: ["id": id])
+        task = flow.processFlow()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { result in
+                if self.bscAddressList.count > 0 {
+                    self.bscAddressList.removeFirst()
+                    
+                    // calculate total
+                    self.getTotalBsc()
+                }
+                if self.bscAddressList.count == 0 {
+                    self.mainQueue = self.mainQueue.filter(){$0 != GTEXT.BINANCE}
+                }
+            }, receiveValue: { data in
+                //print("back here !!!! \(data)")
+                let bsc = CoinInfo(type: GTEXT.BINANCE, id: id, nick: nick, pic: "", bal: data.balance ?? "", date: "")
+                let key = GTEXT.BINANCE + "_" + id
+                if let encodedBsc = try? JSONEncoder().encode(bsc) {
+                    UserDefaults.standard.set(encodedBsc, forKey: key)
+                    self.bscCoins.append(bsc)
+                }
+            })
+    }
+    
+    func storeBsc(id: String, nick: String) {
+        tempList = UserDefaults.standard.stringArray(forKey: GTEXT.BSC_LIST) ?? []
+        let flow = GetBscBalance()
+        flow.setViewInfo(info: ["id": id])
+        task = flow.processFlow()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { result in
+                
+            }, receiveValue: { data in
+                //print("back here !!!! \(data)")
+                let bsc = CoinInfo(type: GTEXT.BINANCE, id: id, nick: nick, pic: "", bal: data.balance ?? "", date: "")
+                let key = GTEXT.BINANCE + "_" + id
+                if let encodedBsc = try? JSONEncoder().encode(bsc) {
+                    UserDefaults.standard.set(encodedBsc, forKey: key)
+                    self.tempList.append(key)
+                    UserDefaults.standard.set(self.tempList, forKey: GTEXT.BSC_LIST)
+
+                    self.bscCoins = []
+                    self.bscAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.BSC_LIST) ?? []
+                    self.mainQueue = [GTEXT.BINANCE]
+                }
+            })
+    }
+    
+    func getTotalBsc() -> Void {
+        let myBsc = bscCoins
+        if myBsc.count == 0 {
+            totalBsc = ""
+        }
+        
+        var total : Double = 0
+        for sol in myBsc {
+            total += Double(sol.bal) ?? 0
+        }
+        
+        if total > 0 {
+            if total < 1 {
+                totalBsc = String(format: "%.4f", total)
+            }
+            else if total >= 1 && total < 10 {
+                totalBsc = String(format: "%.4f", total)
+            }
+            else if total >= 10 && total < 100 {
+                totalBsc = String(format: "%.3f", total)
+            }
+            else if total >= 100 && total < 1000 {
+                totalBsc = String(format: "%.2f", total)
+            }
+            else if total >= 1000 && total < 10000 {
+                totalBsc = String(format: "%.1f", total)
+            }
+            else if total >= 10000 && total < 100000 {
+                totalBsc = String(format: "%.0f", total)
+            }
+            else if total >= 100000 && total < 1000000 {
+                totalBsc = String(format: "%.0f", total)
+            }
+            else if total >= 1000000 && total < 1000000000 {
+                totalBsc = String(format: "%.0f mil", total / 1000000)
+            }
+            else {
+                totalBsc = String(format: "%.0f bil", total / 1000000000)
+            }
         }
     }
 }

@@ -39,9 +39,9 @@ class GetOneTransaction : BaseFlow {
             let gas = txn.gas ?? 0
             let gasPrice = txn.gasPrice ?? 0
             let fee = Double(gas) * Double(gasPrice)
-    
-            let formattedValue = String(format: "ONE %.12f", amt / GTEXT.ONE_ROUND)
-            let formattedFee = String(format: "ONE %.12f", fee / GTEXT.ONE_ROUND)
+            
+            let formattedValue = String(format: "%f", amt / GTEXT.ONE_ROUND)
+            let formattedFee = String(format: "%f", fee / GTEXT.ONE_ROUND)
             
             let src = txn.from ?? ""
             let des = txn.to ?? ""
@@ -59,7 +59,7 @@ class GetOneTransaction : BaseFlow {
             dateFormatter.timeZone = .current
             let localDate = dateFormatter.string(from: mdate as Date)
             
-            oneTxn.append(TransactionInfo(type: type, id: txnId, amt: formattedValue, src: src, des: des, date: localDate, fee: formattedFee, status: ""))
+            oneTxn.append(TransactionInfo(type: type, id: txnId, amt: formattedValue, src: src, des: des, date: localDate, fee: formattedFee, status: "", scheme: GTEXT.HARMONY))
         }
         
         //let doubleOne = Double(info.result ?? 0)

@@ -9,6 +9,12 @@ import Foundation
 import Combine
 
 class RouteVMUnitTest : RouteViewModelProtocol {
+    var isBsc: Bool
+    
+    func startBsc() {
+        //
+    }
+    
     var isAbout: Bool
     
     func startAbout() {
@@ -53,6 +59,7 @@ class RouteVMUnitTest : RouteViewModelProtocol {
         isOne = false
         isSol = false
         isAbout = false
+        isBsc = false
     }
     
     func backHome() {

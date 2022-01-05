@@ -47,6 +47,11 @@ struct HomePage<T: HomeViewModelProtocol>: View {
                                 BadgeTextView(text: $homeVM.totalMatic,name: "MATIC")
                             })
                             
+                            Button(action: {
+                                routeVM.startBsc()
+                            }, label: {
+                                BadgeTextView(text: $homeVM.totalBsc,name: "BSC")
+                            })
                                 
                             BadgeButton(name: "ABOUT", action: onAbout)
                                 
@@ -60,13 +65,18 @@ struct HomePage<T: HomeViewModelProtocol>: View {
                                 .frame(height: 95)
                         }
                         
-                        ForEach(homeVM.maticCoins, id: \.id) { sol in
-                            CoinTag(oneCoin: sol, name: "matic_logo")
+                        ForEach(homeVM.oneCoins, id: \.id) { one in
+                            CoinTag(oneCoin: one, name: "one_logo")
                                 .frame(height: 95)
                         }
                         
-                        ForEach(homeVM.oneCoins, id: \.id) { sol in
-                            CoinTag(oneCoin: sol, name: "one_logo")
+                        ForEach(homeVM.maticCoins, id: \.id) { matic in
+                            CoinTag(oneCoin: matic, name: "matic_logo")
+                                .frame(height: 95)
+                        }
+                        
+                        ForEach(homeVM.bscCoins, id: \.id) { bsc in
+                            CoinTag(oneCoin: bsc, name: "binance_logo")
                                 .frame(height: 95)
                         }
                         
@@ -81,16 +91,28 @@ struct HomePage<T: HomeViewModelProtocol>: View {
                     if homeVM.mainQueue.count > 0 {
                         let scheme = homeVM.mainQueue[0]
                         if scheme == GTEXT.SOLANA {
-                            //print("Start Sol")
+                            if homeVM.solAddressList.count == 0 {
+                                homeVM.mainQueue.removeFirst()
+                            }
                             homeVM.startSol()
                         }
                         else if scheme == GTEXT.HARMONY {
-                            //print("Start One")
+                            if homeVM.oneAddressList.count == 0 {
+                                homeVM.mainQueue.removeFirst()
+                            }
                             homeVM.startOne()
                         }
                         else if scheme == GTEXT.POLYGON {
-                            ///print("Start Matic")
+                            if homeVM.maticAddressList.count == 0 {
+                                homeVM.mainQueue.removeFirst()
+                            }
                             homeVM.startMatic()
+                        }
+                        else if scheme == GTEXT.BINANCE {
+                            if homeVM.bscAddressList.count == 0 {
+                                homeVM.mainQueue.removeFirst()
+                            }
+                            homeVM.startBsc()
                         }
                     }
                 })
@@ -109,6 +131,11 @@ struct HomePage<T: HomeViewModelProtocol>: View {
                 .onChange(of: homeVM.maticAddressList, perform: { _ in
                     if homeVM.mainQueue.count > 0 && homeVM.mainQueue[0] == GTEXT.POLYGON {
                         homeVM.startMatic()
+                    }
+                })
+                .onChange(of: homeVM.bscAddressList, perform: { _ in
+                    if homeVM.mainQueue.count > 0 && homeVM.mainQueue[0] == GTEXT.BINANCE {
+                        homeVM.startBsc()
                     }
                 })
                 .background(LinearGradient(gradient: Gradient(colors: [startColour, centerColour, endColour]), startPoint: .topLeading, endPoint: .bottomTrailing))

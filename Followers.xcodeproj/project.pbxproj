@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		3F0033EB26AAC3BE00EFA014 /* GetSecretMsg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0033EA26AAC3BE00EFA014 /* GetSecretMsg.swift */; };
+		3F04B87527853B64008A7551 /* GetSolStake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F04B87427853B64008A7551 /* GetSolStake.swift */; };
+		3F04B87727856393008A7551 /* TransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F04B87627856393008A7551 /* TransactionView.swift */; };
+		3F04B879278563A1008A7551 /* SolStakeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F04B878278563A1008A7551 /* SolStakeView.swift */; };
+		3F04B87B278563B2008A7551 /* OneStakeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F04B87A278563B2008A7551 /* OneStakeView.swift */; };
+		3F04B87D278563C5008A7551 /* AmountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F04B87C278563C5008A7551 /* AmountView.swift */; };
 		3F12E46B2782AA05004B4830 /* ListCoinTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F12E46A2782AA04004B4830 /* ListCoinTab.swift */; };
 		3F12E46D2782AA10004B4830 /* AddCoinTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F12E46C2782AA10004B4830 /* AddCoinTab.swift */; };
 		3F12E46F27831E49004B4830 /* ListTransactionTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F12E46E27831E49004B4830 /* ListTransactionTab.swift */; };
@@ -71,6 +76,8 @@
 		3FE7F4F12639489600FF024A /* FollowersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE7F4F02639489600FF024A /* FollowersTests.swift */; };
 		3FE7F4FC2639489600FF024A /* FollowersUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE7F4FB2639489600FF024A /* FollowersUITests.swift */; };
 		3FE7F5122639524300FF024A /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE7F5112639524300FF024A /* MapView.swift */; };
+		3FF461C82785D3EB006D494F /* GetBscBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF461C72785D3EB006D494F /* GetBscBalance.swift */; };
+		3FF461CA2785DBD7006D494F /* BSCTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF461C92785DBD7006D494F /* BSCTab.swift */; };
 		3FFE3663278196F800C87219 /* CoinResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFE3662278196F800C87219 /* CoinResponse.swift */; };
 /* End PBXBuildFile section */
 
@@ -93,6 +100,11 @@
 
 /* Begin PBXFileReference section */
 		3F0033EA26AAC3BE00EFA014 /* GetSecretMsg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetSecretMsg.swift; sourceTree = "<group>"; };
+		3F04B87427853B64008A7551 /* GetSolStake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetSolStake.swift; sourceTree = "<group>"; };
+		3F04B87627856393008A7551 /* TransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionView.swift; sourceTree = "<group>"; };
+		3F04B878278563A1008A7551 /* SolStakeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolStakeView.swift; sourceTree = "<group>"; };
+		3F04B87A278563B2008A7551 /* OneStakeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneStakeView.swift; sourceTree = "<group>"; };
+		3F04B87C278563C5008A7551 /* AmountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountView.swift; sourceTree = "<group>"; };
 		3F12E46A2782AA04004B4830 /* ListCoinTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCoinTab.swift; sourceTree = "<group>"; };
 		3F12E46C2782AA10004B4830 /* AddCoinTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCoinTab.swift; sourceTree = "<group>"; };
 		3F12E46E27831E49004B4830 /* ListTransactionTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTransactionTab.swift; sourceTree = "<group>"; };
@@ -161,6 +173,8 @@
 		3FE7F4FB2639489600FF024A /* FollowersUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersUITests.swift; sourceTree = "<group>"; };
 		3FE7F4FD2639489600FF024A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3FE7F5112639524300FF024A /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		3FF461C72785D3EB006D494F /* GetBscBalance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetBscBalance.swift; sourceTree = "<group>"; };
+		3FF461C92785DBD7006D494F /* BSCTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSCTab.swift; sourceTree = "<group>"; };
 		3FFE3662278196F800C87219 /* CoinResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -245,6 +259,11 @@
 				3F12E46C2782AA10004B4830 /* AddCoinTab.swift */,
 				3F12E46E27831E49004B4830 /* ListTransactionTab.swift */,
 				3F12E47827843960004B4830 /* CoinProfileTab.swift */,
+				3F04B87627856393008A7551 /* TransactionView.swift */,
+				3F04B878278563A1008A7551 /* SolStakeView.swift */,
+				3F04B87A278563B2008A7551 /* OneStakeView.swift */,
+				3F04B87C278563C5008A7551 /* AmountView.swift */,
+				3FF461C92785DBD7006D494F /* BSCTab.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -263,6 +282,8 @@
 				3F12E47627840371004B4830 /* GetSolTransactionDetail.swift */,
 				3F12E47C27846D3F004B4830 /* GetOneTransaction.swift */,
 				3FA121752784A0E300A04CBB /* GetOneStake.swift */,
+				3F04B87427853B64008A7551 /* GetSolStake.swift */,
+				3FF461C72785D3EB006D494F /* GetBscBalance.swift */,
 			);
 			path = Flows;
 			sourceTree = "<group>";
@@ -525,6 +546,7 @@
 				3FD5CC5E26A54A7600A7E40D /* HeaderBackground.swift in Sources */,
 				3FE7F4E12639489500FF024A /* ContentView.swift in Sources */,
 				3F42BC632781D75D001D784A /* CoinTag.swift in Sources */,
+				3F04B879278563A1008A7551 /* SolStakeView.swift in Sources */,
 				3FE7F5122639524300FF024A /* MapView.swift in Sources */,
 				3FE0677E26608F970040E225 /* StatisticView.swift in Sources */,
 				3F42BC652781D8AD001D784A /* RoundCornerView.swift in Sources */,
@@ -540,7 +562,9 @@
 				3F12E46B2782AA05004B4830 /* ListCoinTab.swift in Sources */,
 				3F12E46D2782AA10004B4830 /* AddCoinTab.swift in Sources */,
 				3F12E47D27846D3F004B4830 /* GetOneTransaction.swift in Sources */,
+				3F04B87727856393008A7551 /* TransactionView.swift in Sources */,
 				3FD5CC5C26A5491B00A7E40D /* HeaderSymbol.swift in Sources */,
+				3FF461C82785D3EB006D494F /* GetBscBalance.swift in Sources */,
 				3F20825527816FB200C32DE9 /* StaticText.swift in Sources */,
 				3FD5CC6226A55D6B00A7E40D /* BadgeTextView.swift in Sources */,
 				3F2082572781886A00C32DE9 /* GetSolBalance.swift in Sources */,
@@ -550,9 +574,12 @@
 				3FD5CC4B26A51ABD00A7E40D /* BuildMsg.swift in Sources */,
 				3F12E4752783EECC004B4830 /* GetMaticBalance.swift in Sources */,
 				3FD5CC5426A5374200A7E40D /* HomePage.swift in Sources */,
+				3F04B87D278563C5008A7551 /* AmountView.swift in Sources */,
 				3FD5CC5026A5285300A7E40D /* LobbyVMUnitTest.swift in Sources */,
 				3FACC6BF263C346800487ED2 /* RotatedBadgeSymbol.swift in Sources */,
 				3F12E47B278457ED004B4830 /* AboutView.swift in Sources */,
+				3F04B87B278563B2008A7551 /* OneStakeView.swift in Sources */,
+				3F04B87527853B64008A7551 /* GetSolStake.swift in Sources */,
 				3FB7E4EE26A7B3C90024E639 /* PageRoute.swift in Sources */,
 				3FD5CC6026A5510C00A7E40D /* BadgeButton.swift in Sources */,
 				3FA121762784A0E300A04CBB /* GetOneStake.swift in Sources */,
@@ -571,6 +598,7 @@
 				3FD5CC4026A50E8300A7E40D /* IconButton.swift in Sources */,
 				3F12E47927843960004B4830 /* CoinProfileTab.swift in Sources */,
 				3FB7E4EC26A7B2060024E639 /* ScanQRCodeView.swift in Sources */,
+				3FF461CA2785DBD7006D494F /* BSCTab.swift in Sources */,
 				3FFE3663278196F800C87219 /* CoinResponse.swift in Sources */,
 				3FE5FA46265C908D00C101B8 /* QRCodeView.swift in Sources */,
 				3F12E47727840371004B4830 /* GetSolTransactionDetail.swift in Sources */,

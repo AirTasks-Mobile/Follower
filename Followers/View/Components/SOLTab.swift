@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CodeScanner
 
 struct SOLTab<T : HomeViewModelProtocol>: View {
     @EnvironmentObject var homeVM : T
@@ -21,6 +22,9 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
     @State var solNickname : String = ""
     @State var selectedSol : CoinInfo = CoinInfo.default
     @State var isWeb : Bool = false
+    
+    @State private var isShowingScanner = false
+    @State private var isScanningAddress = false
     
     var body: some View {
         GeometryReader { geo in
@@ -42,10 +46,10 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
                     ListCoinTab(listCoin: $homeVM.solCoins, selectedCoin: $selectedSol ,onAddCoin: onClick, onDetail: getTransactions)
                         .tag(2)
                     
-                    AddCoinTab(titleText: "Solana Address Only", coinAddress: $solAddress, nickName: $solNickname, onAddCoin: onClick)
+                    AddCoinTab(titleText: "Solana Address Only", coinAddress: $solAddress, nickName: $solNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
                         .tag(3)
                     
-                    ListTransactionTab(nick: $selectedSol.nick, id: $selectedSol.id, transactions: $homeVM.solTransactions, isStake: false, onStake: { })
+                    ListTransactionTab(nick: $selectedSol.nick, id: $selectedSol.id, transactions: $homeVM.solTransactions, isStake: true, onStake: onGetSolStake)
                         .tag(4)
                 
                 }
@@ -79,6 +83,9 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
             .padding(EdgeInsets(top: 0, leading: 28, bottom: 15, trailing: 26))
             .background(LinearGradient(gradient: Gradient(colors: [startColour, centerColour, endColour]), startPoint: .topTrailing, endPoint: .bottomLeading))
             .edgesIgnoringSafeArea(.all)
+        }
+        .sheet(isPresented: $isShowingScanner) {
+            CodeScannerView(codeTypes: [.qr], simulatedData: "Your Address", completion: self.handleScan)
         }
         
     }
@@ -115,6 +122,47 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
             let id = GTEXT.SOLANA + "_" + selectedSol.id
             solList = solList.filter(){$0 != id}
             UserDefaults.standard.set(solList, forKey: GTEXT.SOL_LIST)
+        }
+    }
+    
+    func onGetSolStake() -> Void {
+        var solStakes : [StakeAccountInfo] = []
+        for txn in homeVM.solTransactions {
+            if selectedSol.id == txn.src {
+                solStakes.append(txn.stake!)
+            }
+        }
+        
+        // fetch stake
+        homeVM.fetchSolStake(sol: solStakes)
+        homeVM.solTransactions = []
+    }
+    
+    func scanAddress() -> Void {
+        isShowingScanner = true
+        isScanningAddress = true
+    }
+    
+    func scanNick() -> Void {
+        isShowingScanner = true
+        isScanningAddress = false
+    }
+    
+    func handleScan(result: Result<String, CodeScannerView.ScanError>) {
+        self.isShowingScanner = false
+        //print("QR Code result")
+        switch result {
+        case .success(let code):
+            if isScanningAddress {
+                solAddress = code
+            }
+            else {
+                solNickname = code
+            }
+
+        case .failure(_):
+            print("")
+            //print("Scanning failed: \(error.localizedDescription)")
         }
     }
 }

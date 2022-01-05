@@ -53,6 +53,12 @@ struct SOLResponseGetTransactionDetail : Decodable {
     var id : Int32
 }
 
+struct SOLResponseStake : Decodable {
+    var jsonrpc : String?
+    var result : [SOLReward?]
+    var id : Int32
+}
+
 // One
 struct ONEResponseGetBalance : Decodable {
     var jsonrpc : String?
@@ -78,7 +84,11 @@ struct ONEResponseGetStake : Decodable {
     var result : [ONEStakeResult]?
 }
 
-// Matic
+// ETH
+struct ETHResponseBalance : Decodable {
+    var id : Int?
+    var result : String?
+}
 
 class InfoApi : ApiInterface {
     var info : FlowModel?
@@ -95,6 +105,11 @@ class InfoApi : ApiInterface {
         let oneMainnet = "https://api.harmony.one"
         //let oneDevnet = "https://api.s0.pops.one"
         
+        //let binanceMainnet = "https://api.binance.com"
+        let bscMainnent = "https://bsc-dataseed.binance.org"
+        
+        let maticMainnet = "https://polygon-rpc.com"
+        
         switch info?.type {
             case .NORMAL:
                 return URL(string: url + "/check_in")!
@@ -108,6 +123,8 @@ class InfoApi : ApiInterface {
                 return URL(string: solMainnet)!
             case .GET_SOL_TXN_INFO:
                 return URL(string: solMainnet)!
+            case .GET_SOL_STAKE_INFO:
+                return URL(string: solMainnet)!
             case .GET_ONE_BALANCE:
                 return URL(string: oneMainnet)!
             case .GET_ONE_ACC_INFO:
@@ -116,6 +133,10 @@ class InfoApi : ApiInterface {
                 return URL(string: oneMainnet)!
             case .GET_ONE_STAKE_INFO:
                 return URL(string: oneMainnet)!
+            case .GET_MATIC_BALANCE:
+                return URL(string: maticMainnet)!
+            case .GET_BSC_BALANCE:
+                return URL(string: bscMainnent)!
             default:
                 break
         }
@@ -124,10 +145,6 @@ class InfoApi : ApiInterface {
     }
     
     func getMethod() -> String {
-//        if info?.type == .GET_ONE_ACC_INFO {
-//            return "GET"
-//        }
-        
         return "POST"
     }
     
@@ -154,9 +171,8 @@ class InfoApi : ApiInterface {
     
     func connectHost<T: Decodable>() -> AnyPublisher<T, FlowError> {
         var request = getURLRequest()
-        //if info?.type != .GET_ONE_ACC_INFO {
-            request.httpBody = buildPayload()
-        //}
+        request.httpBody = buildPayload()
+     
 
         return URLSession.shared.dataTaskPublisher(for: request)
             .tryMap{ output in

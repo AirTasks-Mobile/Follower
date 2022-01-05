@@ -1,31 +1,31 @@
 //
-//  GetMaticBalance.swift
+//  GetBscBalance.swift
 //  Followers
 //
-//  Created by JEREMY NGUYEN on 04/01/2022.
+//  Created by JEREMY NGUYEN on 05/01/2022.
 //
 
 import Foundation
 import Combine
 
-class GetMaticBalance : BaseFlow {
-    private var maticId : String = ""
+class GetBscBalance : BaseFlow {
+    private var bscId : String = ""
     
     override func onStart() -> Bool {
         if viewInfo.isEmpty {
             return false
         }
         
-        maticId = viewInfo["id"] ?? ""
-        if maticId == "" {
+        bscId = viewInfo["id"] ?? ""
+        if bscId == "" {
             return false
         }
         
-        return true 
+        return true
     }
     
     override func onExecute() -> AnyPublisher<FlowModel, FlowError> {
-        let connectHost = InfoApi(info: FlowModel(type: FLOW.GET_MATIC_BALANCE, token: maticId))
+        let connectHost = InfoApi(info: FlowModel(type: FLOW.GET_BSC_BALANCE, token: bscId))
         return connectHost.connectHost()
             .map { apiData -> FlowModel in
                 return self.convertApiToFlow(info: apiData)
@@ -36,7 +36,6 @@ class GetMaticBalance : BaseFlow {
     func convertApiToFlow(info: ETHResponseBalance) -> FlowModel{
         let doubleValue = Double(info.result ?? "0") ?? 0
         let formattedValue = String(format: "%f", doubleValue / GTEXT.ETH_ROUND)
-  
         
         return FlowModel(isSuccess: true, balance: formattedValue)
     }

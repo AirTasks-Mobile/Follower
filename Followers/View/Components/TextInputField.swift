@@ -14,6 +14,7 @@ struct TextInputField: View {
     var paddingTop : EdgeInsets = EdgeInsets(top: 27.42, leading: 0, bottom: 0, trailing: 0)
     var onFocus : () -> Void
     var onLoseFocus : () -> Void
+    var onIconClick : () -> Void
     
     @State private var borderColour : Color = Color(.sRGBLinear, red: 255/255.0, green: 255/255.0, blue: 255/255.0, opacity: 0.5)
     
@@ -44,7 +45,7 @@ struct TextInputField: View {
                 .font(Font.custom("Avenir-medium", size: 17))
                 .foregroundColor(Color.white)
             
-            Button(action: { }) {
+            Button(action: onIconClick) {
                 Image(systemName: "qrcode.viewfinder")
                     .resizable()
                     .frame(width: 18, height: 18, alignment: .center)
@@ -60,6 +61,6 @@ struct TextInputField: View {
 
 struct TextInputField_Previews: PreviewProvider {
     static var previews: some View {
-        TextInputField(inputText: .constant(""), onFocus: { }, onLoseFocus: { })
+        TextInputField(inputText: .constant(""), onFocus: { }, onLoseFocus: { }, onIconClick: { })
     }
 }

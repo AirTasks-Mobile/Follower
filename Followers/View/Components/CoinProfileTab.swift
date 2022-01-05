@@ -31,36 +31,37 @@ struct CoinProfileTab: View {
             
             if isRemove {
                 Spacer()
+
                 ZStack{
                     Color.white
                     VStack{
                         Text("Remove ?")
                             .font(.title)
                             .foregroundColor(.red)
-                            .padding()
-                        
+                            .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
+
                         Spacer()
-                        
+
                         Image(systemName: "questionmark")
                             .resizable()
                             .foregroundColor(.red)
                             .frame(width: 50, height: 50, alignment: .center)
-                        
+
                         Spacer()
-                        
+
                         HStack{
                             Button(action: {
                                 self.isRemove = false
                                 self.selectedCoin = CoinInfo.default
                             }, label: {
-                                
+
                                 Text("Oh No")
                                     .font(.title)
                                     .padding()
                             })
-                            
+
                             Button(action: onRemoveCoin, label: {
-                                
+
                                 Text("Sure")
                                     .font(.title)
                                     .padding()
@@ -71,9 +72,9 @@ struct CoinProfileTab: View {
                 .frame(width: 280, height: 280)
                 .cornerRadius(20)
                 .shadow(radius: 20)
-                .padding(EdgeInsets(top: 25, leading: 0, bottom: 0, trailing: 0))
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             } // end isRemove
-            
+
             Spacer()
         }
         .padding(EdgeInsets(top: 25, leading: 0, bottom: 0, trailing: 0))

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CodeScanner
 
 struct ONETab<T : HomeViewModelProtocol>: View {
     @EnvironmentObject var homeVM : T
@@ -20,6 +21,9 @@ struct ONETab<T : HomeViewModelProtocol>: View {
     @State var oneNickname : String = ""
     @State var selectedOne : CoinInfo = CoinInfo.default
     @State var isWeb : Bool = false
+    
+    @State private var isShowingScanner = false
+    @State private var isScanningAddress = false
     
     var body: some View {
         GeometryReader { geo in
@@ -41,7 +45,7 @@ struct ONETab<T : HomeViewModelProtocol>: View {
                     ListCoinTab(listCoin: $homeVM.oneCoins, selectedCoin: $selectedOne ,onAddCoin: onClick, onDetail: getTransactions)
                         .tag(2)
                     
-                    AddCoinTab(titleText: "Harmony One Address Only", coinAddress: $oneAddress, nickName: $oneNickname, onAddCoin: onClick)
+                    AddCoinTab(titleText: "Harmony One Address Only", coinAddress: $oneAddress, nickName: $oneNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
                         .tag(3)
                     
                     ListTransactionTab(nick: $selectedOne.nick, id: $selectedOne.id, transactions: $homeVM.oneTransactions, isStake: true, onStake: {
@@ -77,6 +81,9 @@ struct ONETab<T : HomeViewModelProtocol>: View {
             .background(LinearGradient(gradient: Gradient(colors: [startColour, endColour]), startPoint: .topTrailing, endPoint: .bottomLeading))
             .edgesIgnoringSafeArea(.all)
         }
+        .sheet(isPresented: $isShowingScanner) {
+            CodeScannerView(codeTypes: [.qr], simulatedData: "Your Address", completion: self.handleScan)
+        }
     }
     
     func OneGoBack() -> Void {
@@ -111,6 +118,34 @@ struct ONETab<T : HomeViewModelProtocol>: View {
             let id = GTEXT.HARMONY + "_" + selectedOne.id
             oneList = oneList.filter(){$0 != id}
             UserDefaults.standard.set(oneList, forKey: GTEXT.ONE_LIST)
+        }
+    }
+    
+    func scanAddress() -> Void {
+        isShowingScanner = true
+        isScanningAddress = true
+    }
+    
+    func scanNick() -> Void {
+        isShowingScanner = true
+        isScanningAddress = false
+    }
+    
+    func handleScan(result: Result<String, CodeScannerView.ScanError>) {
+        self.isShowingScanner = false
+        //print("QR Code result")
+        switch result {
+        case .success(let code):
+            if isScanningAddress {
+                oneAddress = code
+            }
+            else {
+                oneNickname = code
+            }
+
+        case .failure(_):
+            print("")
+            //print("Scanning failed: \(error.localizedDescription)")
         }
     }
 }

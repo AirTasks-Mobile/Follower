@@ -29,75 +29,39 @@ struct ListTransactionTab: View {
                             stake = true
                         }
                     }){
-                        Text("Reward?")
+                        Spacer()
+                        Text("Stake Reward?")
                             .font(Font.custom("Avenir-black", size: 20))
                             .foregroundColor(Color.green)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8.0)
+                                    .stroke(Color.yellow, lineWidth: 1)
+                            )
                             .padding(EdgeInsets(top: 25, leading: 15, bottom: 0, trailing: 15))
                     }
                 }
             }
             
             Text("\(id)")
-                .font(Font.custom("Avenir-black", size: 17))
+                .font(Font.custom("Avenir-black", size: 15))
                 .foregroundColor(Color.gray)
                 .padding(EdgeInsets(top: 3, leading: 15, bottom: 5, trailing: 15))
-            
+            //(text: (isStake ? "Balance" : "Amount"), amt: txn.amt, isOut : (txn.src == id && !stake))
             List {
                 ForEach(transactions, id:\.id) { txn in
-                    Section(header: Text("Amount: \(txn.amt)")
-                                .font(Font.custom("Avenir-black", size: 19))
-                                .foregroundColor((txn.src == id && !stake) ? Color.red : Color.green)){
-                        Text("Date: \(txn.date)")
-                            .font(Font.custom("Avenir-medium", size: 17))
-                            .foregroundColor(Color.gray)
-                        
+                    Section(header: AmountView(text: (stake ? "Balance" : "Amount"), amt: "\(txn.scheme) \(txn.amt)", isOut : (txn.src == id && !stake)) ){
                         if stake {
-                            Text("Delegator: \(txn.src)")
-                                .font(Font.custom("Avenir-medium", size: 17))
-                                .foregroundColor(Color.gray)
-                            Text("Validator: \(txn.des)")
-                                .font(Font.custom("Avenir-medium", size: 17))
-                                .foregroundColor(Color.gray)
-                        }
-                        else if txn.src == id {
-                            Text("From: \(nick)")
-                                .font(Font.custom("Avenir-medium", size: 17))
-                                .foregroundColor(Color.gray)
-                            Text("To: \(txn.des)")
-                                .font(Font.custom("Avenir-medium", size: 17))
-                                .foregroundColor(Color.gray)
-                        }
-                        else if txn.des == id {
-                            Text("From: \(txn.src)")
-                                .font(Font.custom("Avenir-medium", size: 17))
-                                .foregroundColor(Color.gray)
-                            Text("To: \(nick)")
-                                .font(Font.custom("Avenir-medium", size: 17))
-                                .foregroundColor(Color.gray)
+                            if txn.scheme == GTEXT.SOLANA {
+                                SolStakeView(srcId: $id, nick: $nick, txn: txn)
+                            }
+                            else if txn.scheme == GTEXT.HARMONY {
+                                OneStakeView(srcId: $id, nick: $nick, txn: txn)
+                            }
                         }
                         else {
-                            Text("From: \(txn.src)")
-                                .font(Font.custom("Avenir-medium", size: 17))
-                                .foregroundColor(Color.gray)
-                            Text("To: \(txn.des)")
-                                .font(Font.custom("Avenir-medium", size: 17))
-                                .foregroundColor(Color.gray)
-                        }
-                        
-                        if stake {
-                            Text("Reward: \(txn.reward ?? "")")
-                                .font(Font.custom("Avenir-medium", size: 17))
-                                .foregroundColor(Color.yellow)
-                        }
-                        else {
-                            Text("Fee: \(txn.fee)")
-                                .font(Font.custom("Avenir-medium", size: 17))
-                                .foregroundColor(Color.gray)
+                            TransactionView(srcId: $id, nick: $nick, txn: txn)
                         }
 
-                        Text("Type: \(txn.type)")
-                            .font(Font.custom("Avenir-medium", size: 17))
-                            .foregroundColor(Color.gray)
 
                     }
 

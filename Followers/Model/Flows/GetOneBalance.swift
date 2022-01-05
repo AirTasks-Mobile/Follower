@@ -36,7 +36,7 @@ class GetOneBalance : BaseFlow {
     func convertApiToFlow(info: ONEResponseGetBalance) -> FlowModel{
         //print("info = \(info)")
         let doubleOne = Double(info.result ?? 0)
-        let formattedValue = String(format: "%.12f", doubleOne / GTEXT.ONE_ROUND)
+        let formattedValue = String(format: "%f", doubleOne / GTEXT.ONE_ROUND)
         
         return FlowModel(isSuccess: true, balance: formattedValue)
     }

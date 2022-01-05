@@ -14,6 +14,8 @@ struct CoinInfo : Hashable, Codable {
     var pic : String
     var bal : String
     var date : String
+    var stakes : [StakeAccountInfo]?
+    var liquidities : [LiquidityAccountInfo]?
     
     static let `default` = CoinInfo(type: "", id: "", nick: "..", pic: "", bal: "...", date: "")
 }
@@ -27,9 +29,37 @@ struct TransactionInfo : Hashable, Codable {
     var date : String
     var fee : String
     var status : String
+    var scheme : String
     var reward : String?
+    var commission : String?
+    var stake : StakeAccountInfo?
+    var liquidity : LiquidityAccountInfo?
     
-    static let `default` = TransactionInfo(type: "", id: "", amt: "",src: "", des: "" ,date: "", fee: "", status: "", reward: "")
+    static let `default` = TransactionInfo(type: "", id: "", amt: "",src: "", des: "" ,date: "", fee: "", status: "", scheme: "",reward: "", commission: "")
+}
+
+struct StakeAccountInfo : Hashable, Codable {
+    var scheme : String
+    var src : String
+    var des : String
+    var deposit : String
+    var date : String?
+    var epoch : String?
+    var fee : String?
+    
+    static let `default` = StakeAccountInfo(scheme: "", src: "", des: "", deposit: "", date: "", epoch: "", fee: "")
+}
+
+struct LiquidityAccountInfo : Hashable, Codable {
+    var scheme : String
+    var src : String
+    var des : String
+    var deposit : String
+    var date : String?
+    var epoch : String?
+    var fee : String?
+    
+    static let `default` = LiquidityAccountInfo(scheme: "", src: "", des: "", deposit: "", date: "", epoch: "", fee: "")
 }
 
 // SOL
@@ -85,6 +115,13 @@ struct SOLTransaction : Codable, Hashable {
 
 struct SOLMessage : Codable, Hashable {
     var accountKeys : [String]?
+}
+
+struct SOLReward : Codable, Hashable {
+    var amount : Int?
+    var commission : Int?
+    var epoch : Int?
+    var postBalance : Int?
 }
 
 // ONE

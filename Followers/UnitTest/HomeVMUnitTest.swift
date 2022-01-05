@@ -9,6 +9,26 @@ import Foundation
 import Combine
 
 class HomeVMUnitTest : HomeViewModelProtocol {
+    var bscCoins: [CoinInfo]
+    
+    var bscAddressList: [String]
+    
+    var bscTransactions: [TransactionInfo]
+    
+    var totalBsc: String
+    
+    func startBsc() {
+        //
+    }
+    
+    func storeBsc(id: String, nick: String) {
+        //
+    }
+    
+    func fetchSolStake(sol: [StakeAccountInfo]) {
+        //
+    }
+
     func getOneStake(id: String) {
         //
     }
@@ -34,9 +54,6 @@ class HomeVMUnitTest : HomeViewModelProtocol {
     
     var solSignatures: [String]
     
-    //var oneSignatures: [String]
-    
-    var maticSignatures: [String]
     
     func startOne() {
         //
@@ -106,22 +123,26 @@ class HomeVMUnitTest : HomeViewModelProtocol {
         solCoins = [CoinInfo.default, CoinInfo.default]
         oneCoins = [CoinInfo.default, CoinInfo.default]
         maticCoins = [CoinInfo.default, CoinInfo.default]
+        bscCoins = [CoinInfo.default, CoinInfo.default]
         
         solAddressList = [""]
         oneAddressList = [""]
         maticAddressList = [""]
+        bscAddressList = [""]
         
         solTransactions = [TransactionInfo.default]
         oneTransactions = [TransactionInfo.default]
         maticTransactions = [TransactionInfo.default]
+        bscTransactions = [TransactionInfo.default]
         
         solSignatures = [""]
         //oneSignatures = [""]
-        maticSignatures = [""]
+        //maticSignatures = [""]
         
         totalOne = ""
         totalSol = ""
         totalMatic = ""
+        totalBsc = ""
         
         mainQueue = [""]
     }

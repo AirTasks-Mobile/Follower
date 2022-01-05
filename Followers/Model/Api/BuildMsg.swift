@@ -43,12 +43,18 @@ class BuildMsg {
                 return getSolAccountInfoBody()
             case .GET_SOL_TXN_INFO:
                 return getSolTransactionInfoBody()
+            case .GET_SOL_STAKE_INFO:
+                return getSolStakeBody()
             case .GET_ONE_BALANCE:
                 return getOneBalanceBody()
             case .GET_ONE_ACC_INFO:
                 return getOneTransactionBody()
             case .GET_ONE_STAKE_INFO:
                 return getOneStakeBody()
+            case .GET_MATIC_BALANCE:
+                return getEthBalanceBody()
+            case .GET_BSC_BALANCE:
+                return getEthBalanceBody()
             default:
                 break
         }
@@ -116,6 +122,30 @@ class BuildMsg {
         }
         
         let sendInfo = SolInfo(params: [reqInfo?.token ?? ""])
+        
+        guard let body = try? JSONEncoder().encode(sendInfo) else {
+            return nil
+        }
+        
+        //print("body = \(body)")
+        //print("JSON body: \(String(data: body, encoding: .utf8))")
+        
+        return body
+    }
+    
+    func getSolStakeBody() -> Data? {
+        struct SolInfo : Codable {
+            var jsonrpc : String = "2.0"
+            var id : Int = 1
+            var method : String = "getInflationReward"
+            var params : [[String]]
+        }
+
+        // my : DpgoQ5ZR6EnjrgWjD9m5cxxGu6NLCypFLTd36nDDjBJb
+        //let abc = ["7yVybDbMQPrkm3fc5KAURZygwLCQiHDfGnS4d3JoNiXk"]
+        
+        let sendInfo = SolInfo(params: [reqInfo?.stakes ?? []])
+   
         
         guard let body = try? JSONEncoder().encode(sendInfo) else {
             return nil
@@ -235,4 +265,55 @@ class BuildMsg {
     }
     
     // Matic
+    func getEthBalanceBody() -> Data? {
+        struct MaticInfo : Codable {
+            var jsonrpc : String = "2.0"
+            var id : Int = 1
+            var method : String = "eth_getBalance"
+            var params : [String]
+        }
+        //eth_getTransactionCount : work
+        //eth_getBalance
+        // my : // 0xBaB4d45cEe1F8F6153e06DE71DdE21B74E0CfD9B
+        
+//        if true {
+//            return getEthAccountBody()
+//        }
+//        
+        let info = ["\(reqInfo?.token ?? "")", "latest"]
+        let sendInfo = MaticInfo(params: info)
+        
+        guard let body = try? JSONEncoder().encode(sendInfo) else {
+            return nil
+        }
+        
+        //print("body = \(body)")
+        //print("JSON body: \(String(data: body, encoding: .utf8))")
+        
+        return body
+    }
+    
+    func getEthAccountBody() -> Data? {
+        struct MaticInfo : Codable {
+            var jsonrpc : String = "2.0"
+            var id : Int = 1
+            var method : String = "eth_getCode"
+            var params : [String]
+        }
+        
+        // my : // 0xBaB4d45cEe1F8F6153e06DE71DdE21B74E0CfD9B
+        // getLogs : does not exist
+    
+        let info = ["\(reqInfo?.token ?? "")", "latest"]
+        let sendInfo = MaticInfo(params: info)
+        
+        guard let body = try? JSONEncoder().encode(sendInfo) else {
+            return nil
+        }
+        
+        //print("body = \(body)")
+        //print("JSON body: \(String(data: body, encoding: .utf8))")
+        
+        return body
+    }
 }

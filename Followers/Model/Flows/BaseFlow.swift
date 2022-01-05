@@ -16,6 +16,7 @@ enum FLOW : String {
     case GET_SOL_BALANCE = "GET_SOL_BALANCE"
     case GET_SOL_ACC_INFO = "GET_ACCOUNT_INFO"
     case GET_SOL_TXN_INFO = "GET_SOL_TXN_INFO"
+    case GET_SOL_STAKE_INFO = "GET_SOL_STAKE_INFO"
     
     //
     case GET_ONE_BALANCE = "GET_ONE_BALANCE"
@@ -25,6 +26,9 @@ enum FLOW : String {
     //
     case GET_MATIC_BALANCE = "GET_MATIC_BALANCE"
     case GET_MATIC_ACC_INFO = "GET_MATIC_ACC_INFO"
+    
+    //
+    case GET_BSC_BALANCE = "GET_BSC_BALANCE"
 }
 
 enum FlowError : Error {
@@ -45,6 +49,8 @@ struct FlowModel {
     var signature : [String]?
     var transaction : TransactionInfo?
     var transactions : [TransactionInfo]?
+    var stakes : [String]?
+    var liqidities : [String]?
     
     var deviceID : String?
     var userID : String?

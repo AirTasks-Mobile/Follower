@@ -12,6 +12,8 @@ struct AddCoinTab: View {
     @Binding var coinAddress : String
     @Binding var nickName : String
     var onAddCoin : () -> Void
+    var onScanAddress : () -> Void
+    var onScanNick : () -> Void
     
     var body: some View {
         GeometryReader { geo in
@@ -23,9 +25,9 @@ struct AddCoinTab: View {
                         .padding(EdgeInsets(top: 0, leading: 27, bottom: 0, trailing: 27))
                 }
                 
-                TextInputField(titleText: "Address " ,inputText: $coinAddress, onFocus: { }, onLoseFocus: { })
+                TextInputField(titleText: "Address " ,inputText: $coinAddress, onFocus: { }, onLoseFocus: { }, onIconClick: onScanAddress)
                 
-                TextInputField(titleText: "Nickname " ,inputText: $nickName, onFocus: { }, onLoseFocus: { })
+                TextInputField(titleText: "Nickname " ,inputText: $nickName, onFocus: { }, onLoseFocus: { }, onIconClick: onScanNick)
                 
                 Button(action: onAddCoin){
                     Text("Add")
@@ -44,6 +46,6 @@ struct AddCoinTab: View {
 
 struct AddCoinTab_Previews: PreviewProvider {
     static var previews: some View {
-        AddCoinTab(coinAddress: .constant(""), nickName: .constant(""), onAddCoin: { })
+        AddCoinTab(coinAddress: .constant(""), nickName: .constant(""), onAddCoin: { }, onScanAddress: { }, onScanNick: { })
     }
 }

@@ -14,8 +14,9 @@ struct CoinTag: View {
     //private let tagColor = Color(red: 255/255.0, green: 255/255.0, blue: 255/255.0, opacity: 0.3)
     
     var body: some View {
-        GeometryReader { geo in
+        
             ZStack(alignment: .leading){
+                GeometryReader { geo in
                 VStack(alignment: .leading) {
                     Text("         \(oneCoin.nick)")
                         .font(Font.custom("Avenir-black", size: 17))
@@ -34,18 +35,18 @@ struct CoinTag: View {
                 //.frame(height: 60, alignment: .leading)
                 .frame(width: geo.size.width - 70,height: 80, alignment: .leading)
                 .background(RoundCornerView(color: tagColor, tl: 0, tr: 22, bl: 0, br: 22))
-                .padding(EdgeInsets(top: 10, leading: 60, bottom: 10, trailing: 0))
+                .padding(EdgeInsets(top: 5, leading: 60, bottom: 5, trailing: 0))
                 //.position(x: geo.size.width * 0.50, y: geo.size.height * 0.50)
                     
                 CircleButton(name: name)
                     .frame(width: 90, height: 90, alignment: .center)
                     //.position(x: geo.size.width * 0.17, y: geo.size.height * 0.50)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-
             }
+            } // end Z
             //.frame(height: 90)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-        }
+        
     }
 }
 

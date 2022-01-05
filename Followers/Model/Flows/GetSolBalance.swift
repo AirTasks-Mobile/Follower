@@ -37,7 +37,7 @@ class GetSolBalance : BaseFlow {
 
     func convertApiToFlow(info: SOLResponeGetBalance) -> FlowModel{
         let doubleSOL = Double(info.result.value ?? 0)
-        let formattedValue = String(format: "%.9f", doubleSOL / GTEXT.SOL_ROUND)
+        let formattedValue = String(format: "%f", doubleSOL / GTEXT.SOL_ROUND)
         
         return FlowModel(isSuccess: true, balance: formattedValue)
     }

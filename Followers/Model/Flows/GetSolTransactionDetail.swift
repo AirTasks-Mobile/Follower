@@ -49,10 +49,10 @@ class GetSolTransactionDetail : BaseFlow {
         }
         
         var doubleTemp = Double(fee)
-        let formattedFee = String(format: "SOL %.9f", doubleTemp / GTEXT.SOL_ROUND)
+        let formattedFee = String(format: "%f", doubleTemp / GTEXT.SOL_ROUND)
         
         doubleTemp = Double(postBal[1])
-        let formattedAmt = String(format: "SOL %.9f", doubleTemp / GTEXT.SOL_ROUND)
+        let formattedAmt = String(format: "%f", doubleTemp / GTEXT.SOL_ROUND)
         
         var type = " "
         for acc in accounts {
@@ -71,7 +71,16 @@ class GetSolTransactionDetail : BaseFlow {
         dateFormatter.timeZone = .current
         let localDate = dateFormatter.string(from: mdate as Date)
         
-        let txn = TransactionInfo(type: type, id: txnSignature, amt: formattedAmt, src: accounts[0], des: accounts[1], date: localDate, fee: formattedFee, status: "")
+        let txn : TransactionInfo
+        if type == GTEXT.TXN_STAKE {
+            let stakeAcc = StakeAccountInfo(scheme: GTEXT.SOLANA, src: accounts[0], des: accounts[1], deposit: formattedAmt, date: localDate, epoch: "", fee: formattedFee)
+            
+            txn = TransactionInfo(type: type, id: txnSignature, amt: formattedAmt, src: accounts[0], des: accounts[1], date: localDate, fee: formattedFee, status: "", scheme: GTEXT.SOLANA, stake: stakeAcc)
+        }
+        else {
+            txn = TransactionInfo(type: type, id: txnSignature, amt: formattedAmt, src: accounts[0], des: accounts[1], date: localDate, fee: formattedFee, status: "", scheme: GTEXT.SOLANA)
+        }
+        
         
         return FlowModel(isSuccess: true, transaction: txn)
     }

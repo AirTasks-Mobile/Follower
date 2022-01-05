@@ -1,27 +1,26 @@
 //
-//  MATICTab.swift
+//  BSCTab.swift
 //  Followers
 //
-//  Created by JEREMY NGUYEN on 02/01/2022.
+//  Created by JEREMY NGUYEN on 05/01/2022.
 //
 
 import SwiftUI
 import CodeScanner
 
-struct MATICTab<T : HomeViewModelProtocol>: View {
+struct BSCTab<T : HomeViewModelProtocol>: View {
     @EnvironmentObject var homeVM : T
     var goBack : () -> Void
     
-    //private let startColour : Color  = Color(red : 130.0/255, green: 71.0/255, blue: 229.0/255)
-    private let startColour : Color  = Color(red : 198.0/255, green: 157.0/255, blue: 242.0/255)
-    private let centerColour : Color  = Color(red : 255.0/255, green: 225.0/255, blue: 255.0/255)
-    //private let endColour : Color = Color(red : 130.0/255, green: 71.0/255, blue: 229.0/255)
-    private let endColour : Color = Color(red : 69.0/255, green: 9.0/255, blue: 133.0/255)
+
+    private let startColour : Color  = Color(red : 0.0/255, green: 0.0/255, blue: 0.0/255)
+    private let centerColour : Color  = Color(red : 156.0/255, green: 117.0/255, blue: 12.0/255)
+    private let endColour : Color = Color(red : 0.0/255, green: 0.0/255, blue: 0.0/255)
     
     @State private var tabSelect = 2
-    @State var maticAddress : String = ""
-    @State var maticNickname : String = ""
-    @State var selectedMatic : CoinInfo = CoinInfo.default
+    @State var bscAddress : String = ""
+    @State var bscNickname : String = ""
+    @State var selectedBsc : CoinInfo = CoinInfo.default
     @State var isWeb : Bool = false
     
     @State private var isShowingScanner = false
@@ -32,25 +31,25 @@ struct MATICTab<T : HomeViewModelProtocol>: View {
             VStack(alignment: .leading, spacing: 0) {
                 ZStack{
                     HeaderView()
-                    BackButton(action: MaticGoBack)
+                    BackButton(action: BscGoBack)
                 }
                 .frame(width: geo.size.width * 0.90, height: geo.size.height * 0.05)
                 .padding(EdgeInsets(top: 35, leading: 0, bottom: 0, trailing: 0))
                 
                 TabView(selection: $tabSelect) {
-                    CoinProfileTab(listCoin: $homeVM.maticCoins, selectedCoin: $selectedMatic, onDelCoin: onRevomveMatic)
+                    CoinProfileTab(listCoin: $homeVM.bscCoins, selectedCoin: $selectedBsc, onDelCoin: onRevomveBsc)
                         .tag(0)
                     
-                    StatisticView(isActive: $isWeb,type: GTEXT.POLYGON, onGoBack: MaticGoBack)
+                    StatisticView(isActive: $isWeb,type: GTEXT.BINANCE, onGoBack: BscGoBack)
                         .tag(1)
                     
-                    ListCoinTab(listCoin: $homeVM.maticCoins, selectedCoin: $selectedMatic ,onAddCoin: onClick, onDetail: getTransactions)
+                    ListCoinTab(listCoin: $homeVM.bscCoins, selectedCoin: $selectedBsc ,onAddCoin: onClick, onDetail: getTransactions)
                         .tag(2)
                     
-                    AddCoinTab(titleText: "Polygon Address Only", coinAddress: $maticAddress, nickName: $maticNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
+                    AddCoinTab(titleText: "Binace Smart Chain Address", coinAddress: $bscAddress, nickName: $bscNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
                         .tag(3)
                     
-//                    ListTransactionTab(nick: $selectedMatic.nick, id: $selectedMatic.id, transactions: $homeVM.maticTransactions, isStake: false, onStake: { })
+//                    ListTransactionTab(nick: $selectedBsc.nick, id: $selectedBsc.id, transactions: $homeVM.bscTransactions, isStake: false, onStake: { })
 //                        .tag(4)
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -62,10 +61,10 @@ struct MATICTab<T : HomeViewModelProtocol>: View {
 
             }
             .onAppear(perform: {
-                homeVM.startMatic()
+                homeVM.startBsc()
             })
-            .onChange(of: homeVM.maticAddressList, perform: { _ in
-                homeVM.startMatic()
+            .onChange(of: homeVM.bscAddressList, perform: { _ in
+                homeVM.startBsc()
             })
             .onChange(of: tabSelect, perform: { _ in
                 if tabSelect == 1 {
@@ -85,7 +84,7 @@ struct MATICTab<T : HomeViewModelProtocol>: View {
         }
     }
     
-    func MaticGoBack() -> Void {
+    func BscGoBack() -> Void {
         if tabSelect == 2 {
             goBack()
         }
@@ -99,24 +98,25 @@ struct MATICTab<T : HomeViewModelProtocol>: View {
             tabSelect = 3
         }
         else if tabSelect == 3 {
-            homeVM.storeMatic(id: maticAddress, nick: maticNickname)
-            maticAddress = ""
-            maticNickname = ""
+            homeVM.storeBsc(id: bscAddress, nick: bscNickname)
+            bscAddress = ""
+            bscNickname = ""
             tabSelect = 2
         }
     }
     
     func getTransactions() -> Void {
-//        homeVM.getMaticTxn(id: selectedMatic.id)
-//        tabSelect = 4
+
+        //homeVM.getBscTxn(id: selectedBsc.id)
+        //tabSelect = 4
     }
     
-    func onRevomveMatic() -> Void {
-        var maticList = UserDefaults.standard.stringArray(forKey: GTEXT.MATIC_LIST) ?? []
-        if maticList.count > 0 {
-            let id = GTEXT.POLYGON + "_" + selectedMatic.id
-            maticList = maticList.filter(){$0 != id}
-            UserDefaults.standard.set(maticList, forKey: GTEXT.MATIC_LIST)
+    func onRevomveBsc() -> Void {
+        var bscList = UserDefaults.standard.stringArray(forKey: GTEXT.BSC_LIST) ?? []
+        if bscList.count > 0 {
+            let id = GTEXT.BINANCE + "_" + selectedBsc.id
+            bscList = bscList.filter(){$0 != id}
+            UserDefaults.standard.set(bscList, forKey: GTEXT.BSC_LIST)
         }
     }
     
@@ -132,14 +132,14 @@ struct MATICTab<T : HomeViewModelProtocol>: View {
     
     func handleScan(result: Result<String, CodeScannerView.ScanError>) {
         self.isShowingScanner = false
-        print("QR Code result")
+      
         switch result {
         case .success(let code):
             if isScanningAddress {
-                maticAddress = code
+                bscAddress = code
             }
             else {
-                maticNickname = code
+                bscNickname = code
             }
 
         case .failure(_):
@@ -149,9 +149,9 @@ struct MATICTab<T : HomeViewModelProtocol>: View {
     }
 }
 
-struct MATICTab_Previews: PreviewProvider {
+struct BSCTab_Previews: PreviewProvider {
     static var previews: some View {
-        MATICTab<HomeVMUnitTest>(goBack: { })
+        BSCTab<HomeVMUnitTest>(goBack: { })
             .environmentObject(HomeVMUnitTest(isOnline: true))
     }
 }

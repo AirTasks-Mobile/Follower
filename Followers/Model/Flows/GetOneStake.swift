@@ -38,17 +38,17 @@ class GetOneStake : BaseFlow {
         
         for stake in info.result ?? [] {
             //print("\(stake)")
-            //print("=====")
+            //print("=====") 12
             var doubleOne = stake.amount ?? 0
-            let formattedValue = String(format: "%.12f", doubleOne / GTEXT.ONE_ROUND)
+            let formattedValue = String(format: "%f", doubleOne / GTEXT.ONE_ROUND)
             
             doubleOne = stake.reward ?? 0
-            let formattedReward = String(format: "%.12f", doubleOne / GTEXT.ONE_ROUND)
+            let formattedReward = String(format: "%f", doubleOne / GTEXT.ONE_ROUND)
         
             let val = stake.validator_address ?? ""
             let del = stake.delegator_address ?? ""
         
-            stakeTxn.append(TransactionInfo(type: GTEXT.TXN_STAKE, id: val, amt: formattedValue, src: del, des: val, date: "", fee: "", status: "", reward: formattedReward))
+            stakeTxn.append(TransactionInfo(type: GTEXT.TXN_STAKE, id: val, amt: formattedValue, src: del, des: val, date: "", fee: "", status: "", scheme: GTEXT.HARMONY,reward: formattedReward))
         }
         
         
