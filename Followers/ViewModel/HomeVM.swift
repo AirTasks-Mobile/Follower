@@ -399,7 +399,6 @@ class HomeVM : HomeViewModelProtocol {
             .sink(receiveCompletion: { result in
                 
             }, receiveValue: { data in
-                //print("back here !!!! \(data)")
                 let list = data.transactions ?? []
                 if list.count > 0 {
                     self.oneTransactions = list

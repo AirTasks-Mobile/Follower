@@ -173,7 +173,6 @@ class InfoApi : ApiInterface {
         var request = getURLRequest()
         request.httpBody = buildPayload()
      
-
         return URLSession.shared.dataTaskPublisher(for: request)
             .tryMap{ output in
                 guard let res = output.response as? HTTPURLResponse, (200...299).contains(res.statusCode) else {
@@ -186,7 +185,7 @@ class InfoApi : ApiInterface {
             }
             .decode(type: T.self, decoder: JSONDecoder())
             .mapError{ error -> FlowError in
-                //print("error = \(error.localizedDescription)")
+                print("error = \(error.localizedDescription)")
                 return FlowError.FAIL
             }
             .eraseToAnyPublisher()

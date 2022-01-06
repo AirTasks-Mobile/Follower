@@ -26,6 +26,7 @@ struct ONETab<T : HomeViewModelProtocol>: View {
     @State private var isScanningAddress = false
     @State var isLoading = false
     @State var oneLoading = false
+    @State var isStakeTab : Bool = false
     
     var body: some View {
         GeometryReader { geo in
@@ -50,10 +51,7 @@ struct ONETab<T : HomeViewModelProtocol>: View {
                     AddCoinTab(titleText: "Harmony One Address Only", coinAddress: $oneAddress, nickName: $oneNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
                         .tag(3)
                     
-                    ListTransactionTab(nick: $selectedOne.nick, id: $selectedOne.id, transactions: $homeVM.oneTransactions, isLoading: $oneLoading,isStake: true, onStake: {
-                        homeVM.oneTransactions = []
-                        homeVM.getOneStake(id: selectedOne.id)
-                    })
+                    ListTransactionTab(nick: $selectedOne.nick, id: $selectedOne.id, transactions: $homeVM.oneTransactions, isLoading: $oneLoading, stake: $isStakeTab, isStake: true, onStake: onOneStake)
                         .tag(4)
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -101,6 +99,11 @@ struct ONETab<T : HomeViewModelProtocol>: View {
             goBack()
         }
         else {
+            if tabSelect == 4 {
+                isStakeTab = false
+            }
+            selectedOne = CoinInfo.default
+            homeVM.oneTransactions = []
             tabSelect = 2
         }
     }
@@ -129,6 +132,11 @@ struct ONETab<T : HomeViewModelProtocol>: View {
             oneList = oneList.filter(){$0 != id}
             UserDefaults.standard.set(oneList, forKey: GTEXT.ONE_LIST)
         }
+    }
+    
+    func onOneStake() -> Void {
+        homeVM.getOneStake(id: selectedOne.id)
+        homeVM.oneTransactions = []
     }
     
     func scanAddress() -> Void {

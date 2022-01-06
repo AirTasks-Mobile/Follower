@@ -12,9 +12,8 @@ struct ListTransactionTab: View {
     @Binding var id : String
     @Binding var transactions : [TransactionInfo]
     @Binding var isLoading : Bool
-    //@Binding var stakeTransactions : [TransactionInfo]
+    @Binding var stake : Bool
     var isStake : Bool = false
-    @State var stake : Bool = false
     var onStake : () -> Void
     
     var body: some View {
@@ -59,6 +58,7 @@ struct ListTransactionTab: View {
                 .padding(EdgeInsets(top: 3, leading: 15, bottom: 5, trailing: 15))
             
             //ScrollView(.vertical, showsIndicators: false) {
+            if transactions.count > 0 { // for iOS 14, not display staking transactions
             List {
                 ForEach(transactions, id:\.id) { txn in
                     if txn.type == GTEXT.TXN_STAKE_REWARD {
@@ -70,7 +70,12 @@ struct ListTransactionTab: View {
                                 else if txn.scheme == GTEXT.HARMONY {
                                     OneStakeView(srcId: $id, nick: $nick, txn: txn)
                                 }
+                                else {
+                                    //Text(" ??? ")
+                                }
+                                
                             }
+                       
                         }
                     }
                     else if !stake {
@@ -82,18 +87,18 @@ struct ListTransactionTab: View {
                 }
         
             } // End List
-            .onDisappear(perform: {
-                stake = false
-            })
-            //.padding(EdgeInsets(top: 3, leading: 15, bottom: 15, trailing: 15))
-        
-            
+            }
+            else {
+                Spacer()
+                Spacer()
+            }
         }
+
     }
 }
 
 struct ListTransactionTab_Previews: PreviewProvider {
     static var previews: some View {
-        ListTransactionTab(nick: .constant(""), id: .constant(""), transactions: .constant([TransactionInfo.default]), isLoading: .constant(true),onStake: { })
+        ListTransactionTab(nick: .constant(""), id: .constant(""), transactions: .constant([TransactionInfo.default]), isLoading: .constant(true), stake: .constant(false),onStake: { })
     }
 }

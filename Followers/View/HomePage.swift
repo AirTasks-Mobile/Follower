@@ -100,25 +100,33 @@ struct HomePage<T: HomeViewModelProtocol>: View {
                             if homeVM.solAddressList.count == 0 {
                                 homeVM.mainQueue.removeFirst()
                             }
-                            homeVM.startSol()
+                            else {
+                                homeVM.startSol()
+                            }
                         }
                         else if scheme == GTEXT.HARMONY {
                             if homeVM.oneAddressList.count == 0 {
                                 homeVM.mainQueue.removeFirst()
                             }
-                            homeVM.startOne()
+                            else {
+                                homeVM.startOne()
+                            }
                         }
                         else if scheme == GTEXT.POLYGON {
                             if homeVM.maticAddressList.count == 0 {
                                 homeVM.mainQueue.removeFirst()
                             }
-                            homeVM.startMatic()
+                            else {
+                                homeVM.startMatic()
+                            }
                         }
                         else if scheme == GTEXT.BINANCE {
                             if homeVM.bscAddressList.count == 0 {
                                 homeVM.mainQueue.removeFirst()
                             }
-                            homeVM.startBsc()
+                            else {
+                                homeVM.startBsc()
+                            }
                         }
                     }
                 })

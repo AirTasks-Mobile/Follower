@@ -14,11 +14,6 @@ struct OneStakeView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0){
-//            Text("Date: \(txn.date)")
-//                .font(Font.custom("Avenir-medium", size: 17))
-//                .foregroundColor(Color.gray)
-//
-//            Divider()
             
             Text("Delegator: \(txn.src)")
                 .font(Font.custom("Avenir-medium", size: 17))

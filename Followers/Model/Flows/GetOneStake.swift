@@ -66,8 +66,6 @@ class GetOneStake : BaseFlow {
             }
         }
         
-        
-        
         return FlowModel(isSuccess: true, transactions: stakeTxn)
     }
 }

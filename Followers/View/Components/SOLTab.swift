@@ -26,6 +26,7 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
     @State private var isShowingScanner = false
     @State private var isScanningAddress = false
     @State var isLoading = true
+    @State var isStakeTab : Bool = false // for iOS 14 issue
     
     var body: some View {
         GeometryReader { geo in
@@ -50,7 +51,7 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
                     AddCoinTab(titleText: "Solana Address Only", coinAddress: $solAddress, nickName: $solNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
                         .tag(3)
                     
-                    ListTransactionTab(nick: $selectedSol.nick, id: $selectedSol.id, transactions: $homeVM.solTransactions, isLoading: $isLoading,isStake: true, onStake: onGetSolStake)
+                    ListTransactionTab(nick: $selectedSol.nick, id: $selectedSol.id, transactions: $homeVM.solTransactions, isLoading: $isLoading, stake: $isStakeTab, isStake: true,onStake: onGetSolStake)
                         .tag(4)
                 
                 }
@@ -121,6 +122,9 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
             goBack()
         }
         else {
+            if tabSelect == 4 {
+                isStakeTab = false
+            }
             selectedSol = CoinInfo.default
             homeVM.solTransactions = []
             tabSelect = 2
