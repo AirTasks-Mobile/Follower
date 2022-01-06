@@ -52,10 +52,10 @@ class GetSolStake : BaseFlow {
             let formattedCommission = String(format: "%d", stake?.commission ?? 0)
             
             doubleSOL = Double(stake?.postBalance ?? 0)
-            var formattedAmt : String = stakeSol[idCount].deposit
-            if doubleSOL > 0 {
-                formattedAmt = String(format: "%f", doubleSOL / GTEXT.SOL_ROUND)
-            }
+            //var formattedAmt : String = stakeSol[idCount].deposit
+            //if doubleSOL > 0 {
+             let formattedAmt = String(format: "%f", doubleSOL / GTEXT.SOL_ROUND)
+            //}
             
             
             let poc = stake?.epoch ?? 0
@@ -65,7 +65,7 @@ class GetSolStake : BaseFlow {
             }
             
     
-            stakeTxn.append(TransactionInfo(type: GTEXT.TXN_STAKE, id: stakeSol[idCount].des, amt: formattedAmt, src: "", des: "", date: date, fee: "", status: "", scheme: GTEXT.SOLANA, reward: formattedReward, commission: formattedCommission, stake: stakeSol[idCount]))
+            stakeTxn.append(TransactionInfo(type: GTEXT.TXN_STAKE_REWARD, id: stakeSol[idCount].des, amt: formattedAmt, src: "", des: "", date: date, fee: "", status: "", scheme: GTEXT.SOLANA, reward: formattedReward, commission: formattedCommission, stake: stakeSol[idCount]))
             
             if stakeSol.count > idCount {
                 idCount += 1

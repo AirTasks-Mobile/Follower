@@ -13,9 +13,10 @@ struct BSCTab<T : HomeViewModelProtocol>: View {
     var goBack : () -> Void
     
 
-    private let startColour : Color  = Color(red : 0.0/255, green: 0.0/255, blue: 0.0/255)
-    private let centerColour : Color  = Color(red : 156.0/255, green: 117.0/255, blue: 12.0/255)
-    private let endColour : Color = Color(red : 0.0/255, green: 0.0/255, blue: 0.0/255)
+    private let startColour : Color  = Color(red : 255.0/255, green: 215.0/255, blue: 0.0/255)
+    //private let startColour : Color  = Color(red : 82.0/255, green: 76.0/255, blue: 46.0/255)
+    //private let centerColour : Color  = Color(red : 255.0/255, green: 215.0/255, blue: 0.0/255)
+    private let endColour : Color = Color(red : 120.0/255, green: 116.0/255, blue: 93.0/255)
     
     @State private var tabSelect = 2
     @State var bscAddress : String = ""
@@ -25,6 +26,7 @@ struct BSCTab<T : HomeViewModelProtocol>: View {
     
     @State private var isShowingScanner = false
     @State private var isScanningAddress = false
+    @State var isLoading = false
     
     var body: some View {
         GeometryReader { geo in
@@ -43,7 +45,7 @@ struct BSCTab<T : HomeViewModelProtocol>: View {
                     StatisticView(isActive: $isWeb,type: GTEXT.BINANCE, onGoBack: BscGoBack)
                         .tag(1)
                     
-                    ListCoinTab(listCoin: $homeVM.bscCoins, selectedCoin: $selectedBsc ,onAddCoin: onClick, onDetail: getTransactions)
+                    ListCoinTab(listCoin: $homeVM.bscCoins, selectedCoin: $selectedBsc, isLoading: $isLoading,onAddCoin: onClick, onDetail: getTransactions)
                         .tag(2)
                     
                     AddCoinTab(titleText: "Binace Smart Chain Address", coinAddress: $bscAddress, nickName: $bscNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
@@ -64,7 +66,15 @@ struct BSCTab<T : HomeViewModelProtocol>: View {
                 homeVM.startBsc()
             })
             .onChange(of: homeVM.bscAddressList, perform: { _ in
-                homeVM.startBsc()
+                if homeVM.bscAddressList.count > 0 {
+                    if !isLoading {
+                        isLoading = true
+                    }
+                    homeVM.startBsc()
+                }
+                else {
+                    isLoading = false 
+                }
             })
             .onChange(of: tabSelect, perform: { _ in
                 if tabSelect == 1 {
@@ -76,7 +86,7 @@ struct BSCTab<T : HomeViewModelProtocol>: View {
                 }
             })
             .padding(EdgeInsets(top: 0, leading: 28, bottom: 15, trailing: 26))
-            .background(LinearGradient(gradient: Gradient(colors: [startColour, centerColour, endColour]), startPoint: .topLeading, endPoint: .bottomTrailing))
+            .background(LinearGradient(gradient: Gradient(colors: [startColour, endColour]), startPoint: .topLeading, endPoint: .bottomTrailing))
             .edgesIgnoringSafeArea(.all)
         }
         .sheet(isPresented: $isShowingScanner) {

@@ -25,6 +25,7 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
     
     @State private var isShowingScanner = false
     @State private var isScanningAddress = false
+    @State var isLoading = true
     
     var body: some View {
         GeometryReader { geo in
@@ -43,13 +44,13 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
                     StatisticView(isActive: $isWeb,type: GTEXT.SOLANA, onGoBack: SolGoBack)
                         .tag(1)
                     
-                    ListCoinTab(listCoin: $homeVM.solCoins, selectedCoin: $selectedSol ,onAddCoin: onClick, onDetail: getTransactions)
+                    ListCoinTab(listCoin: $homeVM.solCoins, selectedCoin: $selectedSol, isLoading: $isLoading,onAddCoin: onClick, onDetail: getTransactions)
                         .tag(2)
                     
                     AddCoinTab(titleText: "Solana Address Only", coinAddress: $solAddress, nickName: $solNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
                         .tag(3)
                     
-                    ListTransactionTab(nick: $selectedSol.nick, id: $selectedSol.id, transactions: $homeVM.solTransactions, isStake: true, onStake: onGetSolStake)
+                    ListTransactionTab(nick: $selectedSol.nick, id: $selectedSol.id, transactions: $homeVM.solTransactions, isLoading: $isLoading,isStake: true, onStake: onGetSolStake)
                         .tag(4)
                 
                 }
@@ -61,14 +62,32 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
                 Spacer()
             }
             .onAppear(perform: {
+                if homeVM.solAddressList.count == 0 {
+                    isLoading = false
+                }
                 homeVM.startSol()
             })
             .onChange(of: homeVM.solAddressList, perform: { _ in
-                homeVM.startSol()
+                if homeVM.solAddressList.count > 0 {
+                    homeVM.startSol()
+                    if !isLoading {
+                        isLoading = true
+                    }
+                }
+                else {
+                    isLoading = false 
+                }
             })
             .onChange(of: homeVM.solSignatures, perform: { _ in
-                if tabSelect == 4 {
+                if tabSelect == 4 && homeVM.solSignatures.count > 0 {
+                    if !isLoading {
+                        isLoading = true
+                    }
+                    
                     homeVM.fetchSolTxnDetail()
+                }
+                else {
+                    isLoading = false
                 }
             })
             .onChange(of: tabSelect, perform: { _ in
@@ -90,11 +109,15 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
         
     }
     func getTransactions() -> Void {
-        homeVM.getSolTxn(id: selectedSol.id)
         tabSelect = 4
+        isLoading = true
+        homeVM.getSolTxn(id: selectedSol.id)
     }
     func SolGoBack() -> Void {
         if tabSelect == 2 {
+            isLoading = false
+            homeVM.solTransactions = []
+            homeVM.solSignatures = []
             goBack()
         }
         else {
@@ -129,12 +152,16 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
         var solStakes : [StakeAccountInfo] = []
         for txn in homeVM.solTransactions {
             if selectedSol.id == txn.src {
-                solStakes.append(txn.stake!)
+                let stake = txn.stake ?? StakeAccountInfo.default
+                if stake.scheme != "" {
+                    solStakes.append(stake)
+                }
             }
         }
         
         // fetch stake
         homeVM.fetchSolStake(sol: solStakes)
+        homeVM.solSignatures = [] // stop loading transactions
         homeVM.solTransactions = []
     }
     

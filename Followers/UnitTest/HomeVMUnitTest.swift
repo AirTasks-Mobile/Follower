@@ -9,6 +9,7 @@ import Foundation
 import Combine
 
 class HomeVMUnitTest : HomeViewModelProtocol {
+    
     var bscCoins: [CoinInfo]
     
     var bscAddressList: [String]

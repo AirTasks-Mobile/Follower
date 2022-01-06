@@ -12,6 +12,8 @@ struct TransactionView: View {
     @Binding var nick : String
     var txn : TransactionInfo
     
+    //var texxtColor : Color = Color(red: 255.0/255, green: 255.0/255, blue: 255.0/255)
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0){
             Text("Date: \(txn.date)")
@@ -59,6 +61,7 @@ struct TransactionView: View {
                 .foregroundColor(Color.gray)
 
         }
+        //.padding(EdgeInsets(top: 25, leading: 15, bottom: 0, trailing: 15))
     }
 }
 

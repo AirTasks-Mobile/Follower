@@ -26,6 +26,7 @@ struct MATICTab<T : HomeViewModelProtocol>: View {
     
     @State private var isShowingScanner = false
     @State private var isScanningAddress = false
+    @State var isLoading = false
     
     var body: some View {
         GeometryReader { geo in
@@ -44,7 +45,7 @@ struct MATICTab<T : HomeViewModelProtocol>: View {
                     StatisticView(isActive: $isWeb,type: GTEXT.POLYGON, onGoBack: MaticGoBack)
                         .tag(1)
                     
-                    ListCoinTab(listCoin: $homeVM.maticCoins, selectedCoin: $selectedMatic ,onAddCoin: onClick, onDetail: getTransactions)
+                    ListCoinTab(listCoin: $homeVM.maticCoins, selectedCoin: $selectedMatic, isLoading: $isLoading,onAddCoin: onClick, onDetail: getTransactions)
                         .tag(2)
                     
                     AddCoinTab(titleText: "Polygon Address Only", coinAddress: $maticAddress, nickName: $maticNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
@@ -65,7 +66,15 @@ struct MATICTab<T : HomeViewModelProtocol>: View {
                 homeVM.startMatic()
             })
             .onChange(of: homeVM.maticAddressList, perform: { _ in
-                homeVM.startMatic()
+                if homeVM.maticAddressList.count > 0 {
+                    if !isLoading {
+                        isLoading = true
+                    }
+                    homeVM.startMatic()
+                }
+                else {
+                    isLoading = false
+                }
             })
             .onChange(of: tabSelect, perform: { _ in
                 if tabSelect == 1 {

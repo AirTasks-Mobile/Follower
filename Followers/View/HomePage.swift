@@ -60,6 +60,12 @@ struct HomePage<T: HomeViewModelProtocol>: View {
                     .frame(width: geo.size.width, height: 90)
                     
                     ScrollView(.vertical, showsIndicators: false) {
+                        if homeVM.solAddressList.count > 0 || homeVM.oneAddressList.count > 0 || homeVM.maticAddressList.count > 0 || homeVM.bscAddressList.count > 0 {
+                            ActivityIndicator()
+                                .frame(width: 50, height: 50)
+                                .foregroundColor(Color(red: 239.0 / 255, green: 172.0 / 255, blue: 120.0 / 255, opacity: 0.9))
+                        }
+                        
                         ForEach(homeVM.solCoins, id: \.id) { sol in
                             CoinTag(oneCoin: sol, name: "solana_logo")
                                 .frame(height: 95)

@@ -20,7 +20,7 @@ struct SolStakeView: View {
             
             Divider()
             
-            Text("Date: \(txn.stake?.date ?? "") epoch \(txn.date)")
+            Text("Deposit Date: \(txn.stake?.date ?? "")")
                 .font(Font.custom("Avenir-medium", size: 17))
                 .foregroundColor(Color.gray)
             
@@ -40,12 +40,13 @@ struct SolStakeView: View {
             
             
             Text("Last Reward: \(txn.scheme) \(txn.reward ?? "")")
-                    .font(Font.custom("Avenir-medium", size: 17))
+                    .font(Font.custom("Avenir-black", size: 17))
                     .foregroundColor(Color.yellow)
             
-//            Text("Type: \(txn.type)")
-//                .font(Font.custom("Avenir-medium", size: 17))
-//                .foregroundColor(Color.gray)
+            Text("Last Reward Date : epoch \(txn.date)")
+                    .font(Font.custom("Avenir-medium", size: 17))
+                    .foregroundColor(Color.gray)
+            
 
         }
     }

@@ -79,6 +79,7 @@
 		3FF461C82785D3EB006D494F /* GetBscBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF461C72785D3EB006D494F /* GetBscBalance.swift */; };
 		3FF461CA2785DBD7006D494F /* BSCTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF461C92785DBD7006D494F /* BSCTab.swift */; };
 		3FFE3663278196F800C87219 /* CoinResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFE3662278196F800C87219 /* CoinResponse.swift */; };
+		3FFF29AD2786C0F90058B642 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFF29AC2786C0F90058B642 /* ActivityIndicator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -176,6 +177,7 @@
 		3FF461C72785D3EB006D494F /* GetBscBalance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetBscBalance.swift; sourceTree = "<group>"; };
 		3FF461C92785DBD7006D494F /* BSCTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSCTab.swift; sourceTree = "<group>"; };
 		3FFE3662278196F800C87219 /* CoinResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinResponse.swift; sourceTree = "<group>"; };
+		3FFF29AC2786C0F90058B642 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -224,6 +226,7 @@
 				3FACC6C3263C356200487ED2 /* Badge.swift */,
 				3F42BC642781D8AD001D784A /* RoundCornerView.swift */,
 				3F42BC662781D929001D784A /* CircleButton.swift */,
+				3FFF29AC2786C0F90058B642 /* ActivityIndicator.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -558,6 +561,7 @@
 				3FD5CC6626A57DBC00A7E40D /* DecodeMsgView.swift in Sources */,
 				3FD5CC5826A5412300A7E40D /* HomeVMUnitTest.swift in Sources */,
 				3FD5CC5226A52A8100A7E40D /* LobbyView.swift in Sources */,
+				3FFF29AD2786C0F90058B642 /* ActivityIndicator.swift in Sources */,
 				3FB7E4F826A7C8ED0024E639 /* RouteVMUnitTest.swift in Sources */,
 				3F12E46B2782AA05004B4830 /* ListCoinTab.swift in Sources */,
 				3F12E46D2782AA10004B4830 /* AddCoinTab.swift in Sources */,

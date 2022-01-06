@@ -23,6 +23,8 @@ struct GTEXT {
     static let TXN_TRANSFER = "TRANSER"
     static let TXN_STAKE = "STAKE"
     static let TXN_LIQUIDITY = "LIQUIDITY"
+    static let TXN_UNSTAKE = "UNSTAKE"
+    static let TXN_STAKE_REWARD = "STAKE_REWARD"
     
     static let ONE_ROUND : Double = 1000000000000000000
     static let SOL_ROUND : Double = 1000000000
@@ -31,6 +33,7 @@ struct GTEXT {
     // SOL
     static let SOL_STAKE_ACC = "Stake11111111111111111111111111111111111111"
     static let SOL_TRANSER_ACC = "11111111111111111111111111111111"
+    static let SOL_RENT_ACC = "SysvarRent111111111111111111111111111111111"
     // ONE
     
     //MATIC

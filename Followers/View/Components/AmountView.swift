@@ -20,14 +20,31 @@ struct AmountView: View {
     
     var body: some View {
         HStack(alignment: .center, spacing: 0){
-            Text("\(text) : ")
-                .font(Font.custom("Avenir-medium", size: 17))
+            Text("\(text)  ")
+                .font(Font.custom("Avenir-medium", size: 19))
                 .foregroundColor( isOut ? outColor: inColor)
 
-            Text("\(amt)")
+            Text("\(formatNumber(num: amt))")
                 .font(Font.custom("Avenir-black", size: 19))
                 .foregroundColor( isOut ? outColor2: inColor2)
         }
+    }
+    
+    func formatNumber(num : String) -> String {
+        if num == "" {
+            return num
+        }
+   
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+                //formatter.usesSignificantDigits = true
+                //formatter.minimumSignificantDigits = 1 // default
+                //formatter.maximumSignificantDigits = 6 // default
+        let value = NSDecimalNumber(string: num)
+    
+        let numString = formatter.string(for: value) ?? ""
+        
+        return numString
     }
 }
 

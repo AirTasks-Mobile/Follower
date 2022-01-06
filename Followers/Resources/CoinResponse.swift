@@ -37,7 +37,13 @@ struct TransactionInfo : Hashable, Codable {
     
     static let `default` = TransactionInfo(type: "", id: "", amt: "",src: "", des: "" ,date: "", fee: "", status: "", scheme: "",reward: "", commission: "")
 }
-
+struct UnStakeInfo : Hashable, Codable {
+    var id : String?
+    var amt : String?
+    var date : String?
+    
+    static let `default` = UnStakeInfo(id: "", amt: "", date: "")
+}
 struct StakeAccountInfo : Hashable, Codable {
     var scheme : String
     var src : String
@@ -46,6 +52,7 @@ struct StakeAccountInfo : Hashable, Codable {
     var date : String?
     var epoch : String?
     var fee : String?
+    var unstakes : [UnStakeInfo]?
     
     static let `default` = StakeAccountInfo(scheme: "", src: "", des: "", deposit: "", date: "", epoch: "", fee: "")
 }
@@ -70,7 +77,7 @@ struct SOLContext : Codable, Hashable {
 
 struct SOLResult : Codable, Hashable {
     var context : SOLContext?
-    var value : Int?
+    var value : Double? // here ?????
 }
 
 struct SOLMulResult : Codable, Hashable {
@@ -103,10 +110,10 @@ struct SOLTransactionDetailResult : Codable, Hashable {
 }
 
 struct SOLMeta : Codable, Hashable {
-    var fee : Int?
-    var postBalances : [Int]?
-    var preBalances : [Int]?
-    var rewards : [Int]?
+    var fee : Double? // here
+    var postBalances : [Double]? // here
+    var preBalances : [Double]? // here
+    var rewards : [Double]?  // here
 }
 
 struct SOLTransaction : Codable, Hashable {
@@ -118,10 +125,10 @@ struct SOLMessage : Codable, Hashable {
 }
 
 struct SOLReward : Codable, Hashable {
-    var amount : Int?
+    var amount : Double? // here
     var commission : Int?
     var epoch : Int?
-    var postBalance : Int?
+    var postBalance : Double? // here
 }
 
 // ONE
@@ -130,14 +137,14 @@ struct ONETxs : Codable, Hashable {
     var timestamp : String?
     var from : String?
     var to : String?
-    var value : Int?
+    var value : Double? // here
     var type: String?
 }
 
 struct ONETransaction : Codable, Hashable {
     var from : String?
-    var gas : Int?
-    var gasPrice : Int?
+    var gas : Int? 
+    var gasPrice : Double? // here
     var hash : String?
     var shardID : Int?
     var timestamp : Int?
@@ -153,9 +160,14 @@ struct ONEResult : Codable, Hashable {
 struct ONEStakeResult : Codable, Hashable {
     var validator_address : String?
     var delegator_address : String?
+    var Undelegations : [ONEUndelegations?]
     var amount : Double?
     var reward : Double?
 }
 
+struct ONEUndelegations : Codable, Hashable {
+    var Amount : Double?
+    var Epoch : Int?
+}
 // MATIC
 

@@ -24,6 +24,8 @@ struct ONETab<T : HomeViewModelProtocol>: View {
     
     @State private var isShowingScanner = false
     @State private var isScanningAddress = false
+    @State var isLoading = false
+    @State var oneLoading = false
     
     var body: some View {
         GeometryReader { geo in
@@ -42,13 +44,13 @@ struct ONETab<T : HomeViewModelProtocol>: View {
                     StatisticView(isActive: $isWeb,type: GTEXT.HARMONY, onGoBack: OneGoBack)
                         .tag(1)
                     
-                    ListCoinTab(listCoin: $homeVM.oneCoins, selectedCoin: $selectedOne ,onAddCoin: onClick, onDetail: getTransactions)
+                    ListCoinTab(listCoin: $homeVM.oneCoins, selectedCoin: $selectedOne, isLoading: $isLoading,onAddCoin: onClick, onDetail: getTransactions)
                         .tag(2)
                     
                     AddCoinTab(titleText: "Harmony One Address Only", coinAddress: $oneAddress, nickName: $oneNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
                         .tag(3)
                     
-                    ListTransactionTab(nick: $selectedOne.nick, id: $selectedOne.id, transactions: $homeVM.oneTransactions, isStake: true, onStake: {
+                    ListTransactionTab(nick: $selectedOne.nick, id: $selectedOne.id, transactions: $homeVM.oneTransactions, isLoading: $oneLoading,isStake: true, onStake: {
                         homeVM.oneTransactions = []
                         homeVM.getOneStake(id: selectedOne.id)
                     })
@@ -66,7 +68,15 @@ struct ONETab<T : HomeViewModelProtocol>: View {
                 homeVM.startOne()
             })
             .onChange(of: homeVM.oneAddressList, perform: { _ in
-                homeVM.startOne()
+                if homeVM.oneAddressList.count > 0 {
+                    if !isLoading {
+                        isLoading = true
+                    }
+                    homeVM.startOne()
+                }
+                else {
+                    isLoading = false
+                }
             })
             .onChange(of: tabSelect, perform: { _ in
                 if tabSelect == 1 {

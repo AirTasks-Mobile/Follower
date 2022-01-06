@@ -63,11 +63,11 @@ struct SOLResponseStake : Decodable {
 struct ONEResponseGetBalance : Decodable {
     var jsonrpc : String?
     var id : String?
-    var result : Int?
+    var result : Double?
 }
 
 struct ONEResponseGeAddress : Decodable {
-    var balance : Int?
+    var balance : Double?
     var id : String?
     var txs : [ONETxs]?
 }

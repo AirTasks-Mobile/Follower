@@ -37,6 +37,7 @@ class GetOneBalance : BaseFlow {
         //print("info = \(info)")
         let doubleOne = Double(info.result ?? 0)
         let formattedValue = String(format: "%f", doubleOne / GTEXT.ONE_ROUND)
+        //print("One = \(formattedValue)")
         
         return FlowModel(isSuccess: true, balance: formattedValue)
     }

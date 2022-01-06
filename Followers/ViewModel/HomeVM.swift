@@ -107,7 +107,7 @@ class HomeVM : HomeViewModelProtocol {
         bscAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.BSC_LIST) ?? []
         
         mainQueue = [GTEXT.SOLANA, GTEXT.HARMONY, GTEXT.POLYGON, GTEXT.BINANCE]
-        //mainQueue = [GTEXT.POLYGON]
+        //mainQueue = [GTEXT.HARMONY, GTEXT.POLYGON, GTEXT.BINANCE, GTEXT.SOLANA]
     }
     
     func startSol() {
@@ -193,10 +193,10 @@ class HomeVM : HomeViewModelProtocol {
             .sink(receiveCompletion: { result in
                 
             }, receiveValue: { data in
-                //print("back here !!!! \(data)")
                 let list = data.signature ?? []
                 if list.count > 0 {
                     self.solSignatures = list
+                    //print("list sol = \(self.solSignatures)")
                 }
             })
     }
@@ -213,11 +213,13 @@ class HomeVM : HomeViewModelProtocol {
             task = flow.processFlow()
                 .receive(on: DispatchQueue.main)
                 .sink(receiveCompletion: { result in
-                    self.solSignatures.removeFirst() // ?
+                    if self.solSignatures.count > 0 { // user change to stake tab while loading transactions
+                        self.solSignatures.removeFirst()
+                    }
                     
                 }, receiveValue: { data in
                     //print("back here !!!! \(data)")
-                    if data.isSuccess {
+                    if data.isSuccess && self.solSignatures.count > 0 { // user change to stake tab while loading transactions
                         self.solTransactions.append(data.transaction!)
                     }
                 })
@@ -266,24 +268,34 @@ class HomeVM : HomeViewModelProtocol {
                 totalSol = String(format: "%.3f", total)
             }
             else if total >= 100 && total < 1000 {
-                totalSol = String(format: "%.2f", total)
+                totalSol = formatNumber(num: String(format: "%.3f", total))
             }
             else if total >= 1000 && total < 10000 {
-                totalSol = String(format: "%.1f", total)
+                totalSol = formatNumber(num: String(format: "%.2f", total))
             }
             else if total >= 10000 && total < 100000 {
-                totalSol = String(format: "%.0f", total)
+                totalSol = formatNumber(num: String(format: "%.1f", total))
             }
-            else if total >= 100000 && total < 1000000 {
-                totalSol = String(format: "%.0f", total)
-            }
-            else if total >= 1000000 && total < 1000000000 {
-                totalSol = String(format: "%.0f mil", total / 1000000)
+            else if total >= 100000 && total < 1000000000 {
+                totalSol = formatNumber(num: String(format: "%.0f", total))
             }
             else {
-                totalSol = String(format: "%.0f bil", total / 1000000000)
+                totalSol = String(format: "%.0f+ bil", total / 1000000000)
             }
         }
+    }
+    
+    func formatNumber(num : String) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+                formatter.usesSignificantDigits = true
+                formatter.minimumSignificantDigits = 1 // default
+                formatter.maximumSignificantDigits = 6 // default
+        let value = NSDecimalNumber(string: num)
+    
+        let numString = formatter.string(for: value) ?? ""
+        
+        return numString
     }
     
     //  One
@@ -417,22 +429,19 @@ class HomeVM : HomeViewModelProtocol {
                 totalOne = String(format: "%.3f", total)
             }
             else if total >= 100 && total < 1000 {
-                totalOne = String(format: "%.2f", total)
+                totalOne = formatNumber(num: String(format: "%.3f", total))
             }
             else if total >= 1000 && total < 10000 {
-                totalOne = String(format: "%.1f", total)
+                totalOne = formatNumber(num: String(format: "%.2f", total))
             }
             else if total >= 10000 && total < 100000 {
-                totalOne = String(format: "%.0f", total)
+                totalOne = formatNumber(num: String(format: "%.1f", total))
             }
-            else if total >= 100000 && total < 1000000 {
-                totalOne = String(format: "%.0f", total)
-            }
-            else if total >= 1000000 && total < 1000000000 {
-                totalOne = String(format: "%.0f mil", total / 1000000)
+            else if total >= 100000 && total < 1000000000 {
+                totalOne = formatNumber(num: String(format: "%.0f", total))
             }
             else {
-                totalOne = String(format: "%.0f bil", total / 1000000000)
+                totalOne = String(format: "%.0f+ bil", total / 1000000000)
             }
         }
     }
@@ -540,19 +549,16 @@ class HomeVM : HomeViewModelProtocol {
                 totalMatic = String(format: "%.3f", total)
             }
             else if total >= 100 && total < 1000 {
-                totalMatic = String(format: "%.2f", total)
+                totalMatic = formatNumber(num: String(format: "%.3f", total))
             }
             else if total >= 1000 && total < 10000 {
-                totalMatic = String(format: "%.1f", total)
+                totalMatic = formatNumber(num: String(format: "%.2f", total))
             }
             else if total >= 10000 && total < 100000 {
-                totalMatic = String(format: "%.0f", total)
+                totalMatic = formatNumber(num: String(format: "%.1f", total))
             }
-            else if total >= 100000 && total < 1000000 {
-                totalMatic = String(format: "%.0f", total)
-            }
-            else if total >= 1000000 && total < 1000000000 {
-                totalMatic = String(format: "%.0f mil", total / 1000000)
+            else if total >= 100000 && total < 1000000000 {
+                totalMatic = formatNumber(num: String(format: "%.0f", total))
             }
             else {
                 totalMatic = String(format: "%.0f bil", total / 1000000000)
@@ -562,7 +568,6 @@ class HomeVM : HomeViewModelProtocol {
     
     // Binance
     func startBsc() {
-        print("?????")
         if bscAddressList.count <= 0 {
             return
         }
@@ -654,19 +659,16 @@ class HomeVM : HomeViewModelProtocol {
                 totalBsc = String(format: "%.3f", total)
             }
             else if total >= 100 && total < 1000 {
-                totalBsc = String(format: "%.2f", total)
+                totalBsc = formatNumber(num: String(format: "%.3f", total))
             }
             else if total >= 1000 && total < 10000 {
-                totalBsc = String(format: "%.1f", total)
+                totalBsc = formatNumber(num: String(format: "%.2f", total))
             }
             else if total >= 10000 && total < 100000 {
-                totalBsc = String(format: "%.0f", total)
+                totalBsc = formatNumber(num: String(format: "%.1f", total))
             }
-            else if total >= 100000 && total < 1000000 {
-                totalBsc = String(format: "%.0f", total)
-            }
-            else if total >= 1000000 && total < 1000000000 {
-                totalBsc = String(format: "%.0f mil", total / 1000000)
+            else if total >= 100000 && total < 1000000000 {
+                totalBsc = formatNumber(num: String(format: "%.0f", total))
             }
             else {
                 totalBsc = String(format: "%.0f bil", total / 1000000000)
