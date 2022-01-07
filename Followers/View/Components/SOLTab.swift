@@ -66,7 +66,9 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
                 if homeVM.solAddressList.count == 0 {
                     isLoading = false
                 }
-                homeVM.startSol()
+                else {
+                    homeVM.startSol()
+                }
             })
             .onChange(of: homeVM.solAddressList, perform: { _ in
                 if homeVM.solAddressList.count > 0 {

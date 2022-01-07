@@ -12,22 +12,18 @@ struct CircleButton: View {
     
     var body: some View {
         GeometryReader { geo in
-            VStack {
+            VStack(alignment: .leading, spacing: 0){
                 if name != "" && (name == "bitcoinsign.circle" || name == "dollarsign.circle" || name == "rectangle.stack.fill.badge.plus" || name == "delete.right") {
                     Image(systemName: name)
                         .resizable()
-                        //.scaledToFit()
                         .frame(width: geo.size.height , height: geo.size.height, alignment: .center)
-                        //.padding()
                         .background(Color(red: 255.0/255, green: 255.0/255, blue: 255.0/255, opacity: 0.9))
                         .foregroundColor(Color(red: 255.0/255, green: 215.0/255, blue: 0.0/255, opacity: 0.5))
                     }
                 else {
                     Image(name)
                         .resizable()
-                        //.scaledToFit()
                         .frame(width: geo.size.height , height: geo.size.height, alignment: .center)
-                        //.padding()
                         .background(Color(red: 255.0/255, green: 255.0/255, blue: 255.0/255, opacity: 0.9))
                         .foregroundColor(Color(red: 255.0/255, green: 215.0/255, blue: 0.0/255, opacity: 0.5))
                 }

@@ -1,58 +1,57 @@
 //
-//  MATICTab.swift
+//  ETHTab.swift
 //  Followers
 //
-//  Created by JEREMY NGUYEN on 02/01/2022.
+//  Created by JEREMY NGUYEN on 07/01/2022.
 //
 
 import SwiftUI
 import CodeScanner
 
-struct MATICTab<T : HomeViewModelProtocol>: View {
+struct ETHTab<T: HomeViewModelProtocol>: View {
     @EnvironmentObject var homeVM : T
+    
     var goBack : () -> Void
     
-    //private let startColour : Color  = Color(red : 130.0/255, green: 71.0/255, blue: 229.0/255)
-    private let startColour : Color  = Color(red : 198.0/255, green: 157.0/255, blue: 242.0/255)
-    private let centerColour : Color  = Color(red : 255.0/255, green: 225.0/255, blue: 255.0/255)
-    //private let endColour : Color = Color(red : 130.0/255, green: 71.0/255, blue: 229.0/255)
-    private let endColour : Color = Color(red : 69.0/255, green: 9.0/255, blue: 133.0/255)
+    private let startColour : Color  = Color(red : 236.0/255, green: 240.0/255, blue: 241.0/255)
+    //private let centerColour : Color  = Color(red : 3.0/255, green: 225.0/255, blue: 255.0/255)
+    private let endColour : Color = Color(red : 60.0/255, green: 60.0/255, blue: 61.0/255)
     
     @State private var tabSelect = 2
-    @State var maticAddress : String = ""
-    @State var maticNickname : String = ""
-    @State var selectedMatic : CoinInfo = CoinInfo.default
+    @State var ethAddress : String = ""
+    @State var ethNickname : String = ""
+    @State var selectedEth : CoinInfo = CoinInfo.default
     @State var isWeb : Bool = false
     
     @State private var isShowingScanner = false
     @State private var isScanningAddress = false
     @State var isLoading = true
+    @State var isStakeTab : Bool = false // for iOS 14 issue
     
     var body: some View {
         GeometryReader { geo in
             VStack(alignment: .leading, spacing: 0) {
                 ZStack{
                     HeaderView()
-                    BackButton(action: MaticGoBack)
+                    BackButton(action: EthGoBack)
                 }
                 .frame(width: geo.size.width * 0.90, height: geo.size.height * 0.05)
                 .padding(EdgeInsets(top: 35, leading: 0, bottom: 0, trailing: 0))
                 
-                TabView(selection: $tabSelect) {
-                    CoinProfileTab(listCoin: $homeVM.maticCoins, selectedCoin: $selectedMatic, onDelCoin: onRevomveMatic)
+                TabView(selection: $tabSelect){
+                    CoinProfileTab(listCoin: $homeVM.ethCoins, selectedCoin: $selectedEth, onDelCoin: onRemoveEth)
                         .tag(0)
                     
-                    StatisticView(isActive: $isWeb,type: GTEXT.POLYGON, onGoBack: MaticGoBack)
+                    StatisticView(isActive: $isWeb,type: GTEXT.ETHEREUM, onGoBack: EthGoBack)
                         .tag(1)
                     
-                    ListCoinTab(listCoin: $homeVM.maticCoins, selectedCoin: $selectedMatic, isLoading: $isLoading,onAddCoin: onClick, onDetail: getTransactions)
+                    ListCoinTab(listCoin: $homeVM.ethCoins, selectedCoin: $selectedEth, isLoading: $isLoading,onAddCoin: onClick, onDetail: getTransactions)
                         .tag(2)
                     
-                    AddCoinTab(titleText: "Polygon Address Only", coinAddress: $maticAddress, nickName: $maticNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
+                    AddCoinTab(titleText: "ETH Address Only", coinAddress: $ethAddress, nickName: $ethNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
                         .tag(3)
                     
-//                    ListTransactionTab(nick: $selectedMatic.nick, id: $selectedMatic.id, transactions: $homeVM.maticTransactions, isStake: false, onStake: { })
-//                        .tag(4)
+                
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 .animation(.easeInOut)
@@ -60,22 +59,21 @@ struct MATICTab<T : HomeViewModelProtocol>: View {
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 15, trailing: 0))
                 
                 Spacer()
-
             }
             .onAppear(perform: {
-                if homeVM.solAddressList.count == 0 {
+                if homeVM.ethAddressList.count == 0 {
                     isLoading = false
                 }
                 else {
-                    homeVM.startMatic()
+                    homeVM.startEth()
                 }
             })
-            .onChange(of: homeVM.maticAddressList, perform: { _ in
-                if homeVM.maticAddressList.count > 0 {
+            .onChange(of: homeVM.ethAddressList, perform: { _ in
+                if homeVM.ethAddressList.count > 0 {
+                    homeVM.startEth()
                     if !isLoading {
                         isLoading = true
                     }
-                    homeVM.startMatic()
                 }
                 else {
                     isLoading = false
@@ -91,19 +89,32 @@ struct MATICTab<T : HomeViewModelProtocol>: View {
                 }
             })
             .padding(EdgeInsets(top: 0, leading: 28, bottom: 15, trailing: 26))
-            .background(LinearGradient(gradient: Gradient(colors: [startColour, centerColour, endColour]), startPoint: .topLeading, endPoint: .bottomTrailing))
+            .background(LinearGradient(gradient: Gradient(colors: [startColour, endColour]), startPoint: .topTrailing, endPoint: .bottomLeading))
             .edgesIgnoringSafeArea(.all)
         }
         .sheet(isPresented: $isShowingScanner) {
             CodeScannerView(codeTypes: [.qr], simulatedData: "Your Address", completion: self.handleScan)
         }
+        
     }
     
-    func MaticGoBack() -> Void {
+    func getTransactions() -> Void {
+
+    }
+    
+    func EthGoBack() -> Void {
         if tabSelect == 2 {
+            isLoading = false
+            homeVM.ethTransactions = []
             goBack()
         }
         else {
+            if tabSelect == 4 {
+                isStakeTab = false
+            }
+            
+            selectedEth = CoinInfo.default
+            homeVM.ethTransactions = []
             tabSelect = 2
         }
     }
@@ -113,26 +124,22 @@ struct MATICTab<T : HomeViewModelProtocol>: View {
             tabSelect = 3
         }
         else if tabSelect == 3 {
-            homeVM.storeMatic(id: maticAddress, nick: maticNickname)
-            maticAddress = ""
-            maticNickname = ""
+            homeVM.storeEth(id: ethAddress, nick: ethNickname)
+            ethAddress = ""
+            ethNickname = ""
             tabSelect = 2
         }
     }
     
-    func getTransactions() -> Void {
-//        homeVM.getMaticTxn(id: selectedMatic.id)
-//        tabSelect = 4
-    }
-    
-    func onRevomveMatic() -> Void {
-        var maticList = UserDefaults.standard.stringArray(forKey: GTEXT.MATIC_LIST) ?? []
-        if maticList.count > 0 {
-            let id = GTEXT.POLYGON + "_" + selectedMatic.id
-            maticList = maticList.filter(){$0 != id}
-            UserDefaults.standard.set(maticList, forKey: GTEXT.MATIC_LIST)
+    func onRemoveEth() -> Void {
+        var ethList = UserDefaults.standard.stringArray(forKey: GTEXT.ETH_LIST) ?? []
+        if ethList.count > 0 {
+            let id = GTEXT.ETHEREUM + "_" + selectedEth.id
+            ethList = ethList.filter(){$0 != id}
+            UserDefaults.standard.set(ethList, forKey: GTEXT.ETH_LIST)
         }
     }
+    
     
     func scanAddress() -> Void {
         isShowingScanner = true
@@ -146,14 +153,14 @@ struct MATICTab<T : HomeViewModelProtocol>: View {
     
     func handleScan(result: Result<String, CodeScannerView.ScanError>) {
         self.isShowingScanner = false
-        print("QR Code result")
+        //print("QR Code result")
         switch result {
         case .success(let code):
             if isScanningAddress {
-                maticAddress = code
+                ethAddress = code
             }
             else {
-                maticNickname = code
+                ethNickname = code
             }
 
         case .failure(_):
@@ -163,9 +170,9 @@ struct MATICTab<T : HomeViewModelProtocol>: View {
     }
 }
 
-struct MATICTab_Previews: PreviewProvider {
+struct ETHTab_Previews: PreviewProvider {
     static var previews: some View {
-        MATICTab<HomeVMUnitTest>(goBack: { })
+        ETHTab<HomeVMUnitTest>(goBack: { })
             .environmentObject(HomeVMUnitTest(isOnline: true))
     }
 }

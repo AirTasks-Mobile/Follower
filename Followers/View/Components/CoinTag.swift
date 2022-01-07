@@ -49,11 +49,12 @@ struct CoinTag: View {
         if num == "" {
             return num 
         }
+        
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
                 //formatter.usesSignificantDigits = true
                 //formatter.minimumSignificantDigits = 1 // default
-                //formatter.maximumSignificantDigits = 6 // default
+        formatter.maximumSignificantDigits = 18 // default
         let value = NSDecimalNumber(string: num)
     
         let numString = formatter.string(for: value) ?? ""

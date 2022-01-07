@@ -63,7 +63,7 @@ struct SOLResponseStake : Decodable {
 struct ONEResponseGetBalance : Decodable {
     var jsonrpc : String?
     var id : String?
-    var result : Double?
+    var result : Double
 }
 
 struct ONEResponseGeAddress : Decodable {
@@ -87,7 +87,7 @@ struct ONEResponseGetStake : Decodable {
 // ETH
 struct ETHResponseBalance : Decodable {
     var id : Int?
-    var result : String?
+    var result : String
 }
 
 class InfoApi : ApiInterface {
@@ -109,6 +109,10 @@ class InfoApi : ApiInterface {
         let bscMainnent = "https://bsc-dataseed.binance.org"
         
         let maticMainnet = "https://polygon-rpc.com"
+        
+        let ethAchemyMainnet = "https://eth-mainnet.alchemyapi.io/v2/tBdd0HrN3GLMirZ04eBnKPCOOuBml7HF"
+        // achemy websocket : wss://eth-mainnet.alchemyapi.io/v2/tBdd0HrN3GLMirZ04eBnKPCOOuBml7HF
+        
         
         switch info?.type {
             case .NORMAL:
@@ -137,6 +141,8 @@ class InfoApi : ApiInterface {
                 return URL(string: maticMainnet)!
             case .GET_BSC_BALANCE:
                 return URL(string: bscMainnent)!
+        case .GET_ETH_BALANCE:
+            return URL(string: ethAchemyMainnet)!
             default:
                 break
         }
@@ -185,7 +191,7 @@ class InfoApi : ApiInterface {
             }
             .decode(type: T.self, decoder: JSONDecoder())
             .mapError{ error -> FlowError in
-                print("error = \(error.localizedDescription)")
+                //print("error = \(error.localizedDescription)")
                 return FlowError.FAIL
             }
             .eraseToAnyPublisher()

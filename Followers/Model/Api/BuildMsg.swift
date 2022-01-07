@@ -55,6 +55,8 @@ class BuildMsg {
                 return getEthBalanceBody()
             case .GET_BSC_BALANCE:
                 return getEthBalanceBody()
+        case .GET_ETH_BALANCE:
+            return getEthBalanceBody()
             default:
                 break
         }

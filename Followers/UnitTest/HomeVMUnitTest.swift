@@ -9,6 +9,22 @@ import Foundation
 import Combine
 
 class HomeVMUnitTest : HomeViewModelProtocol {
+    var ethCoins: [CoinInfo]
+    
+    var ethAddressList: [String]
+    
+    var ethTransactions: [TransactionInfo]
+    
+    var totalEth: String
+    
+    func startEth() {
+        //
+    }
+    
+    func storeEth(id: String, nick: String) {
+        //
+    }
+    
     
     var bscCoins: [CoinInfo]
     
@@ -125,16 +141,19 @@ class HomeVMUnitTest : HomeViewModelProtocol {
         oneCoins = [CoinInfo.default, CoinInfo.default]
         maticCoins = [CoinInfo.default, CoinInfo.default]
         bscCoins = [CoinInfo.default, CoinInfo.default]
+        ethCoins = [CoinInfo.default, CoinInfo.default]
         
         solAddressList = [""]
         oneAddressList = [""]
         maticAddressList = [""]
         bscAddressList = [""]
+        ethAddressList = [""]
         
         solTransactions = [TransactionInfo.default]
         oneTransactions = [TransactionInfo.default]
         maticTransactions = [TransactionInfo.default]
         bscTransactions = [TransactionInfo.default]
+        ethTransactions = [TransactionInfo.default]
         
         solSignatures = [""]
         //oneSignatures = [""]
@@ -144,6 +163,7 @@ class HomeVMUnitTest : HomeViewModelProtocol {
         totalSol = ""
         totalMatic = ""
         totalBsc = ""
+        totalEth = ""
         
         mainQueue = [""]
     }

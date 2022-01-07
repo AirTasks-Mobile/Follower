@@ -14,11 +14,13 @@ struct GTEXT {
     static let SOLANA = "SOL"
     static let HARMONY = "ONE"
     static let BINANCE = "BSC"
+    static let ETHEREUM = "ETH"
     
     static let SOL_LIST = "sol_list"
     static let MATIC_LIST = "matic_list"
     static let ONE_LIST = "one_list"
     static let BSC_LIST = "bsc_list"
+    static let ETH_LIST = "eth_list"
     
     static let TXN_TRANSFER = "TRANSER"
     static let TXN_STAKE = "STAKE"

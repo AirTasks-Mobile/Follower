@@ -52,6 +52,12 @@ struct HomePage<T: HomeViewModelProtocol>: View {
                             }, label: {
                                 BadgeTextView(text: $homeVM.totalBsc,name: "BSC")
                             })
+                            
+                            Button(action: {
+                                routeVM.startEth()
+                            }, label: {
+                                BadgeTextView(text: $homeVM.totalEth,name: "ETH")
+                            })
                                 
                             BadgeButton(name: "ABOUT", action: onAbout)
                                 
@@ -68,26 +74,33 @@ struct HomePage<T: HomeViewModelProtocol>: View {
                         
                         ForEach(homeVM.solCoins, id: \.id) { sol in
                             CoinTag(oneCoin: sol, name: "solana_logo")
-                                .frame(height: 95)
+                                .frame(height: 90)
                         }
+                        
                         
                         ForEach(homeVM.oneCoins, id: \.id) { one in
                             CoinTag(oneCoin: one, name: "one_logo")
-                                .frame(height: 95)
+                                .frame(height: 90)
                         }
+                        
                         
                         ForEach(homeVM.maticCoins, id: \.id) { matic in
                             CoinTag(oneCoin: matic, name: "matic_logo")
-                                .frame(height: 95)
+                                .frame(height: 90)
                         }
                         
                         ForEach(homeVM.bscCoins, id: \.id) { bsc in
                             CoinTag(oneCoin: bsc, name: "binance_logo")
-                                .frame(height: 95)
+                                .frame(height: 90)
+                        }
+                        
+                        ForEach(homeVM.ethCoins, id: \.id) { eth in
+                            CoinTag(oneCoin: eth, name: "ethereum_logo")
+                                .frame(height: 90)
                         }
                         
                     }
-                    .padding(EdgeInsets(top: 25, leading: 15, bottom: 0, trailing: 15))
+                    .padding(EdgeInsets(top: 15, leading: 15, bottom: 0, trailing: 15))
 
                     Spacer()
                     
@@ -128,28 +141,44 @@ struct HomePage<T: HomeViewModelProtocol>: View {
                                 homeVM.startBsc()
                             }
                         }
+                        else if scheme == GTEXT.ETHEREUM {
+                            if homeVM.ethAddressList.count == 0 {
+                                homeVM.mainQueue.removeFirst()
+                            }
+                            else {
+                                homeVM.startEth()
+                            }
+                        }
                     }
                 })
                 .onChange(of: homeVM.solAddressList, perform: { _ in
                     //print("Start Solll")
-                    if homeVM.mainQueue.count > 0 && homeVM.mainQueue[0] == GTEXT.SOLANA {
+                    if routeVM.isHome && homeVM.mainQueue.count > 0 && homeVM.mainQueue[0] == GTEXT.SOLANA {
                         homeVM.startSol()
                     }
                 })
                 .onChange(of: homeVM.oneAddressList, perform: { _ in
-                    //print("Start Oneeee")
-                    if homeVM.mainQueue.count > 0 && homeVM.mainQueue[0] == GTEXT.HARMONY {
+                    //print("Start Oneeee \(homeVM.mainQueue)")
+                    if routeVM.isHome && homeVM.mainQueue.count > 0 && homeVM.mainQueue[0] == GTEXT.HARMONY {
                         homeVM.startOne()
                     }
                 })
                 .onChange(of: homeVM.maticAddressList, perform: { _ in
-                    if homeVM.mainQueue.count > 0 && homeVM.mainQueue[0] == GTEXT.POLYGON {
+                    //print("Start Maaaa")
+                    if routeVM.isHome && homeVM.mainQueue.count > 0 && homeVM.mainQueue[0] == GTEXT.POLYGON {
                         homeVM.startMatic()
                     }
                 })
                 .onChange(of: homeVM.bscAddressList, perform: { _ in
-                    if homeVM.mainQueue.count > 0 && homeVM.mainQueue[0] == GTEXT.BINANCE {
+                    //print("start Biiii")
+                    if routeVM.isHome && homeVM.mainQueue.count > 0 && homeVM.mainQueue[0] == GTEXT.BINANCE {
                         homeVM.startBsc()
+                    }
+                })
+                .onChange(of: homeVM.ethAddressList, perform: { _ in
+                    //print("start Ettttt \(homeVM.mainQueue)")
+                    if routeVM.isHome && homeVM.mainQueue.count > 0 && homeVM.mainQueue[0] == GTEXT.ETHEREUM {
+                        homeVM.startEth()
                     }
                 })
                 .background(LinearGradient(gradient: Gradient(colors: [startColour, centerColour, endColour]), startPoint: .topLeading, endPoint: .bottomTrailing))

@@ -26,7 +26,7 @@ struct BSCTab<T : HomeViewModelProtocol>: View {
     
     @State private var isShowingScanner = false
     @State private var isScanningAddress = false
-    @State var isLoading = false
+    @State var isLoading = true
     
     var body: some View {
         GeometryReader { geo in
@@ -63,7 +63,12 @@ struct BSCTab<T : HomeViewModelProtocol>: View {
 
             }
             .onAppear(perform: {
-                homeVM.startBsc()
+                if homeVM.solAddressList.count == 0 {
+                    isLoading = false
+                }
+                else {
+                    homeVM.startBsc()
+                }
             })
             .onChange(of: homeVM.bscAddressList, perform: { _ in
                 if homeVM.bscAddressList.count > 0 {

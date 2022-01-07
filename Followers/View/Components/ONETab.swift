@@ -24,7 +24,7 @@ struct ONETab<T : HomeViewModelProtocol>: View {
     
     @State private var isShowingScanner = false
     @State private var isScanningAddress = false
-    @State var isLoading = false
+    @State var isLoading = true
     @State var oneLoading = false
     @State var isStakeTab : Bool = false
     
@@ -63,7 +63,12 @@ struct ONETab<T : HomeViewModelProtocol>: View {
                 
             }
             .onAppear(perform: {
-                homeVM.startOne()
+                if homeVM.solAddressList.count == 0 {
+                    isLoading = false
+                }
+                else {
+                    homeVM.startOne()
+                }
             })
             .onChange(of: homeVM.oneAddressList, perform: { _ in
                 if homeVM.oneAddressList.count > 0 {

@@ -29,6 +29,8 @@
 		3F20825327816BAC00C32DE9 /* TextInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F20825227816BAC00C32DE9 /* TextInputField.swift */; };
 		3F20825527816FB200C32DE9 /* StaticText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F20825427816FB200C32DE9 /* StaticText.swift */; };
 		3F2082572781886A00C32DE9 /* GetSolBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2082562781886900C32DE9 /* GetSolBalance.swift */; };
+		3F344D0A2787E48600D83584 /* GetEthBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F344D092787E48600D83584 /* GetEthBalance.swift */; };
+		3F344D0C2787E8A600D83584 /* ETHTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F344D0B2787E8A500D83584 /* ETHTab.swift */; };
 		3F42BC632781D75D001D784A /* CoinTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42BC622781D75D001D784A /* CoinTag.swift */; };
 		3F42BC652781D8AD001D784A /* RoundCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42BC642781D8AD001D784A /* RoundCornerView.swift */; };
 		3F42BC672781D929001D784A /* CircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42BC662781D929001D784A /* CircleButton.swift */; };
@@ -65,7 +67,6 @@
 		3FD5CC6026A5510C00A7E40D /* BadgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5CC5F26A5510C00A7E40D /* BadgeButton.swift */; };
 		3FD5CC6226A55D6B00A7E40D /* BadgeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5CC6126A55D6B00A7E40D /* BadgeTextView.swift */; };
 		3FD5CC6426A56C8600A7E40D /* CircleIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5CC6326A56C8600A7E40D /* CircleIcon.swift */; };
-		3FD5CC6626A57DBC00A7E40D /* DecodeMsgView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5CC6526A57DBC00A7E40D /* DecodeMsgView.swift */; };
 		3FE0677E26608F970040E225 /* StatisticView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE0677D26608F970040E225 /* StatisticView.swift */; };
 		3FE5FA46265C908D00C101B8 /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE5FA45265C908D00C101B8 /* QRCodeView.swift */; };
 		3FE5FA4C265C9EED00C101B8 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 3FE5FA4B265C9EED00C101B8 /* CodeScanner */; };
@@ -122,6 +123,8 @@
 		3F20825227816BAC00C32DE9 /* TextInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputField.swift; sourceTree = "<group>"; };
 		3F20825427816FB200C32DE9 /* StaticText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticText.swift; sourceTree = "<group>"; };
 		3F2082562781886900C32DE9 /* GetSolBalance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetSolBalance.swift; sourceTree = "<group>"; };
+		3F344D092787E48600D83584 /* GetEthBalance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetEthBalance.swift; sourceTree = "<group>"; };
+		3F344D0B2787E8A500D83584 /* ETHTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ETHTab.swift; sourceTree = "<group>"; };
 		3F42BC622781D75D001D784A /* CoinTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinTag.swift; sourceTree = "<group>"; };
 		3F42BC642781D8AD001D784A /* RoundCornerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundCornerView.swift; sourceTree = "<group>"; };
 		3F42BC662781D929001D784A /* CircleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleButton.swift; sourceTree = "<group>"; };
@@ -158,7 +161,6 @@
 		3FD5CC5F26A5510C00A7E40D /* BadgeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeButton.swift; sourceTree = "<group>"; };
 		3FD5CC6126A55D6B00A7E40D /* BadgeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeTextView.swift; sourceTree = "<group>"; };
 		3FD5CC6326A56C8600A7E40D /* CircleIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleIcon.swift; sourceTree = "<group>"; };
-		3FD5CC6526A57DBC00A7E40D /* DecodeMsgView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeMsgView.swift; sourceTree = "<group>"; };
 		3FE0677D26608F970040E225 /* StatisticView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticView.swift; sourceTree = "<group>"; };
 		3FE5FA45265C908D00C101B8 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
 		3FE7F4DB2639489500FF024A /* Followers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Followers.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -250,7 +252,6 @@
 				3FD5CC5F26A5510C00A7E40D /* BadgeButton.swift */,
 				3FD5CC6126A55D6B00A7E40D /* BadgeTextView.swift */,
 				3FD5CC6326A56C8600A7E40D /* CircleIcon.swift */,
-				3FD5CC6526A57DBC00A7E40D /* DecodeMsgView.swift */,
 				3FB7E4EF26A7B6D40024E639 /* BackButton.swift */,
 				3FB7E4F126A7BEDB0024E639 /* BagdeIcon.swift */,
 				3F20824A27815B1700C32DE9 /* SOLTab.swift */,
@@ -267,6 +268,7 @@
 				3F04B87A278563B2008A7551 /* OneStakeView.swift */,
 				3F04B87C278563C5008A7551 /* AmountView.swift */,
 				3FF461C92785DBD7006D494F /* BSCTab.swift */,
+				3F344D0B2787E8A500D83584 /* ETHTab.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -287,6 +289,7 @@
 				3FA121752784A0E300A04CBB /* GetOneStake.swift */,
 				3F04B87427853B64008A7551 /* GetSolStake.swift */,
 				3FF461C72785D3EB006D494F /* GetBscBalance.swift */,
+				3F344D092787E48600D83584 /* GetEthBalance.swift */,
 			);
 			path = Flows;
 			sourceTree = "<group>";
@@ -558,7 +561,6 @@
 				3FD5CC5A26A544C400A7E40D /* HeaderView.swift in Sources */,
 				3FA48EA526A599AF00CD0D5C /* GetClearMsg.swift in Sources */,
 				3F20825327816BAC00C32DE9 /* TextInputField.swift in Sources */,
-				3FD5CC6626A57DBC00A7E40D /* DecodeMsgView.swift in Sources */,
 				3FD5CC5826A5412300A7E40D /* HomeVMUnitTest.swift in Sources */,
 				3FD5CC5226A52A8100A7E40D /* LobbyView.swift in Sources */,
 				3FFF29AD2786C0F90058B642 /* ActivityIndicator.swift in Sources */,
@@ -580,6 +582,7 @@
 				3FD5CC5426A5374200A7E40D /* HomePage.swift in Sources */,
 				3F04B87D278563C5008A7551 /* AmountView.swift in Sources */,
 				3FD5CC5026A5285300A7E40D /* LobbyVMUnitTest.swift in Sources */,
+				3F344D0A2787E48600D83584 /* GetEthBalance.swift in Sources */,
 				3FACC6BF263C346800487ED2 /* RotatedBadgeSymbol.swift in Sources */,
 				3F12E47B278457ED004B4830 /* AboutView.swift in Sources */,
 				3F04B87B278563B2008A7551 /* OneStakeView.swift in Sources */,
@@ -613,6 +616,7 @@
 				3F0033EB26AAC3BE00EFA014 /* GetSecretMsg.swift in Sources */,
 				3FD5CC4326A5103000A7E40D /* LobbyVM.swift in Sources */,
 				3F12E4732783EB64004B4830 /* GetOneBalance.swift in Sources */,
+				3F344D0C2787E8A600D83584 /* ETHTab.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -699,7 +703,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -754,7 +758,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

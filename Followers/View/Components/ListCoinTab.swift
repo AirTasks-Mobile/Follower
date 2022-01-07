@@ -34,7 +34,7 @@ struct ListCoinTab: View {
             
             Button(action: onAddCoin ){
             CoinTag(oneCoin: CoinInfo(type: "", id: "Click To Add New Coin !", nick: "", pic: "", bal: "", date: ""), name: "rectangle.stack.fill.badge.plus")
-                .frame(height: 95)
+                .frame(height: 90)
             }
         }
         .padding(EdgeInsets(top: 25, leading: 0, bottom: 0, trailing: 0))

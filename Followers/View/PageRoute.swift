@@ -41,6 +41,10 @@ struct PageRoute<T: RouteViewModelProtocol>: View {
             BSCTab<HomeVM>(goBack: backHome)
                 .environmentObject(homeVM)
         }
+        else if routeVM.isEth {
+            ETHTab<HomeVM>(goBack: backHome)
+                .environmentObject(homeVM)
+        }
         else {
             
         }

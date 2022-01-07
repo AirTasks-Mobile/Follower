@@ -16,6 +16,7 @@ protocol RouteViewModelProtocol : ObservableObject {
     var isOne : Bool { get set }
     var isMatic : Bool { get set }
     var isBsc : Bool { get set }
+    var isEth : Bool { get set }
     var isAbout : Bool { get set }
     
     func backHome()
@@ -26,6 +27,7 @@ protocol RouteViewModelProtocol : ObservableObject {
     func startOne()
     func startMatic()
     func startBsc()
+    func startEth()
 }
 
 class RouteVM : RouteViewModelProtocol {
@@ -36,6 +38,7 @@ class RouteVM : RouteViewModelProtocol {
     @Published var isOne: Bool = false
     @Published var isMatic: Bool = false
     @Published var isBsc: Bool = false
+    @Published var isEth: Bool = false
     @Published var isAbout: Bool = false
 
     func backHome() {
@@ -47,6 +50,7 @@ class RouteVM : RouteViewModelProtocol {
         isMatic = false
         isAbout = false
         isBsc = false
+        isEth = false
     }
     
     func startScanQR() {
@@ -90,5 +94,15 @@ class RouteVM : RouteViewModelProtocol {
         isMatic = false
         
         isBsc = true 
+    }
+    
+    func startEth() {
+        isHome = false
+        isSol = false
+        isOne = false
+        isMatic = false
+        isBsc = false
+        
+        isEth = true 
     }
 }

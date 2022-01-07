@@ -29,6 +29,9 @@ enum FLOW : String {
     
     //
     case GET_BSC_BALANCE = "GET_BSC_BALANCE"
+    
+    //
+    case GET_ETH_BALANCE = "GET_ETH_BALANCE"
 }
 
 enum FlowError : Error {
