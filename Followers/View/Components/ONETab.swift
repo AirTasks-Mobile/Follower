@@ -27,6 +27,7 @@ struct ONETab<T : HomeViewModelProtocol>: View {
     @State var isLoading = true
     @State var oneLoading = false
     @State var isStakeTab : Bool = false
+    @State var isLast : Bool = true
     
     var body: some View {
         GeometryReader { geo in
@@ -51,7 +52,7 @@ struct ONETab<T : HomeViewModelProtocol>: View {
                     AddCoinTab(titleText: "Harmony One Address Only", coinAddress: $oneAddress, nickName: $oneNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
                         .tag(3)
                     
-                    ListTransactionTab(nick: $selectedOne.nick, id: $selectedOne.id, transactions: $homeVM.oneTransactions, isLoading: $oneLoading, stake: $isStakeTab, isStake: true, onStake: onOneStake)
+                    ListTransactionTab(nick: $selectedOne.nick, id: $selectedOne.id, transactions: $homeVM.oneTransactions, isLoading: $oneLoading, stake: $isStakeTab, isLast: $isLast,isStake: true, onStake: onOneStake, loadMore: { })
                         .tag(4)
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))

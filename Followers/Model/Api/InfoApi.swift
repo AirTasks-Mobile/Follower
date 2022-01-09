@@ -164,10 +164,10 @@ class InfoApi : ApiInterface {
                 return URL(string: xlmEndpoint)!
             case .GET_STELLAR_OPERATION:
                 let xlmId = info?.token ?? ""
-                let cur = info?.cursor ?? 0
+                let cur = info?.cursor ?? ""
                 var xlmEndpoint : String
-                if cur > 0 {
-                    xlmEndpoint = "\(xlmMainnet)/accounts/\(xlmId)/operations?limit=200&order=desc?cursor=\(cur)&include_failed=false"
+                if cur != "" && cur != " " {
+                    xlmEndpoint = "\(xlmMainnet)/accounts/\(xlmId)/operations?limit=200&order=desc&cursor=\(cur)&include_failed=false"
                 }
                 else {
                     xlmEndpoint = "\(xlmMainnet)/accounts/\(xlmId)/operations?limit=200&order=desc&include_failed=false"
@@ -213,6 +213,7 @@ class InfoApi : ApiInterface {
         var request = getURLRequest()
         if info?.type == .GET_STELLAR_ACCOUNT || info?.type == .GET_STELLAR_OPERATION {
             // no body for GET
+            //print("request = \(request)")
         }
         else {
             request.httpBody = buildPayload()

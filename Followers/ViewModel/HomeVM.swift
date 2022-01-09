@@ -34,7 +34,7 @@ protocol HomeViewModelProtocol : ObservableObject {
     var solSignatures : [String] { get set }
     //var oneSignatures : [String] { get set }
     //var maticSignatures : [String] { get set }
-    var xlmCursor : Double { get set }
+    var xlmCursor : String { get set }
     
     var totalSol : String { get set }
     var totalOne : String { get set }
@@ -101,7 +101,7 @@ class HomeVM : HomeViewModelProtocol {
     @Published var solSignatures: [String] = []
     //@Published var oneSignatures: [String] = []
     //@Published var maticSignatures: [String] = []
-    @Published var xlmCursor: Double = 0
+    @Published var xlmCursor: String = ""
     @Published var totalSol: String = ""
     @Published var totalOne: String = ""
     @Published var totalMatic: String = ""
@@ -811,13 +811,13 @@ class HomeVM : HomeViewModelProtocol {
     }
     
     func storeXlm(id: String, nick: String) {
-        tempList = UserDefaults.standard.stringArray(forKey: GTEXT.STELLAR) ?? []
+        tempList = UserDefaults.standard.stringArray(forKey: GTEXT.XLM_LIST) ?? []
         let flow = GetXlmAccount()
         flow.setViewInfo(info: ["id": id])
         task = flow.processFlow()
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { result in
-                
+                self.xlmCursor = " " // to stop loading
             }, receiveValue: { data in
                 //print("back here !!!! \(data)")
                 let xlm = CoinInfo(type: GTEXT.STELLAR, id: id, nick: nick, pic: "", bal: data.balance ?? "", date: "", assets: data.assets ?? [])
@@ -836,19 +836,23 @@ class HomeVM : HomeViewModelProtocol {
     
     func getXlmTxn(id: String) {
         let flow = GetXLMTransaction()
-   
         flow.setViewInfo(info: ["id": id])
+        flow.setCursor(cur: xlmCursor)
         task = flow.processFlow()
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { result in
                 
             }, receiveValue: { data in
                 //print("back here !!!! \(data)")
-                let list = data.transactions ?? []
-                if list.count > 0 {
-                    self.xlmTransactions = list
-                    self.xlmCursor = data.cursor ?? 0
+                
+                for txn in data.transactions ?? [] {
+                    //print("txn id = \(txn.id)")
+                    self.xlmTransactions.append(txn)
                 }
+                
+                self.xlmCursor = data.cursor ?? ""
+                //print("load =\(self.xlmCursor)")
+                
             })
     }
     

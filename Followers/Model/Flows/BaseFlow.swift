@@ -59,7 +59,7 @@ struct FlowModel {
     var stakes : [String]?
     var liqidities : [String]?
     var assets : [AssetInfo]?
-    var cursor : Double?
+    var cursor : String?
     
     var deviceID : String?
     var userID : String?

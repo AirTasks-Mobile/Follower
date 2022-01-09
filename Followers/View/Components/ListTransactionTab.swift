@@ -13,8 +13,10 @@ struct ListTransactionTab: View {
     @Binding var transactions : [TransactionInfo]
     @Binding var isLoading : Bool
     @Binding var stake : Bool
+    @Binding var isLast : Bool
     var isStake : Bool = false
     var onStake : () -> Void
+    var loadMore : () -> Void
     
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
@@ -22,7 +24,7 @@ struct ListTransactionTab: View {
                 Text("\(nick)")
                     .font(Font.custom("Avenir-black", size: 19))
                     .foregroundColor(Color.gray)
-                    .padding(EdgeInsets(top: 25, leading: 15, bottom: 0, trailing: 15))
+                    .padding(EdgeInsets(top: 15, leading: 15, bottom: 0, trailing: 15))
                 
                 if isStake && !stake {
                     if isLoading {
@@ -62,9 +64,13 @@ struct ListTransactionTab: View {
                 .foregroundColor(Color.gray)
                 .padding(EdgeInsets(top: 3, leading: 15, bottom: 5, trailing: 15))
             
-            //ScrollView(.vertical, showsIndicators: false) {
             if transactions.count > 0 { // for iOS 14, not display staking transactions
                 List {
+//                    Text(" ")
+//                        .font(Font.custom("Avenir-medium", size: 1))
+//                        .onAppear(perform: {
+//                            print("at list beggining")
+//                        })
                     ForEach(transactions, id:\.id) { txn in
                         if txn.type == GTEXT.TXN_STAKE_REWARD {
                             Section(header: AmountView(text: "Balance: \(txn.scheme)", amt: "\(txn.amt)", isOut : false) ){
@@ -93,8 +99,22 @@ struct ListTransactionTab: View {
                                     TransactionView(srcId: $id, nick: $nick, txn: txn)
                                 }
                             }
+                        
                         }
                         
+                    } // end foreach
+                    if !isLast && !isLoading {
+                        HStack {
+                            Spacer()
+                            ActivityIndicator()
+                                .frame(width: 10, height: 10)
+                                .foregroundColor(Color(red: 239.0 / 255, green: 172.0 / 255, blue: 120.0 / 255, opacity: 1.0))
+                            Spacer()
+                        }
+                        .onAppear(perform: {
+                           // print("count = \(transactions.count)")
+                            loadMore()
+                        })
                     }
             
                 } // End List
@@ -117,10 +137,14 @@ struct ListTransactionTab: View {
         
         return (txn.src == id)
     }
+    
+    func calDisplayList(index: Int) -> Void {
+        
+    }
 }
 
 struct ListTransactionTab_Previews: PreviewProvider {
     static var previews: some View {
-        ListTransactionTab(nick: .constant(""), id: .constant(""), transactions: .constant([TransactionInfo.default]), isLoading: .constant(true), stake: .constant(false),onStake: { })
+        ListTransactionTab(nick: .constant(""), id: .constant(""), transactions: .constant([TransactionInfo.default]), isLoading: .constant(true), stake: .constant(false), isLast: .constant(false),onStake: { }, loadMore: { })
     }
 }

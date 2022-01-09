@@ -13,7 +13,7 @@ class HomeVMUnitTest : HomeViewModelProtocol {
         //
     }
     
-    var xlmCursor: Double
+    var xlmCursor: String
     
     var xlmCoins: [CoinInfo]
     
@@ -183,7 +183,7 @@ class HomeVMUnitTest : HomeViewModelProtocol {
         solSignatures = [""]
         //oneSignatures = [""]
         //maticSignatures = [""]
-        xlmCursor = 0
+        xlmCursor = ""
         
         totalOne = ""
         totalSol = ""

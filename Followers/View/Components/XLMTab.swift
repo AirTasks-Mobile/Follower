@@ -27,6 +27,7 @@ struct XLMTab<T: HomeViewModelProtocol>: View {
     @State private var isScanningAddress = false
     @State var isLoading = true
     @State var isStakeTab : Bool = false // for iOS 14 issue
+    @State var isLast : Bool = false
     
     var body: some View {
         GeometryReader { geo in
@@ -51,7 +52,7 @@ struct XLMTab<T: HomeViewModelProtocol>: View {
                     AddCoinTab(titleText: "Stellar Address Only", coinAddress: $xlmAddress, nickName: $xlmNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
                         .tag(3)
                     
-                    ListTransactionTab(nick: $selectedXlm.nick, id: $selectedXlm.id, transactions: $homeVM.xlmTransactions, isLoading: $isLoading, stake: $isStakeTab, isStake: false, onStake: { })
+                    ListTransactionTab(nick: $selectedXlm.nick, id: $selectedXlm.id, transactions: $homeVM.xlmTransactions, isLoading: $isLoading, stake: $isStakeTab, isLast: $isLast,isStake: false, onStake: { }, loadMore: loadMoreTransactions)
                         .tag(4)
                 
                 }
@@ -91,10 +92,12 @@ struct XLMTab<T: HomeViewModelProtocol>: View {
                 }
             })
             .onChange(of: homeVM.xlmCursor, perform: { _ in
-                if tabSelect == 4 && homeVM.xlmCursor > 0 {
+                if tabSelect == 4 && homeVM.xlmCursor !=  "" && homeVM.xlmCursor !=  " " && homeVM.xlmTransactions.count < GTEXT.MAX_TRANSACTION {
                     if !isLoading {
                         isLoading = true
                     }
+                    //print("Here ???? = \(homeVM.xlmCursor) txn = \(homeVM.xlmTransactions.count)")
+                    homeVM.getXlmTxn(id: selectedXlm.id)
                 }
                 else {
                     isLoading = false
@@ -130,9 +133,26 @@ struct XLMTab<T: HomeViewModelProtocol>: View {
     func getTransactions() -> Void {
         tabSelect = 4
         isLoading = true
-        homeVM.xlmCursor = 0
+        homeVM.xlmCursor = ""
         homeVM.xlmTransactions = []
         homeVM.getXlmTxn(id: selectedXlm.id)
+    }
+    
+    func loadMoreTransactions() -> Void {
+        if homeVM.xlmCursor == "" || homeVM.xlmCursor == " " {
+            isLast = true
+            return
+        }
+        
+        isLoading = true
+        if homeVM.xlmTransactions.count < GTEXT.MAX_LIST {
+            homeVM.getXlmTxn(id: selectedXlm.id)
+        }
+        else {
+            homeVM.getXlmTxn(id: selectedXlm.id)
+            //homeVM.xlmTransactions.removeFirst(GTEXT.BLOCK_TRANSACTION) // reomve some transactions to get spaces
+            homeVM.xlmTransactions.removeLast(GTEXT.BLOCK_TRANSACTION)
+        }
     }
     
     func onClick() -> Void {

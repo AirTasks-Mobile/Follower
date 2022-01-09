@@ -29,12 +29,17 @@ struct GTEXT {
     static let TXN_LIQUIDITY = "LIQUIDITY"
     static let TXN_UNSTAKE = "UNSTAKE"
     static let TXN_STAKE_REWARD = "STAKE_REWARD"
+    static let TXN_STAKE_WITDRAW = "WITHDRAW"
     
     static let ONE_ROUND : Double = 1000000000000000000
     static let SOL_ROUND : Double = 1000000000
     static let ETH_ROUND : Double = 1000000000000000000
     static let XLM_ROUND : Double = 10000000
-    static let MAX_TRANSACTION = 10000
+    static let MAX_TRANSACTION = 200
+    static let MAX_LIST = 450
+    static let BLOCK_TRANSACTION = 200
+    static let SOL_MAX_TXN = 100
+    static let SOL_TXN_BLOCK = 50
     
     // SOL
     static let SOL_STAKE_ACC = "Stake11111111111111111111111111111111111111"

@@ -24,6 +24,7 @@ struct CoinInfo : Hashable, Codable {
 struct TransactionInfo : Hashable, Codable {
     var type : String
     var id : String
+    var count : Int?
     var amt : String
     var src : String
     var des : String

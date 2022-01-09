@@ -10,9 +10,9 @@ import Combine
 
 class GetXLMTransaction : BaseFlow {
     private var xlmId : String = ""
-    private var xlmCursor : Double = 0
+    private var xlmCursor : String = ""
     
-    func setCursor(cur: Double) -> Void {
+    func setCursor(cur: String) -> Void {
             xlmCursor = cur
     }
     
@@ -30,7 +30,7 @@ class GetXLMTransaction : BaseFlow {
     }
     
     override func onExecute() -> AnyPublisher<FlowModel, FlowError> {
-        let connectHost = InfoApi(info: FlowModel(type: FLOW.GET_STELLAR_OPERATION, token: xlmId))
+        let connectHost = InfoApi(info: FlowModel(type: FLOW.GET_STELLAR_OPERATION, token: xlmId, cursor: xlmCursor))
         return connectHost.connectHost()
             .map { apiData -> FlowModel in
                 return self.convertApiToFlow(info: apiData)
@@ -45,10 +45,19 @@ class GetXLMTransaction : BaseFlow {
         
         //let xmlBalance = info.balances[0]?.balance ?? "0"
         let nextPage : String = info._links?.next?.href ?? ""
+        var cursorString = getQueryStringParameter(url: nextPage, param: "cursor")
+        if cursorString == xlmCursor {
+            // end
+            cursorString = ""
+        }
+        //print("next page = \(cursorString)")
         var txnList : [TransactionInfo] = []
         for txn in info._embedded?.records ?? [] {
             let txnAmt = txn.amount ?? ""
-            let txnDate = txn.created_at ?? ""
+            let txnDateXml = txn.created_at ?? ""
+            var txnDateF = txnDateXml.replacingOccurrences(of: "T", with: " ")
+            txnDateF = txnDateF.replacingOccurrences(of: "Z", with: "")
+            let txnDate = dateTimeStatus(date: txnDateF)
             let srcAcc = txn.source_account ?? ""
             let txnId = txn.id ?? ""
             
@@ -88,6 +97,30 @@ class GetXLMTransaction : BaseFlow {
             }
         }
 
-        return FlowModel(isSuccess: true, transactions: txnList)
+        return FlowModel(isSuccess: true, transactions: txnList, cursor: cursorString)
+    }
+    
+    func getQueryStringParameter(url: String, param: String) -> String? {
+      guard let url = URLComponents(string: url) else {
+          return ""
+      }
+      return url.queryItems?.first(where: { $0.name == param })?.value
+    }
+    
+    func dateTimeStatus(date: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        //dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        if let dt = dateFormatter.date(from: date) {
+            let userFormatter = DateFormatter()
+            userFormatter.dateStyle = .medium // Set as desired
+            userFormatter.timeStyle = .medium // Set as desired
+
+            return userFormatter.string(from: dt)
+        } else {
+            return "Unknown date"
+        }
     }
 }

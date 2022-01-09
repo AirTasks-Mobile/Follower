@@ -27,6 +27,7 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
     @State private var isScanningAddress = false
     @State var isLoading = true
     @State var isStakeTab : Bool = false // for iOS 14 issue
+    @State var isLast : Bool = false
     
     var body: some View {
         GeometryReader { geo in
@@ -51,7 +52,7 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
                     AddCoinTab(titleText: "Solana Address Only", coinAddress: $solAddress, nickName: $solNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
                         .tag(3)
                     
-                    ListTransactionTab(nick: $selectedSol.nick, id: $selectedSol.id, transactions: $homeVM.solTransactions, isLoading: $isLoading, stake: $isStakeTab, isStake: true,onStake: onGetSolStake)
+                    ListTransactionTab(nick: $selectedSol.nick, id: $selectedSol.id, transactions: $homeVM.solTransactions, isLoading: $isLoading, stake: $isStakeTab, isLast: $isLast, isStake: true,onStake: onGetSolStake, loadMore: loadMoreTransactions)
                         .tag(4)
                 
                 }
@@ -82,7 +83,7 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
                 }
             })
             .onChange(of: homeVM.solSignatures, perform: { _ in
-                if tabSelect == 4 && homeVM.solSignatures.count > 0 {
+                if tabSelect == 4 && homeVM.solSignatures.count > 0 && homeVM.solTransactions.count < GTEXT.SOL_MAX_TXN {
                     if !isLoading {
                         isLoading = true
                     }
@@ -111,9 +112,24 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
         }
         
     }
+    
+    func loadMoreTransactions() -> Void {
+        if homeVM.solSignatures.count == 0 {
+            isLast = true
+            return
+        }
+        
+        isLoading = true
+        if homeVM.solTransactions.count > 51 {
+            homeVM.solTransactions.removeFirst(GTEXT.SOL_TXN_BLOCK)
+        }
+        homeVM.fetchSolTxnDetail()
+    }
+    
     func getTransactions() -> Void {
         tabSelect = 4
         isLoading = true
+        homeVM.solSignatures = [] // aaa
         homeVM.getSolTxn(id: selectedSol.id)
     }
     func SolGoBack() -> Void {
@@ -126,6 +142,7 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
         else {
             if tabSelect == 4 {
                 isStakeTab = false
+                homeVM.solSignatures = [] // aaa
             }
             selectedSol = CoinInfo.default
             homeVM.solTransactions = []

@@ -82,20 +82,35 @@ class GetSolTransactionDetail : BaseFlow {
         let localDate = dateFormatter.string(from: mdate as Date)
         
         let txn : TransactionInfo
-        doubleTemp = Double(postBal[1])
-        let formattedAmt = String(format: "%f", doubleTemp / GTEXT.SOL_ROUND)
+        //doubleTemp = Double(postBal[1])
+        doubleTemp = Double(postBal[1]) - Double(preBal[1])
+        var formattedAmt = ""
         
         if type == GTEXT.TXN_STAKE {
+            formattedAmt = String(format: "%f", doubleTemp / GTEXT.SOL_ROUND)
             let stakeAcc = StakeAccountInfo(scheme: GTEXT.SOLANA, src: accounts[0], des: accounts[1], deposit: formattedAmt, date: localDate, epoch: "", fee: formattedFee)
             
             txn = TransactionInfo(type: type, id: txnSignature, amt: formattedAmt, src: accounts[0], des: accounts[1], date: localDate, fee: formattedFee, status: "", scheme: GTEXT.SOLANA, stake: stakeAcc)
         }
         else if type == GTEXT.TXN_UNSTAKE {
-            txn = TransactionInfo(type: type, id: txnSignature, amt: formattedAmt, src: accounts[1], des: accounts[0], date: localDate, fee: formattedFee, status: "", scheme: GTEXT.SOLANA)
+            var transactionType = ""
+            doubleTemp = Double(preBal[1]) - Double(postBal[1])
+            formattedAmt = String(format: "%f", doubleTemp / GTEXT.SOL_ROUND)
+      
+            if doubleTemp > 0 {
+                transactionType = GTEXT.TXN_STAKE_WITDRAW
+            }
+            else if doubleTemp < 0 {
+                transactionType = GTEXT.TXN_STAKE + "(split)"
+            }
+            else {
+                transactionType = GTEXT.TXN_UNSTAKE
+            }
+            txn = TransactionInfo(type: transactionType, id: txnSignature, amt: formattedAmt, src: accounts[1], des: accounts[0], date: localDate, fee: formattedFee, status: "", scheme: GTEXT.SOLANA)
         }
         else {
-            doubleTemp = Double(postBal[1]) - Double(preBal[1])
-            let formattedAmt = String(format: "%f", doubleTemp / GTEXT.SOL_ROUND)
+            //doubleTemp = Double(postBal[1]) - Double(preBal[1])
+            formattedAmt = String(format: "%f", doubleTemp / GTEXT.SOL_ROUND)
             
             txn = TransactionInfo(type: type, id: txnSignature, amt: formattedAmt, src: accounts[0], des: accounts[1], date: localDate, fee: formattedFee, status: "", scheme: GTEXT.SOLANA)
         }

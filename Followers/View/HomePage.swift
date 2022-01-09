@@ -82,6 +82,14 @@ struct HomePage<T: HomeViewModelProtocol>: View {
                             CoinTag(oneCoin: sol, name: "solana_logo")
                                 .frame(height: 90)
                         }
+//                        .onDelete(perform: { indexSet in
+//                            print("index = \(indexSet)")
+//                            withAnimation {
+//                                //listCoin.remove(at: indexSet)
+//                                homeVM.solCoins.remove(atOffsets: indexSet)
+//                                //onDelCoin()
+//                            }
+//                        })
                         
                         
                         ForEach(homeVM.oneCoins, id: \.id) { one in

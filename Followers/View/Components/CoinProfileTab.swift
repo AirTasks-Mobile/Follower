@@ -13,8 +13,10 @@ struct CoinProfileTab: View {
     var onDelCoin : () -> Void
     
     @State var isRemove : Bool = false
+    var dialogColor = Color(.sRGBLinear, red: 255.0/255, green: 255.0/255, blue: 255.0/255, opacity: 0.3)
     
     var body: some View {
+        //List {
         ScrollView(.vertical, showsIndicators: false) {
             if !isRemove {
             ForEach(listCoin, id: \.id) { coin in
@@ -25,20 +27,22 @@ struct CoinProfileTab: View {
                         .frame(height: 95)
                 }
                 //Spacer()
+                
         
             }
-            }
+            //.onDelete(perform: swipeRemove)
+            } // end isRemove
             
             if isRemove {
                 Spacer()
 
                 ZStack{
-                    Color.white
+                    dialogColor
                     VStack{
-                        Text("Remove ?")
-                            .font(.title)
-                            .foregroundColor(.red)
-                            .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
+                        Text("Remove \(selectedCoin.nick) ?")
+                            .font(Font.custom("Avenir-black", size: 25))
+                            .foregroundColor(.gray)
+                            .padding(EdgeInsets(top: 15, leading: 10, bottom: 10, trailing: 10))
 
                         Spacer()
 
@@ -50,33 +54,45 @@ struct CoinProfileTab: View {
                         Spacer()
 
                         HStack{
+                            Spacer()
                             Button(action: {
                                 self.isRemove = false
                                 self.selectedCoin = CoinInfo.default
                             }, label: {
 
-                                Text("Oh No")
-                                    .font(.title)
-                                    .padding()
+                                Text(" Oh No  ")
+                                    .font(Font.custom("Avenir-medium", size: 20))
+                                    .frame(height: 50)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 8.0)
+                                            .stroke(Color.gray, lineWidth: 1)
+                                    )
+                                    .padding(EdgeInsets(top: 5, leading: 5, bottom: 15, trailing: 5))
                             })
-
+                            Spacer()
                             Button(action: onRemoveCoin, label: {
 
-                                Text("Sure")
-                                    .font(.title)
-                                    .padding()
+                                Text("  Sure   ")
+                                    .font(Font.custom("Avenir-medium", size: 20))
+                                    .frame(height: 50)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 8.0)
+                                            .stroke(Color.gray, lineWidth: 1)
+                                    )
+                                    .padding(EdgeInsets(top: 5, leading: 5, bottom: 15, trailing: 5))
                             })
+                            Spacer()
                         }
                     }
                 }
                 .frame(width: 280, height: 280)
                 .cornerRadius(20)
-                .shadow(radius: 20)
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                //.shadow(radius: 20)
+                .padding(EdgeInsets(top: 100, leading: 0, bottom: 0, trailing: 0))
             } // end isRemove
 
             Spacer()
-        }
+        } // end scroll
         .padding(EdgeInsets(top: 25, leading: 0, bottom: 0, trailing: 0))
     }
     func onRemoveCoin() -> Void {
@@ -93,6 +109,10 @@ struct CoinProfileTab: View {
     func onDeleteACoin(coin : CoinInfo) -> Void {
         selectedCoin = coin
         isRemove = true
+    }
+    
+    func swipeRemove(at offsets: IndexSet){
+        print("offset = \(offsets)")
     }
 }
 
