@@ -15,12 +15,14 @@ struct GTEXT {
     static let HARMONY = "ONE"
     static let BINANCE = "BSC"
     static let ETHEREUM = "ETH"
+    static let STELLAR = "XLM"
     
     static let SOL_LIST = "sol_list"
     static let MATIC_LIST = "matic_list"
     static let ONE_LIST = "one_list"
     static let BSC_LIST = "bsc_list"
     static let ETH_LIST = "eth_list"
+    static let XLM_LIST = "xlm_list"
     
     static let TXN_TRANSFER = "TRANSER"
     static let TXN_STAKE = "STAKE"
@@ -31,6 +33,8 @@ struct GTEXT {
     static let ONE_ROUND : Double = 1000000000000000000
     static let SOL_ROUND : Double = 1000000000
     static let ETH_ROUND : Double = 1000000000000000000
+    static let XLM_ROUND : Double = 10000000
+    static let MAX_TRANSACTION = 10000
     
     // SOL
     static let SOL_STAKE_ACC = "Stake11111111111111111111111111111111111111"
@@ -38,6 +42,12 @@ struct GTEXT {
     static let SOL_RENT_ACC = "SysvarRent111111111111111111111111111111111"
     // ONE
     
-    //MATIC
+    //STELLAR
+    static let XLM_ASSET = "native"
+    static let XLM_TYPE_XPAY = "path_payment_strict_send"
+    static let XLM_TYPE_PAY = "payment"
+    static let XLM_TYPE_CREATE_CLAIM = "create_claimable_balance"
+    static let XLM_TYPE_CREATE_ACCOUNT = "create_account"
+    static let XLM_TYPE_DELETE_ACCOUNT = "account_merge"
     
 }

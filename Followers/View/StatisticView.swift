@@ -48,6 +48,15 @@ struct StatisticView: View {
         else if type == GTEXT.POLYGON {
             return "https://coinmarketcap.com/currencies/polygon/"
         }
+        else if type == GTEXT.BINANCE {
+            return "https://coinmarketcap.com/currencies/binance-coin/"
+        }
+        else if type == GTEXT.ETHEREUM {
+            return "https://coinmarketcap.com/currencies/ethereum/"
+        }
+        else if type == GTEXT.STELLAR {
+            return "https://coinmarketcap.com/currencies/stellar/"
+        }
         
         return "https://coinmarketcap.com/"
     }

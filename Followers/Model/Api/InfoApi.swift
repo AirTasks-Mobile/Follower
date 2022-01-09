@@ -90,6 +90,20 @@ struct ETHResponseBalance : Decodable {
     var result : String
 }
 
+// Stellar
+struct XLMResponseAccount : Codable, Hashable {
+    var _links : XLMLinks?
+    var id : String?
+    var account_id : String?
+    var last_modified_time : String?
+    var balances : [XLMBalance?]
+}
+
+struct XLMResponseOperation : Codable, Hashable {
+    var _links : XLMOpLinks?
+    var _embedded : XLMOpRecord?
+}
+
 class InfoApi : ApiInterface {
     var info : FlowModel?
     
@@ -113,6 +127,7 @@ class InfoApi : ApiInterface {
         let ethAchemyMainnet = "https://eth-mainnet.alchemyapi.io/v2/tBdd0HrN3GLMirZ04eBnKPCOOuBml7HF"
         // achemy websocket : wss://eth-mainnet.alchemyapi.io/v2/tBdd0HrN3GLMirZ04eBnKPCOOuBml7HF
         
+        let xlmMainnet = "https://horizon.stellar.org"
         
         switch info?.type {
             case .NORMAL:
@@ -141,16 +156,35 @@ class InfoApi : ApiInterface {
                 return URL(string: maticMainnet)!
             case .GET_BSC_BALANCE:
                 return URL(string: bscMainnent)!
-        case .GET_ETH_BALANCE:
-            return URL(string: ethAchemyMainnet)!
+            case .GET_ETH_BALANCE:
+                return URL(string: ethAchemyMainnet)!
+            case .GET_STELLAR_ACCOUNT:
+                let xlmId = info?.token ?? ""
+                let xlmEndpoint = "\(xlmMainnet)/accounts/\(xlmId)"
+                return URL(string: xlmEndpoint)!
+            case .GET_STELLAR_OPERATION:
+                let xlmId = info?.token ?? ""
+                let cur = info?.cursor ?? 0
+                var xlmEndpoint : String
+                if cur > 0 {
+                    xlmEndpoint = "\(xlmMainnet)/accounts/\(xlmId)/operations?limit=200&order=desc?cursor=\(cur)&include_failed=false"
+                }
+                else {
+                    xlmEndpoint = "\(xlmMainnet)/accounts/\(xlmId)/operations?limit=200&order=desc&include_failed=false"
+                }
+
+                return URL(string: xlmEndpoint)!
             default:
                 break
         }
-        
+     
         return URL(string: url + "/mock_clear")!
     }
     
     func getMethod() -> String {
+        if info?.type == .GET_STELLAR_ACCOUNT || info?.type == .GET_STELLAR_OPERATION {
+            return "GET"
+        }
         return "POST"
     }
     
@@ -177,7 +211,12 @@ class InfoApi : ApiInterface {
     
     func connectHost<T: Decodable>() -> AnyPublisher<T, FlowError> {
         var request = getURLRequest()
-        request.httpBody = buildPayload()
+        if info?.type == .GET_STELLAR_ACCOUNT || info?.type == .GET_STELLAR_OPERATION {
+            // no body for GET
+        }
+        else {
+            request.httpBody = buildPayload()
+        }
      
         return URLSession.shared.dataTaskPublisher(for: request)
             .tryMap{ output in

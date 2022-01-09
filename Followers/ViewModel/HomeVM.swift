@@ -16,27 +16,32 @@ protocol HomeViewModelProtocol : ObservableObject {
     var maticCoins : [CoinInfo] { get set }
     var bscCoins : [CoinInfo] { get set }
     var ethCoins : [CoinInfo] { get set }
+    var xlmCoins : [CoinInfo] { get set }
     var solAddressList : [String] { get set }
     var oneAddressList : [String] { get set }
     var maticAddressList : [String] { get set }
     var bscAddressList : [String] { get set }
     var ethAddressList : [String] { get set }
+    var xlmAddressList : [String] { get set }
     
     var solTransactions : [TransactionInfo] { get set }
     var oneTransactions : [TransactionInfo] { get set }
     var maticTransactions : [TransactionInfo] { get set }
     var bscTransactions : [TransactionInfo] { get set }
     var ethTransactions : [TransactionInfo] { get set }
+    var xlmTransactions : [TransactionInfo] { get set }
     
     var solSignatures : [String] { get set }
     //var oneSignatures : [String] { get set }
     //var maticSignatures : [String] { get set }
+    var xlmCursor : Double { get set }
     
     var totalSol : String { get set }
     var totalOne : String { get set }
     var totalMatic : String { get set }
     var totalBsc : String { get set }
     var totalEth : String { get set }
+    var totalXlm : String { get set }
     
     var mainQueue : [String] { get set }
     
@@ -65,6 +70,10 @@ protocol HomeViewModelProtocol : ObservableObject {
     //
     func startEth()
     func storeEth(id: String, nick: String)
+    //
+    func startXlm()
+    func storeXlm(id: String, nick: String)
+    func getXlmTxn(id : String)
 }
 
 class HomeVM : HomeViewModelProtocol {
@@ -75,25 +84,30 @@ class HomeVM : HomeViewModelProtocol {
     @Published var maticCoins: [CoinInfo] = []
     @Published var bscCoins: [CoinInfo] = []
     @Published var ethCoins: [CoinInfo] = []
+    @Published var xlmCoins: [CoinInfo] = []
     @Published var solAddressList: [String] = []
     @Published var oneAddressList: [String] = []
     @Published var maticAddressList: [String] = []
     @Published var bscAddressList: [String] = []
     @Published var ethAddressList: [String] = []
+    @Published var xlmAddressList: [String] = []
     @Published var tempCoins: [CoinInfo] = []
     @Published var solTransactions: [TransactionInfo] = []
     @Published var oneTransactions: [TransactionInfo] = []
     @Published var maticTransactions: [TransactionInfo] = []
     @Published var bscTransactions: [TransactionInfo] = []
     @Published var ethTransactions: [TransactionInfo] = []
+    @Published var xlmTransactions: [TransactionInfo] = []
     @Published var solSignatures: [String] = []
     //@Published var oneSignatures: [String] = []
     //@Published var maticSignatures: [String] = []
+    @Published var xlmCursor: Double = 0
     @Published var totalSol: String = ""
     @Published var totalOne: String = ""
     @Published var totalMatic: String = ""
     @Published var totalBsc: String = ""
     @Published var totalEth: String = ""
+    @Published var totalXlm: String = ""
     @Published var mainQueue: [String] = []
     
     private var task : AnyCancellable?
@@ -121,12 +135,19 @@ class HomeVM : HomeViewModelProtocol {
         ethCoins = []
         ethAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.ETH_LIST) ?? []
         
+        //
+        xlmCoins = []
+        xlmAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.XLM_LIST) ?? []
+        
         var queue: [String] = []
         if solAddressList.count > 0 {
             queue.append(GTEXT.SOLANA)
         }
         if oneAddressList.count > 0 {
             queue.append(GTEXT.HARMONY)
+        }
+        if xlmAddressList.count > 0 {
+            queue.append(GTEXT.STELLAR)
         }
         if maticAddressList.count > 0 {
             queue.append(GTEXT.POLYGON)
@@ -137,6 +158,7 @@ class HomeVM : HomeViewModelProtocol {
         if ethAddressList.count > 0 {
             queue.append(GTEXT.ETHEREUM)
         }
+        
         
         mainQueue = queue
         //mainQueue = [GTEXT.SOLANA, GTEXT.HARMONY, GTEXT.POLYGON, GTEXT.BINANCE, GTEXT.ETHEREUM]
@@ -233,6 +255,7 @@ class HomeVM : HomeViewModelProtocol {
                 }
             })
     }
+    
     func fetchSolTxnDetail() -> Void {
         if solSignatures.count <= 0 {
             return
@@ -722,6 +745,7 @@ class HomeVM : HomeViewModelProtocol {
                 }
             })
     }
+    
     func getTotalEth() -> Void {
         let myEth = ethCoins
         if myEth.count == 0 {
@@ -735,6 +759,112 @@ class HomeVM : HomeViewModelProtocol {
         
         if total > 0 {
             totalEth = getFormattedNumber(total: total)
+        }
+    }
+    
+    // XLM
+    func refreshXlmInfo(id : String , nick: String){
+        let flow = GetXlmAccount()
+        flow.setViewInfo(info: ["id": id])
+        task = flow.processFlow()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { result in
+                if self.xlmAddressList.count > 0 {
+                    self.xlmAddressList.removeFirst()
+                    
+                    // calculate total
+                    self.getTotalXlm()
+                }
+                if self.xlmAddressList.count == 0 {
+                    //self.mainQueue = self.mainQueue.filter(){$0 != GTEXT.ETHEREUM}
+                    self.mainQueue.removeFirst()
+                }
+            }, receiveValue: { data in
+                //print("back here !!!! \(data)")
+                let xlm = CoinInfo(type: GTEXT.STELLAR, id: id, nick: nick, pic: "", bal: data.balance ?? "", date: "", assets: data.assets ?? [])
+                let key = GTEXT.STELLAR + "_" + id
+                if let encodedXlm = try? JSONEncoder().encode(xlm) {
+                    UserDefaults.standard.set(encodedXlm, forKey: key)
+                    self.xlmCoins.append(xlm)
+                }
+            })
+    }
+    
+    func loadThenRefreshXlm(id : String){
+        if let xlmData = UserDefaults.standard.object(forKey: id) as? Data {
+            if let xlmInfo = try? JSONDecoder().decode(CoinInfo.self, from: xlmData) {
+                refreshXlmInfo(id: xlmInfo.id, nick: xlmInfo.nick)
+            }
+        }
+    }
+    
+    func startXlm() {
+        if xlmAddressList.count <= 0 {
+            return
+        }
+        
+        // refresh
+        let address : String = xlmAddressList[0]
+        if address != "" {
+            loadThenRefreshXlm(id: address)
+        }
+    }
+    
+    func storeXlm(id: String, nick: String) {
+        tempList = UserDefaults.standard.stringArray(forKey: GTEXT.STELLAR) ?? []
+        let flow = GetXlmAccount()
+        flow.setViewInfo(info: ["id": id])
+        task = flow.processFlow()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { result in
+                
+            }, receiveValue: { data in
+                //print("back here !!!! \(data)")
+                let xlm = CoinInfo(type: GTEXT.STELLAR, id: id, nick: nick, pic: "", bal: data.balance ?? "", date: "", assets: data.assets ?? [])
+                let key = GTEXT.STELLAR + "_" + id
+                if let encodedXlm = try? JSONEncoder().encode(xlm) {
+                    UserDefaults.standard.set(encodedXlm, forKey: key)
+                    self.tempList.append(key)
+                    UserDefaults.standard.set(self.tempList, forKey: GTEXT.XLM_LIST)
+
+                    self.xlmCoins = []
+                    self.xlmAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.XLM_LIST) ?? []
+                    self.mainQueue = [GTEXT.STELLAR]
+                }
+            })
+    }
+    
+    func getXlmTxn(id: String) {
+        let flow = GetXLMTransaction()
+   
+        flow.setViewInfo(info: ["id": id])
+        task = flow.processFlow()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { result in
+                
+            }, receiveValue: { data in
+                //print("back here !!!! \(data)")
+                let list = data.transactions ?? []
+                if list.count > 0 {
+                    self.xlmTransactions = list
+                    self.xlmCursor = data.cursor ?? 0
+                }
+            })
+    }
+    
+    func getTotalXlm() -> Void {
+        let myXlm = xlmCoins
+        if myXlm.count == 0 {
+            totalXlm = ""
+        }
+        
+        var total : Double = 0
+        for xlm in myXlm {
+            total += Double(xlm.bal) ?? 0
+        }
+        
+        if total > 0 {
+            totalXlm = getFormattedNumber(total: total)
         }
     }
 }

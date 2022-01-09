@@ -34,6 +34,10 @@
 		3F42BC632781D75D001D784A /* CoinTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42BC622781D75D001D784A /* CoinTag.swift */; };
 		3F42BC652781D8AD001D784A /* RoundCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42BC642781D8AD001D784A /* RoundCornerView.swift */; };
 		3F42BC672781D929001D784A /* CircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42BC662781D929001D784A /* CircleButton.swift */; };
+		3F4453CF278941DF007697EF /* GetXLMTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4453CE278941DF007697EF /* GetXLMTransaction.swift */; };
+		3F4453D12789D9E7007697EF /* XLMTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4453D02789D9E7007697EF /* XLMTransactionView.swift */; };
+		3F7302A827887F3900E045BA /* GetXLMAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7302A727887F3900E045BA /* GetXLMAccount.swift */; };
+		3F7302AA27888FA800E045BA /* XLMTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7302A927888FA800E045BA /* XLMTab.swift */; };
 		3F7D35DB263BBD3100A333FE /* HexagonParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7D35DA263BBD3100A333FE /* HexagonParameters.swift */; };
 		3F7D35E0263BBECB00A333FE /* BadgeBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7D35DF263BBECB00A333FE /* BadgeBackground.swift */; };
 		3FA121762784A0E300A04CBB /* GetOneStake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA121752784A0E300A04CBB /* GetOneStake.swift */; };
@@ -128,6 +132,10 @@
 		3F42BC622781D75D001D784A /* CoinTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinTag.swift; sourceTree = "<group>"; };
 		3F42BC642781D8AD001D784A /* RoundCornerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundCornerView.swift; sourceTree = "<group>"; };
 		3F42BC662781D929001D784A /* CircleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleButton.swift; sourceTree = "<group>"; };
+		3F4453CE278941DF007697EF /* GetXLMTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetXLMTransaction.swift; sourceTree = "<group>"; };
+		3F4453D02789D9E7007697EF /* XLMTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XLMTransactionView.swift; sourceTree = "<group>"; };
+		3F7302A727887F3900E045BA /* GetXLMAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetXLMAccount.swift; sourceTree = "<group>"; };
+		3F7302A927888FA800E045BA /* XLMTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XLMTab.swift; sourceTree = "<group>"; };
 		3F7D35DA263BBD3100A333FE /* HexagonParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonParameters.swift; sourceTree = "<group>"; };
 		3F7D35DF263BBECB00A333FE /* BadgeBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeBackground.swift; sourceTree = "<group>"; };
 		3FA121752784A0E300A04CBB /* GetOneStake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetOneStake.swift; sourceTree = "<group>"; };
@@ -269,6 +277,8 @@
 				3F04B87C278563C5008A7551 /* AmountView.swift */,
 				3FF461C92785DBD7006D494F /* BSCTab.swift */,
 				3F344D0B2787E8A500D83584 /* ETHTab.swift */,
+				3F7302A927888FA800E045BA /* XLMTab.swift */,
+				3F4453D02789D9E7007697EF /* XLMTransactionView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -290,6 +300,8 @@
 				3F04B87427853B64008A7551 /* GetSolStake.swift */,
 				3FF461C72785D3EB006D494F /* GetBscBalance.swift */,
 				3F344D092787E48600D83584 /* GetEthBalance.swift */,
+				3F7302A727887F3900E045BA /* GetXLMAccount.swift */,
+				3F4453CE278941DF007697EF /* GetXLMTransaction.swift */,
 			);
 			path = Flows;
 			sourceTree = "<group>";
@@ -581,6 +593,7 @@
 				3F12E4752783EECC004B4830 /* GetMaticBalance.swift in Sources */,
 				3FD5CC5426A5374200A7E40D /* HomePage.swift in Sources */,
 				3F04B87D278563C5008A7551 /* AmountView.swift in Sources */,
+				3F4453CF278941DF007697EF /* GetXLMTransaction.swift in Sources */,
 				3FD5CC5026A5285300A7E40D /* LobbyVMUnitTest.swift in Sources */,
 				3F344D0A2787E48600D83584 /* GetEthBalance.swift in Sources */,
 				3FACC6BF263C346800487ED2 /* RotatedBadgeSymbol.swift in Sources */,
@@ -592,12 +605,15 @@
 				3FA121762784A0E300A04CBB /* GetOneStake.swift in Sources */,
 				3F42BC672781D929001D784A /* CircleButton.swift in Sources */,
 				3FACC6C4263C356200487ED2 /* Badge.swift in Sources */,
+				3F7302A827887F3900E045BA /* GetXLMAccount.swift in Sources */,
 				3FD5CC4D26A51C2A00A7E40D /* InfoApi.swift in Sources */,
+				3F7302AA27888FA800E045BA /* XLMTab.swift in Sources */,
 				3FB7E4F026A7B6D40024E639 /* BackButton.swift in Sources */,
 				3F20824F27815B3200C32DE9 /* MATICTab.swift in Sources */,
 				3F12E47127832EC6004B4830 /* GetSolTransaction.swift in Sources */,
 				3FD5CC4526A5156D00A7E40D /* BaseFlow.swift in Sources */,
 				3FD5CC5626A537F500A7E40D /* HomeVM.swift in Sources */,
+				3F4453D12789D9E7007697EF /* XLMTransactionView.swift in Sources */,
 				3FB7E4F426A7C6C40024E639 /* RouteVM.swift in Sources */,
 				3FB7E4F226A7BEDB0024E639 /* BagdeIcon.swift in Sources */,
 				3F7D35E0263BBECB00A333FE /* BadgeBackground.swift in Sources */,

@@ -32,6 +32,10 @@ enum FLOW : String {
     
     //
     case GET_ETH_BALANCE = "GET_ETH_BALANCE"
+    
+    //
+    case GET_STELLAR_ACCOUNT = "GET_XLM_ACCOUNT"
+    case GET_STELLAR_OPERATION = "GET_STELLAR_OPERATION"
 }
 
 enum FlowError : Error {
@@ -54,6 +58,8 @@ struct FlowModel {
     var transactions : [TransactionInfo]?
     var stakes : [String]?
     var liqidities : [String]?
+    var assets : [AssetInfo]?
+    var cursor : Double?
     
     var deviceID : String?
     var userID : String?

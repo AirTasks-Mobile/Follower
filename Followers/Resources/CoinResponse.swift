@@ -16,6 +16,7 @@ struct CoinInfo : Hashable, Codable {
     var date : String
     var stakes : [StakeAccountInfo]?
     var liquidities : [LiquidityAccountInfo]?
+    var assets : [AssetInfo]?
     
     static let `default` = CoinInfo(type: "", id: "", nick: "..", pic: "", bal: "...", date: "")
 }
@@ -27,11 +28,11 @@ struct TransactionInfo : Hashable, Codable {
     var src : String
     var des : String
     var date : String
-    var fee : String
-    var status : String
+    var fee : String               // Stellar source asset type
+    var status : String            // Stellar source asset code
     var scheme : String
-    var reward : String?
-    var commission : String?
+    var reward : String?        // Stellar asset type
+    var commission : String?    // Stellar asset code
     var stake : StakeAccountInfo?
     var liquidity : LiquidityAccountInfo?
     
@@ -67,6 +68,14 @@ struct LiquidityAccountInfo : Hashable, Codable {
     var fee : String?
     
     static let `default` = LiquidityAccountInfo(scheme: "", src: "", des: "", deposit: "", date: "", epoch: "", fee: "")
+}
+
+struct AssetInfo : Hashable, Codable {
+    var type : String
+    var code : String
+    var isOk : Bool?
+    var issuer : String?
+    static let `default` = AssetInfo(type: "", code: "", isOk: false, issuer: "")
 }
 
 // SOL
@@ -169,5 +178,64 @@ struct ONEUndelegations : Codable, Hashable {
     var Amount : Double?
     var Epoch : Int?
 }
-// MATIC
+// STELLAR
+struct XLMLink : Codable, Hashable {
+    var href : String?
+    var templated : Bool?
+}
+
+struct XLMLinks : Codable, Hashable {
+    var transactions : XLMLink?
+    var payments : XLMLink?
+}
+
+struct XLMBalance : Codable, Hashable {
+    var balance : String
+    var is_authorized : Bool?
+    var is_clawback_enabled : Bool?
+    var asset_type : String?
+    var asset_code : String?
+}
+
+struct XLMOpLinks : Codable, Hashable {
+    var next : XLMLink?
+    var prev : XLMLink?
+}
+
+struct XLMClaimant : Codable, Hashable {
+    var destination : String?
+}
+
+struct XLMPath : Codable, Hashable {
+    var asset_type : String?
+    var asset_code : String?
+    var asset_issuer : String?
+}
+
+struct XLMRecord : Codable, Hashable {
+    var id : String?
+    var transaction_successful : Bool?
+    var source_account : String?
+    var type : String?
+    var created_at : String?
+    var asset : String?
+    var asset_type : String?
+    var amount : String?
+    var source_amount : String?
+    var source_asset_code : String?
+    var source_asset_type : String?
+    var to : String?
+    //var path : [XLMPath]? // no need this, just don't care about this
+    // var claimants : [XLMClaimant]? // no need this, check source_aacount is enough
+    
+    var account : String?
+    var into : String?
+    
+    var starting_balance : String?
+}
+
+struct XLMOpRecord : Codable, Hashable {
+    var records : [XLMRecord]?
+}
+
 

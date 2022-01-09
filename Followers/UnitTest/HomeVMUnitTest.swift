@@ -9,6 +9,28 @@ import Foundation
 import Combine
 
 class HomeVMUnitTest : HomeViewModelProtocol {
+    func getXlmTxn(id: String) {
+        //
+    }
+    
+    var xlmCursor: Double
+    
+    var xlmCoins: [CoinInfo]
+    
+    var xlmAddressList: [String]
+    
+    var xlmTransactions: [TransactionInfo]
+    
+    var totalXlm: String
+    
+    func startXlm() {
+        //
+    }
+    
+    func storeXlm(id: String, nick: String) {
+        //
+    }
+    
     var ethCoins: [CoinInfo]
     
     var ethAddressList: [String]
@@ -142,28 +164,33 @@ class HomeVMUnitTest : HomeViewModelProtocol {
         maticCoins = [CoinInfo.default, CoinInfo.default]
         bscCoins = [CoinInfo.default, CoinInfo.default]
         ethCoins = [CoinInfo.default, CoinInfo.default]
+        xlmCoins = [CoinInfo.default, CoinInfo.default]
         
         solAddressList = [""]
         oneAddressList = [""]
         maticAddressList = [""]
         bscAddressList = [""]
         ethAddressList = [""]
+        xlmAddressList = [""]
         
         solTransactions = [TransactionInfo.default]
         oneTransactions = [TransactionInfo.default]
         maticTransactions = [TransactionInfo.default]
         bscTransactions = [TransactionInfo.default]
         ethTransactions = [TransactionInfo.default]
+        xlmTransactions = [TransactionInfo.default]
         
         solSignatures = [""]
         //oneSignatures = [""]
         //maticSignatures = [""]
+        xlmCursor = 0
         
         totalOne = ""
         totalSol = ""
         totalMatic = ""
         totalBsc = ""
         totalEth = ""
+        totalXlm = ""
         
         mainQueue = [""]
     }

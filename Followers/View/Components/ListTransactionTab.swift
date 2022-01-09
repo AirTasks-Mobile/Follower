@@ -50,6 +50,11 @@ struct ListTransactionTab: View {
                     
                     }// loading
                 }
+                else if isLoading {
+                    ActivityIndicator()
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(Color(red: 239.0 / 255, green: 172.0 / 255, blue: 120.0 / 255, opacity: 0.9))
+                }
             }
             
             Text("\(id)")
@@ -59,34 +64,40 @@ struct ListTransactionTab: View {
             
             //ScrollView(.vertical, showsIndicators: false) {
             if transactions.count > 0 { // for iOS 14, not display staking transactions
-            List {
-                ForEach(transactions, id:\.id) { txn in
-                    if txn.type == GTEXT.TXN_STAKE_REWARD {
-                        Section(header: AmountView(text: "Balance: \(txn.scheme)", amt: "\(txn.amt)", isOut : false) ){
-                            if stake {
-                                if txn.scheme == GTEXT.SOLANA {
-                                    SolStakeView(srcId: $id, nick: $nick, txn: txn)
+                List {
+                    ForEach(transactions, id:\.id) { txn in
+                        if txn.type == GTEXT.TXN_STAKE_REWARD {
+                            Section(header: AmountView(text: "Balance: \(txn.scheme)", amt: "\(txn.amt)", isOut : false) ){
+                                if stake {
+                                    if txn.scheme == GTEXT.SOLANA {
+                                        SolStakeView(srcId: $id, nick: $nick, txn: txn)
+                                    }
+                                    else if txn.scheme == GTEXT.HARMONY {
+                                        OneStakeView(srcId: $id, nick: $nick, txn: txn)
+                                    }
+                                    else {
+                                        //Text(" ??? ")
+                                    }
+                                    
                                 }
-                                else if txn.scheme == GTEXT.HARMONY {
-                                    OneStakeView(srcId: $id, nick: $nick, txn: txn)
+                           
+                            }
+                        }
+                        else if !stake {
+                            
+                            Section(header: AmountView(text: "Amount: \(txn.scheme)", amt: "\(txn.amt)", isOut : isOutAmt(txn: txn)) ){
+                                if txn.scheme == GTEXT.STELLAR {
+                                    XLMTransactionView(srcId: $id, nick: $nick, txn: txn)
                                 }
                                 else {
-                                    //Text(" ??? ")
+                                    TransactionView(srcId: $id, nick: $nick, txn: txn)
                                 }
-                                
                             }
-                       
                         }
+                        
                     }
-                    else if !stake {
-                        Section(header: AmountView(text: "Amount: \(txn.scheme)", amt: "\(txn.amt)", isOut : (txn.src == id)) ){
-                            TransactionView(srcId: $id, nick: $nick, txn: txn)
-                        }
-                    }
-                    
-                }
-        
-            } // End List
+            
+                } // End List
             }
             else {
                 Spacer()
@@ -94,6 +105,17 @@ struct ListTransactionTab: View {
             }
         }
 
+    }
+    
+    func isOutAmt(txn : TransactionInfo) -> Bool {
+//        if txn.scheme == GTEXT.STELLAR {
+//
+//        }
+//        else {
+//            return (txn.src == id)
+//        }
+        
+        return (txn.src == id)
     }
 }
 

@@ -45,6 +45,10 @@ struct PageRoute<T: RouteViewModelProtocol>: View {
             ETHTab<HomeVM>(goBack: backHome)
                 .environmentObject(homeVM)
         }
+        else if routeVM.isXlm {
+            XLMTab<HomeVM>(goBack: backHome)
+                .environmentObject(homeVM)
+        }
         else {
             
         }

@@ -40,6 +40,12 @@ struct HomePage<T: HomeViewModelProtocol>: View {
                             }, label: {
                                 BadgeTextView(text: $homeVM.totalOne,name: "ONE")
                             })
+                            
+                            Button(action: {
+                                routeVM.startXlm()
+                            }, label: {
+                                BadgeTextView(text: $homeVM.totalXlm,name: "XLM")
+                            })
                                 
                             Button(action: {
                                 routeVM.startMatic()
@@ -83,6 +89,10 @@ struct HomePage<T: HomeViewModelProtocol>: View {
                                 .frame(height: 90)
                         }
                         
+                        ForEach(homeVM.xlmCoins, id: \.id) { xlm in
+                            CoinTag(oneCoin: xlm, name: "stellar_logo")
+                                .frame(height: 90)
+                        }
                         
                         ForEach(homeVM.maticCoins, id: \.id) { matic in
                             CoinTag(oneCoin: matic, name: "matic_logo")
@@ -100,7 +110,7 @@ struct HomePage<T: HomeViewModelProtocol>: View {
                         }
                         
                     }
-                    .padding(EdgeInsets(top: 15, leading: 15, bottom: 0, trailing: 15))
+                    .padding(EdgeInsets(top: 15, leading: 15, bottom: 5, trailing: 15))
 
                     Spacer()
                     
@@ -123,6 +133,14 @@ struct HomePage<T: HomeViewModelProtocol>: View {
                             }
                             else {
                                 homeVM.startOne()
+                            }
+                        }
+                        else if scheme == GTEXT.STELLAR {
+                            if homeVM.xlmAddressList.count == 0 {
+                                homeVM.mainQueue.removeFirst()
+                            }
+                            else {
+                                homeVM.startXlm()
                             }
                         }
                         else if scheme == GTEXT.POLYGON {
@@ -179,6 +197,12 @@ struct HomePage<T: HomeViewModelProtocol>: View {
                     //print("start Ettttt \(homeVM.mainQueue)")
                     if routeVM.isHome && homeVM.mainQueue.count > 0 && homeVM.mainQueue[0] == GTEXT.ETHEREUM {
                         homeVM.startEth()
+                    }
+                })
+                .onChange(of: homeVM.xlmAddressList, perform: { _ in
+                    //print("start Ettttt \(homeVM.mainQueue)")
+                    if routeVM.isHome && homeVM.mainQueue.count > 0 && homeVM.mainQueue[0] == GTEXT.STELLAR {
+                        homeVM.startXlm()
                     }
                 })
                 .background(LinearGradient(gradient: Gradient(colors: [startColour, centerColour, endColour]), startPoint: .topLeading, endPoint: .bottomTrailing))
