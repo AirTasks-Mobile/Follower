@@ -35,11 +35,12 @@ struct GTEXT {
     static let SOL_ROUND : Double = 1000000000
     static let ETH_ROUND : Double = 1000000000000000000
     static let XLM_ROUND : Double = 10000000
-    static let MAX_TRANSACTION = 200
-    static let MAX_LIST = 450
-    static let BLOCK_TRANSACTION = 200
-    static let SOL_MAX_TXN = 100
-    static let SOL_TXN_BLOCK = 50
+    static let MAX_TRANSACTION = 200    // Stellar
+    static let MAX_LIST = 500           // Stellar, Harmony
+    static let BLOCK_TRANSACTION = 200  // Stellar, Harmony
+    static let COIN_MAX_TXN =  100      // Solana load one by one and slow, so load 100 transactions first
+    static let COIN_TXN_BLOCK = 50      // Solna every next attempt, load 50 transactin
+ 
     
     // SOL
     static let SOL_STAKE_ACC = "Stake11111111111111111111111111111111111111"

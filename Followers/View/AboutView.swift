@@ -27,17 +27,17 @@ struct AboutView<T: RouteViewModelProtocol>: View {
                             .foregroundColor(Color.blue)
                             .padding(EdgeInsets(top: 15, leading: 25, bottom: 0, trailing: 27))
                     
-                    Text("I'm glad to see you here.")
+                    Text("It's nice to see you here.")
                             .font(Font.custom("Avenir-medium", size: 15))
                             .foregroundColor(Color.blue)
                             .padding(EdgeInsets(top: 3, leading: 25, bottom: 0, trailing: 27))
                     
-                    Text("This App is to help you keep track your staking rewards and transactions's history  on Solana and Harmony One networks. Ethereum, Polygon, Binance Smart Chain only can see balances for now")
+                    Text("This App is to help you keep track your staking rewards and transaction history  on Solana and Harmony One networks. Stellar(XLM ) can see transaction history. Ethereum, Polygon, Binance Smart Chain only can see balances for now")
                             .font(Font.custom("Avenir-medium", size: 15))
                             .foregroundColor(Color.blue)
                             .padding(EdgeInsets(top: 3, leading: 25, bottom: 0, trailing: 27))
                     
-                    Text("To add a new coin/token. Tap on the icon with its name at Home Screen, tap 'Click To Add New Coin !'. Then you can enter/paste/scan an Address/Account. You would give it a nick name as well ")
+                    Text("To add a new coin/token. Tap on the icon with its name at the Top of Home Screen, tap 'Click To Add New Coin !'. Then you can enter/paste/scan an Address/Account. You would give it a nick name as well ")
                             .font(Font.custom("Avenir-medium", size: 15))
                             .foregroundColor(Color.blue)
                             .padding(EdgeInsets(top: 3, leading: 25, bottom: 0, trailing: 27))
@@ -54,7 +54,7 @@ struct AboutView<T: RouteViewModelProtocol>: View {
                     
                     CircleButton(name: "yellow_flower_03")
                             .frame(width: 90, height: 90, alignment: .center)
-                    Text("More to come.")
+                    Text("Thank you")
                             .font(Font.custom("Avenir-medium", size: 15))
                             .foregroundColor(Color.blue)
                             .padding(EdgeInsets(top: 3, leading: 25, bottom: 15, trailing: 27))

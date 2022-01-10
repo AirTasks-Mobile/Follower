@@ -99,14 +99,20 @@ class GetSolTransactionDetail : BaseFlow {
       
             if doubleTemp > 0 {
                 transactionType = GTEXT.TXN_STAKE_WITDRAW
+                txn = TransactionInfo(type: transactionType, id: txnSignature, amt: formattedAmt, src: accounts[1], des: accounts[0], date: localDate, fee: formattedFee, status: "", scheme: GTEXT.SOLANA)
             }
             else if doubleTemp < 0 {
                 transactionType = GTEXT.TXN_STAKE + "(split)"
+                let newBalance =  Double(postBal[1]) - Double(preBal[1])
+                formattedAmt = String(format: "%f", newBalance / GTEXT.SOL_ROUND)
+                txn = TransactionInfo(type: transactionType, id: txnSignature, amt: formattedAmt, src: accounts[2], des: accounts[1], date: localDate, fee: formattedFee, status: "", scheme: GTEXT.SOLANA)
+   
             }
             else {
                 transactionType = GTEXT.TXN_UNSTAKE
+                txn = TransactionInfo(type: transactionType, id: txnSignature, amt: formattedAmt, src: accounts[1], des: accounts[0], date: localDate, fee: formattedFee, status: "", scheme: GTEXT.SOLANA)
             }
-            txn = TransactionInfo(type: transactionType, id: txnSignature, amt: formattedAmt, src: accounts[1], des: accounts[0], date: localDate, fee: formattedFee, status: "", scheme: GTEXT.SOLANA)
+//            txn = TransactionInfo(type: transactionType, id: txnSignature, amt: formattedAmt, src: accounts[1], des: accounts[0], date: localDate, fee: formattedFee, status: "", scheme: GTEXT.SOLANA)
         }
         else {
             //doubleTemp = Double(postBal[1]) - Double(preBal[1])

@@ -15,6 +15,7 @@ struct XLMTab<T: HomeViewModelProtocol>: View {
     
     private let startColour : Color  = Color(red : 225.0/255, green: 225.0/255, blue: 225.0/255)
     //private let centerColour : Color  = Color(red : 3.0/255, green: 225.0/255, blue: 255.0/255)
+    private let centerColour : Color  = Color(red : 225.0/255, green: 225.0/255, blue: 225.0/255)
     private let endColour : Color = Color(red : 0.0/255, green: 0.0/255, blue: 0.0/255)
     
     @State private var tabSelect = 2
@@ -104,7 +105,7 @@ struct XLMTab<T: HomeViewModelProtocol>: View {
                 }
             })
             .padding(EdgeInsets(top: 0, leading: 28, bottom: 15, trailing: 26))
-            .background(LinearGradient(gradient: Gradient(colors: [startColour, endColour]), startPoint: .topTrailing, endPoint: .bottomLeading))
+            .background(LinearGradient(gradient: Gradient(colors: [startColour, centerColour, endColour]), startPoint: .topTrailing, endPoint: .bottomLeading))
             .edgesIgnoringSafeArea(.all)
         }
         .sheet(isPresented: $isShowingScanner) {
@@ -133,6 +134,7 @@ struct XLMTab<T: HomeViewModelProtocol>: View {
     func getTransactions() -> Void {
         tabSelect = 4
         isLoading = true
+        isLast = false
         homeVM.xlmCursor = ""
         homeVM.xlmTransactions = []
         homeVM.getXlmTxn(id: selectedXlm.id)
@@ -150,8 +152,7 @@ struct XLMTab<T: HomeViewModelProtocol>: View {
         }
         else {
             homeVM.getXlmTxn(id: selectedXlm.id)
-            //homeVM.xlmTransactions.removeFirst(GTEXT.BLOCK_TRANSACTION) // reomve some transactions to get spaces
-            homeVM.xlmTransactions.removeLast(GTEXT.BLOCK_TRANSACTION)
+            homeVM.xlmTransactions.removeFirst(GTEXT.BLOCK_TRANSACTION) // reomve some transactions to get spaces
         }
     }
     

@@ -32,7 +32,7 @@ protocol HomeViewModelProtocol : ObservableObject {
     var xlmTransactions : [TransactionInfo] { get set }
     
     var solSignatures : [String] { get set }
-    //var oneSignatures : [String] { get set }
+    var onePage : Int { get set }
     //var maticSignatures : [String] { get set }
     var xlmCursor : String { get set }
     
@@ -99,7 +99,7 @@ class HomeVM : HomeViewModelProtocol {
     @Published var ethTransactions: [TransactionInfo] = []
     @Published var xlmTransactions: [TransactionInfo] = []
     @Published var solSignatures: [String] = []
-    //@Published var oneSignatures: [String] = []
+    @Published var onePage: Int = 0
     //@Published var maticSignatures: [String] = []
     @Published var xlmCursor: String = ""
     @Published var totalSol: String = ""
@@ -441,7 +441,7 @@ class HomeVM : HomeViewModelProtocol {
     
     func getOneTxn(id: String) {
         let flow = GetOneTransaction()
-        
+        flow.setOnePage(page: onePage)
         flow.setViewInfo(info: ["id": id])
         task = flow.processFlow()
             .receive(on: DispatchQueue.main)
@@ -450,9 +450,19 @@ class HomeVM : HomeViewModelProtocol {
             }, receiveValue: { data in
                 //print("back here !!!! \(data)")
                 let list = data.transactions ?? []
-                if list.count > 0 {
-                    self.oneTransactions = list
+                //print("list size = \(list.count)")
+                for txn in list {
+                    self.oneTransactions.append(txn)
                 }
+                //let list = data.transactions ?? []
+                if list.count > 0 {
+                    //self.oneTransactions = list
+                    self.onePage += 1
+                }
+                else {
+                    self.onePage = 0
+                }
+                //print("page one = \(self.onePage)")
             })
     }
     

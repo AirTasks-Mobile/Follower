@@ -112,7 +112,9 @@ struct ListTransactionTab: View {
                             Spacer()
                         }
                         .onAppear(perform: {
-                           // print("count = \(transactions.count)")
+                            //print("count = \(transactions.count)")
+                            // iOS 14 (tested iOS 14.3) only work if user already scrolled and waited at end of the list
+                            // iOS 15 supports from iphone6S, so no need to fix this :)
                             loadMore()
                         })
                     }
@@ -124,7 +126,6 @@ struct ListTransactionTab: View {
                 Spacer()
             }
         }
-
     }
     
     func isOutAmt(txn : TransactionInfo) -> Bool {

@@ -60,26 +60,30 @@ struct CoinProfileTab: View {
                                 self.selectedCoin = CoinInfo.default
                             }, label: {
 
-                                Text(" Oh No  ")
+                                Text("Oh No")
                                     .font(Font.custom("Avenir-medium", size: 20))
                                     .frame(height: 50)
+                                    .padding(EdgeInsets(top: 5, leading: 15, bottom: 5, trailing: 15))
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 8.0)
                                             .stroke(Color.gray, lineWidth: 1)
                                     )
-                                    .padding(EdgeInsets(top: 5, leading: 5, bottom: 15, trailing: 5))
+                                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 5, trailing: 0))
+                                    
                             })
                             Spacer()
                             Button(action: onRemoveCoin, label: {
 
-                                Text("  Sure   ")
+                                Text("Sure!")
                                     .font(Font.custom("Avenir-medium", size: 20))
                                     .frame(height: 50)
+                                    .padding(EdgeInsets(top: 5, leading: 15, bottom: 5, trailing: 15))
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 8.0)
                                             .stroke(Color.gray, lineWidth: 1)
                                     )
-                                    .padding(EdgeInsets(top: 5, leading: 5, bottom: 15, trailing: 5))
+                                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 5, trailing: 0))
+                                    
                             })
                             Spacer()
                         }

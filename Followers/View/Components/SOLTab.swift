@@ -83,7 +83,7 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
                 }
             })
             .onChange(of: homeVM.solSignatures, perform: { _ in
-                if tabSelect == 4 && homeVM.solSignatures.count > 0 && homeVM.solTransactions.count < GTEXT.SOL_MAX_TXN {
+                if tabSelect == 4 && homeVM.solSignatures.count > 0 && homeVM.solTransactions.count < GTEXT.COIN_MAX_TXN {
                     if !isLoading {
                         isLoading = true
                     }
@@ -121,7 +121,7 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
         
         isLoading = true
         if homeVM.solTransactions.count > 51 {
-            homeVM.solTransactions.removeFirst(GTEXT.SOL_TXN_BLOCK)
+            homeVM.solTransactions.removeFirst(GTEXT.COIN_TXN_BLOCK)
         }
         homeVM.fetchSolTxnDetail()
     }
@@ -129,6 +129,7 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
     func getTransactions() -> Void {
         tabSelect = 4
         isLoading = true
+        isLast = false
         homeVM.solSignatures = [] // aaa
         homeVM.getSolTxn(id: selectedSol.id)
     }

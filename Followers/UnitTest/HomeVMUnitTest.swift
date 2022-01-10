@@ -9,6 +9,8 @@ import Foundation
 import Combine
 
 class HomeVMUnitTest : HomeViewModelProtocol {
+    var onePage: Int
+    
     func getXlmTxn(id: String) {
         //
     }
@@ -181,7 +183,7 @@ class HomeVMUnitTest : HomeViewModelProtocol {
         xlmTransactions = [TransactionInfo.default]
         
         solSignatures = [""]
-        //oneSignatures = [""]
+        onePage = 0
         //maticSignatures = [""]
         xlmCursor = ""
         

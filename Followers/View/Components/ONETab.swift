@@ -27,7 +27,7 @@ struct ONETab<T : HomeViewModelProtocol>: View {
     @State var isLoading = true
     @State var oneLoading = false
     @State var isStakeTab : Bool = false
-    @State var isLast : Bool = true
+    @State var isLast : Bool = false
     
     var body: some View {
         GeometryReader { geo in
@@ -52,7 +52,7 @@ struct ONETab<T : HomeViewModelProtocol>: View {
                     AddCoinTab(titleText: "Harmony One Address Only", coinAddress: $oneAddress, nickName: $oneNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
                         .tag(3)
                     
-                    ListTransactionTab(nick: $selectedOne.nick, id: $selectedOne.id, transactions: $homeVM.oneTransactions, isLoading: $oneLoading, stake: $isStakeTab, isLast: $isLast,isStake: true, onStake: onOneStake, loadMore: { })
+                    ListTransactionTab(nick: $selectedOne.nick, id: $selectedOne.id, transactions: $homeVM.oneTransactions, isLoading: $oneLoading, stake: $isStakeTab, isLast: $isLast,isStake: true, onStake: onOneStake, loadMore: loadMoreTransactions)
                         .tag(4)
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -91,6 +91,12 @@ struct ONETab<T : HomeViewModelProtocol>: View {
                     isWeb = false
                 }
             })
+            .onChange(of: homeVM.onePage, perform: { _ in
+                if tabSelect == 4 && homeVM.onePage == 0 {
+                    print("Here")
+                    isLast = true
+                }
+            })
             .padding(EdgeInsets(top: 0, leading: 28, bottom: 15, trailing: 26))
             .background(LinearGradient(gradient: Gradient(colors: [startColour, endColour]), startPoint: .topTrailing, endPoint: .bottomLeading))
             .edgesIgnoringSafeArea(.all)
@@ -114,6 +120,7 @@ struct ONETab<T : HomeViewModelProtocol>: View {
         }
     }
     
+    
     func onClick() -> Void {
         if tabSelect == 2 {
             tabSelect = 3
@@ -127,8 +134,28 @@ struct ONETab<T : HomeViewModelProtocol>: View {
     }
     
     func getTransactions() -> Void {
+        homeVM.onePage = 0
+        homeVM.oneTransactions = []
         homeVM.getOneTxn(id: selectedOne.id)
+        
+        isLoading = false
+        isLast = false
+        
         tabSelect = 4
+    }
+    
+    func loadMoreTransactions() -> Void {
+        if homeVM.onePage == 0 {
+            isLast = true
+            isLoading = false
+            return
+        }
+        
+        if homeVM.oneTransactions.count >= GTEXT.MAX_LIST {
+            homeVM.oneTransactions.removeFirst(GTEXT.BLOCK_TRANSACTION)
+        }
+        
+        homeVM.getOneTxn(id: selectedOne.id)
     }
     
     func onRevomveOne() -> Void {

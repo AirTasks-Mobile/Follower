@@ -10,11 +10,16 @@ import Combine
 
 class GetOneTransaction : BaseFlow {
     private var oneId : String = ""
+    private var onePage : Int = 0
+    
+    func setOnePage(page: Int) -> Void {
+        onePage = page
+    }
     override func onStart() -> Bool {
         if viewInfo.isEmpty {
             return false
         }
-        
+        //print("ONE page = \(onePage)")
         oneId = viewInfo["id"] ?? ""
         if oneId == "" {
             return false
@@ -24,7 +29,7 @@ class GetOneTransaction : BaseFlow {
     }
     
     override func onExecute() -> AnyPublisher<FlowModel, FlowError> {
-        let connectHost = InfoApi(info: FlowModel(type: FLOW.GET_ONE_ACC_INFO, token: oneId))
+        let connectHost = InfoApi(info: FlowModel(type: FLOW.GET_ONE_ACC_INFO, token: oneId, page: onePage))
         return connectHost.connectHost()
             .map { apiData -> FlowModel in
                 return self.convertApiToFlow(info: apiData)

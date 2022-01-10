@@ -221,7 +221,7 @@ class BuildMsg {
         struct Param : Codable {
             var address : String
             var pageIndex = 0
-            var pageSize = 1000
+            var pageSize = GTEXT.BLOCK_TRANSACTION
             var fullTx = true
             var txType = "ALL"
             var order = "DESC"
@@ -234,7 +234,8 @@ class BuildMsg {
             var params : [Param]
         }
         
-        let sendInfo = OneInfo(params: [Param(address: reqInfo?.token ?? "")])
+        let page = reqInfo?.page ?? 0
+        let sendInfo = OneInfo(params: [Param(address: reqInfo?.token ?? "", pageIndex: page)])
         
         guard let body = try? JSONEncoder().encode(sendInfo) else {
             return nil
