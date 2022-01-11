@@ -130,7 +130,8 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
         tabSelect = 4
         isLoading = true
         isLast = false
-        homeVM.solSignatures = [] // aaa
+        homeVM.solSignatures = [] 
+        homeVM.solTransactions = []
         homeVM.getSolTxn(id: selectedSol.id)
     }
     func SolGoBack() -> Void {

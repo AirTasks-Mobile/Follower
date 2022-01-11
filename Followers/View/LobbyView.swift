@@ -38,18 +38,3 @@ struct LobbyView_Previews: PreviewProvider {
             .environmentObject(LobbyVMUnitTest(isOk: false, isProcessing: false))
     }
 }
-
-
-//                    HStack {
-//                        Image(systemName: "calendar")
-//                        Text("Select time slot")
-//                            .font(.title2)
-//                        Picker(selection: $selectedTime, label: Text(""), content: {
-//                            ForEach(0 ..< timeSlots.count){ count in
-//                                Text(self.timeSlots[count])
-//                                    .tag(count)
-//                            }
-//                        })
-//
-//                    }
-//                    .padding(.top, 20)
