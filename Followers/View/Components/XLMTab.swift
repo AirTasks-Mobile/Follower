@@ -53,7 +53,7 @@ struct XLMTab<T: HomeViewModelProtocol>: View {
                     AddCoinTab(titleText: "Stellar Address Only", coinAddress: $xlmAddress, nickName: $xlmNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
                         .tag(3)
                     
-                    ListTransactionTab(nick: $selectedXlm.nick, id: $selectedXlm.id, transactions: $homeVM.xlmTransactions, isLoading: $isLoading, stake: $isStakeTab, isLast: $isLast,isStake: false, onStake: { }, loadMore: loadMoreTransactions)
+                    ListTransactionTab(nick: $selectedXlm.nick, id: $selectedXlm.id, transactions: $homeVM.xlmTransactions, isLoading: $isLoading, stake: $isStakeTab, isLast: $isLast,isStake: true, onStake: getOtherAssest, loadMore: loadMoreTransactions, textReward: "Other Asset?")
                         .tag(4)
                 
                 }
@@ -123,6 +123,7 @@ struct XLMTab<T: HomeViewModelProtocol>: View {
         else {
             if tabSelect == 4 {
                 isLoading = false
+                isStakeTab = false
             }
   
             selectedXlm = CoinInfo.default
@@ -153,6 +154,23 @@ struct XLMTab<T: HomeViewModelProtocol>: View {
         else {
             homeVM.getXlmTxn(id: selectedXlm.id)
             homeVM.xlmTransactions.removeFirst(GTEXT.BLOCK_TRANSACTION) // reomve some transactions to get spaces
+        }
+    }
+    
+    func getOtherAssest() -> Void {
+        homeVM.xlmCursor = ""
+        homeVM.xlmTransactions = []
+        homeVM.xlmAddressList = []
+        isLast = true
+        isLoading = false
+        var count = 1
+     
+        for asset in selectedXlm.assets ?? [] {
+            //print("== \(asset)")
+            let txn = TransactionInfo(type: GTEXT.STELLAR, id: "\(count)", amt: asset.balance ?? "", src: "", des: "", date: "", fee: "", status: "", scheme: asset.code )
+            
+            count += 1;
+            homeVM.xlmTransactions.append(txn)
         }
     }
     

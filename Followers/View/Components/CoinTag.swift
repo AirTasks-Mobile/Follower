@@ -12,6 +12,7 @@ struct CoinTag: View {
     var name : String = ""
     private let tagColor = Color(red: 184/255.0, green: 239/255.0, blue: 246/255.0, opacity: 0.3)
     //private let tagColor = Color(red: 255/255.0, green: 255/255.0, blue: 255/255.0, opacity: 0.3)
+    @State var otherAsset : String = ""
     
     var body: some View {
             ZStack(alignment: .leading){
@@ -25,9 +26,25 @@ struct CoinTag: View {
                         .font(Font.custom("Avenir-medium", size: 15))
                         .foregroundColor(.white)
                     
-                    Text("           \(oneCoin.type) \(formatNumber(num: oneCoin.bal))")
+                    Text("           \(oneCoin.type) \(Utils.formatNumber(num: oneCoin.bal))")
                         .font(Font.custom("Avenir-medium", size: 15))
                         .foregroundColor(.white)
+                    
+                    if oneCoin.assets?.count ?? 0 > 0 {
+                        Text("             \(otherAsset)")
+                            .font(Font.custom("Avenir-medium", size: 10))
+                            .foregroundColor(.gray)
+                            .onAppear(perform: {
+                                for asset in oneCoin.assets ?? [] {
+                                    if otherAsset == "" {
+                                        otherAsset += "\(asset.code) \(Utils.formatNumber(num: asset.balance ?? ""))"
+                                    }
+                                    else {
+                                        otherAsset += " / \(asset.code) \(Utils.formatNumber(num: asset.balance ?? ""))"
+                                    }
+                                }
+                            })
+                    }
                         
                     Spacer()
                 }
@@ -43,23 +60,6 @@ struct CoinTag: View {
             //.frame(height: 90)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         
-    }
-    
-    func formatNumber(num : String) -> String {
-        if num == "" {
-            return num 
-        }
-        
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-                //formatter.usesSignificantDigits = true
-                //formatter.minimumSignificantDigits = 1 // default
-        formatter.maximumSignificantDigits = 18 // default
-        let value = NSDecimalNumber(string: num)
-    
-        let numString = formatter.string(for: value) ?? ""
-        
-        return numString
     }
 }
 

@@ -24,27 +24,10 @@ struct AmountView: View {
                 .font(Font.custom("Avenir-medium", size: 19))
                 .foregroundColor( isOut ? outColor: inColor)
 
-            Text("\(formatNumber(num: amt))")
+            Text("\(Utils.formatNumber(num: amt))")
                 .font(Font.custom("Avenir-black", size: 19))
                 .foregroundColor( isOut ? outColor2: inColor2)
         }
-    }
-    
-    func formatNumber(num : String) -> String {
-        if num == "" {
-            return num
-        }
-
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-                //formatter.usesSignificantDigits = true
-                //formatter.minimumSignificantDigits = 1 // default
-        formatter.maximumSignificantDigits = 18 // default
-        let value = NSDecimalNumber(string: num)
-    
-        let numString = formatter.string(for: value) ?? ""
-  
-        return numString
     }
 }
 

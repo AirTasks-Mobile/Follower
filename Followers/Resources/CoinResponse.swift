@@ -74,6 +74,7 @@ struct LiquidityAccountInfo : Hashable, Codable {
 struct AssetInfo : Hashable, Codable {
     var type : String
     var code : String
+    var balance : String?
     var isOk : Bool?
     var issuer : String?
     static let `default` = AssetInfo(type: "", code: "", isOk: false, issuer: "")

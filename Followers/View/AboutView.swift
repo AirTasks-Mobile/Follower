@@ -25,14 +25,14 @@ struct AboutView<T: RouteViewModelProtocol>: View {
                     Text("Hello !!!")
                             .font(Font.custom("Avenir-back", size: 19))
                             .foregroundColor(Color.blue)
-                            .padding(EdgeInsets(top: 15, leading: 25, bottom: 0, trailing: 27))
+                            .padding(EdgeInsets(top: 5, leading: 25, bottom: 0, trailing: 27))
                     
                     Text("It's nice to see you here.")
                             .font(Font.custom("Avenir-medium", size: 15))
                             .foregroundColor(Color.blue)
                             .padding(EdgeInsets(top: 3, leading: 25, bottom: 0, trailing: 27))
                     
-                    Text("This App is to help you keep track your staking rewards and transaction history  on Solana and Harmony One networks. Stellar(XLM ) can see transaction history. Ethereum, Polygon, Binance Smart Chain only can see balances for now")
+                    Text("This App is to help you keep track your staking rewards and transaction history  on Solana and Harmony One networks. Stellar(XLM ) can see transaction history, together with all your  asset types. Ethereum, Polygon, Binance Smart Chain can see balances for now")
                             .font(Font.custom("Avenir-medium", size: 15))
                             .foregroundColor(Color.blue)
                             .padding(EdgeInsets(top: 3, leading: 25, bottom: 0, trailing: 27))
@@ -42,12 +42,22 @@ struct AboutView<T: RouteViewModelProtocol>: View {
                             .foregroundColor(Color.blue)
                             .padding(EdgeInsets(top: 3, leading: 25, bottom: 0, trailing: 27))
                     
-                    Text("To see transactions and staking reward. Navigate to its page by tapping on the icon associated with its name at Home Screen. Tap on the account that you want to check")
+                    Text("To see transactions and staking rewards. Navigate to its page by tapping on icon associated with its name at the Top of Home Screen. Tap on account that you want to check, then tap 'Stake Reward?' (Solana only shows Stake Reward? after finishing loading transactions) ")
                             .font(Font.custom("Avenir-medium", size: 15))
                             .foregroundColor(Color.blue)
                             .padding(EdgeInsets(top: 3, leading: 25, bottom: 0, trailing: 27))
                     
-                    Text("To see coin's price. Navigate to its page by tapping on the icon associated with its name at Home Screen. Swipe right ( to access pages on the left), you now can see coinmarketcap. One more right swipe then you find the place where you can delete your added coins")
+                    Text("Tranactions are loaded batch per batch. To see more transactions, scroll to the end of the list and pull up ")
+                            .font(Font.custom("Avenir-medium", size: 15))
+                            .foregroundColor(Color.blue)
+                            .padding(EdgeInsets(top: 3, leading: 25, bottom: 0, trailing: 27))
+                    
+                    Text("To see Stellar assets, other than XLM. Navigate to its page by tapping on icon associated with its name at the Top of Home Screen. Tap on account that you want to check, then tap 'Other Asset?' ")
+                            .font(Font.custom("Avenir-medium", size: 15))
+                            .foregroundColor(Color.blue)
+                            .padding(EdgeInsets(top: 3, leading: 25, bottom: 0, trailing: 27))
+                    
+                    Text("To see coin's price. Navigate to its page by tapping on icon associated with its name at the Top of Home Screen. Swipe right ( to access pages on the left), you now can see coinmarketcap. One more right swipe then you find the place where you can delete your added coins")
                             .font(Font.custom("Avenir-medium", size: 15))
                             .foregroundColor(Color.blue)
                             .padding(EdgeInsets(top: 3, leading: 25, bottom: 0, trailing: 27))

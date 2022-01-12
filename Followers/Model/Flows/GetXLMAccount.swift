@@ -38,8 +38,22 @@ class GetXlmAccount : BaseFlow {
         //let formattedValue = String(format: "%f", doubleValue / GTEXT.XLM_ROUND)
         //print("\(info)")
         
-        let xmlBalance = info.balances[0]?.balance ?? "0"
+        var xlmBalance : String = ""
+        var xlmAsset : [AssetInfo] = []
+        for balance in info.balances {
+            //print("\(balance?.is_authorized ?? false) / \(balance?.asset_code ?? "") \(balance?.balance)")
+            if balance?.asset_type == GTEXT.XLM_ASSET {
+                xlmBalance = balance?.balance ?? "0"
+            }
+            else if balance?.is_authorized ?? false {
+                let code = balance?.asset_code ?? ""
+                let bal = balance?.balance ?? ""
+                xlmAsset.append(AssetInfo(type: GTEXT.STELLAR, code: code, balance: bal, isOk: true, issuer: ""))
+            }
+        }
+        
+        //let xmlBalance = info.balances[0]?.balance ?? "0"
 
-        return FlowModel(isSuccess: true, balance: xmlBalance)
+        return FlowModel(isSuccess: true, balance: xlmBalance, assets: xlmAsset)
     }
 }
