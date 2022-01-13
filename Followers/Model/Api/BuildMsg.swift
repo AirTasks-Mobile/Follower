@@ -51,6 +51,8 @@ class BuildMsg {
                 return getOneTransactionBody()
             case .GET_ONE_STAKE_INFO:
                 return getOneStakeBody()
+            case .GET_ONE_VALIDATOR_INFO:
+                return getOneValidatorInfo()
             case .GET_MATIC_BALANCE:
                 return getEthBalanceBody()
             case .GET_BSC_BALANCE:
@@ -252,6 +254,26 @@ class BuildMsg {
             var jsonrpc : String = "2.0"
             var id : String = "1"
             var method : String = "hmy_getDelegationsByDelegator"
+            var params : [String]
+        }
+        
+        let sendInfo = OneInfo(params: [reqInfo?.token ?? ""])
+        
+        guard let body = try? JSONEncoder().encode(sendInfo) else {
+            return nil
+        }
+        
+        //print("body = \(body)")
+        //print("JSON body: \(String(data: body, encoding: .utf8))")
+        
+        return body
+    }
+    
+    func getOneValidatorInfo() -> Data? {
+        struct OneInfo : Codable {
+            var jsonrpc : String = "2.0"
+            var id : String = "1"
+            var method : String = "hmy_getValidatorInformation"
             var params : [String]
         }
         

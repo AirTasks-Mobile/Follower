@@ -93,8 +93,20 @@ struct ONETab<T : HomeViewModelProtocol>: View {
             })
             .onChange(of: homeVM.onePage, perform: { _ in
                 if tabSelect == 4 && homeVM.onePage == 0 {
-                    print("Here")
+                    //print("Here")
                     isLast = true
+                }
+            })
+            .onChange(of: homeVM.oneTempTransactions, perform: { _ in
+                if tabSelect == 4 && isStakeTab {
+                    if homeVM.oneTempTransactions.count > 0 {
+                        homeVM.fetchOneValidator()
+                    }
+                }
+                else if !isStakeTab {
+                    if homeVM.oneTempTransactions.count > 0 {
+                        homeVM.oneTempTransactions = []
+                    }
                 }
             })
             .padding(EdgeInsets(top: 0, leading: 28, bottom: 15, trailing: 26))
@@ -168,8 +180,10 @@ struct ONETab<T : HomeViewModelProtocol>: View {
     }
     
     func onOneStake() -> Void {
-        homeVM.getOneStake(id: selectedOne.id)
         homeVM.oneTransactions = []
+        homeVM.oneTempTransactions = []
+        
+        homeVM.getOneStake(id: selectedOne.id)
     }
     
     func scanAddress() -> Void {

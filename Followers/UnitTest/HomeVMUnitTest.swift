@@ -9,6 +9,12 @@ import Foundation
 import Combine
 
 class HomeVMUnitTest : HomeViewModelProtocol {
+    func fetchOneValidator() {
+        //
+    }
+    
+    var oneTempTransactions: [TransactionInfo]
+    
     var onePage: Int
     
     func getXlmTxn(id: String) {
@@ -177,6 +183,7 @@ class HomeVMUnitTest : HomeViewModelProtocol {
         
         solTransactions = [TransactionInfo.default]
         oneTransactions = [TransactionInfo.default]
+        oneTempTransactions = [TransactionInfo.default]
         maticTransactions = [TransactionInfo.default]
         bscTransactions = [TransactionInfo.default]
         ethTransactions = [TransactionInfo.default]

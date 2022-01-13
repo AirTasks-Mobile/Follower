@@ -35,8 +35,12 @@ class GetOneStake : BaseFlow {
     func convertApiToFlow(info: ONEResponseGetStake) -> FlowModel{
         //print("info = \(info)")
         var stakeTxn : [TransactionInfo] = []
+        let stakeResult = info.result ?? []
+        if stakeResult.count == 0 {
+            return FlowModel(isSuccess: false)
+        }
         
-        for stake in info.result ?? [] {
+        for stake in stakeResult.reversed() {
             //print("\(stake)")
             //print("=====") 12
             var doubleOne = stake.amount ?? 0

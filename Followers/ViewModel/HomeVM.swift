@@ -26,6 +26,7 @@ protocol HomeViewModelProtocol : ObservableObject {
     
     var solTransactions : [TransactionInfo] { get set }
     var oneTransactions : [TransactionInfo] { get set }
+    var oneTempTransactions : [TransactionInfo] { get set }
     var maticTransactions : [TransactionInfo] { get set }
     var bscTransactions : [TransactionInfo] { get set }
     var ethTransactions : [TransactionInfo] { get set }
@@ -57,7 +58,7 @@ protocol HomeViewModelProtocol : ObservableObject {
     func startOne()
     func storeOne(id: String, nick: String)
     func getOneTxn(id : String)
-    //func fetchOneTxnDetail()
+    func fetchOneValidator()
     func getOneStake(id : String)
     //
     func startMatic()
@@ -94,6 +95,7 @@ class HomeVM : HomeViewModelProtocol {
     @Published var tempCoins: [CoinInfo] = []
     @Published var solTransactions: [TransactionInfo] = []
     @Published var oneTransactions: [TransactionInfo] = []
+    @Published var oneTempTransactions: [TransactionInfo] = []
     @Published var maticTransactions: [TransactionInfo] = []
     @Published var bscTransactions: [TransactionInfo] = []
     @Published var ethTransactions: [TransactionInfo] = []
@@ -111,6 +113,7 @@ class HomeVM : HomeViewModelProtocol {
     @Published var mainQueue: [String] = []
     
     private var task : AnyCancellable?
+    private var task2 : AnyCancellable? // 2nd task, there are too many calls, can't know who cancel who @@
     private var tempList : [String] = []
     
     func startHome() {
@@ -266,7 +269,7 @@ class HomeVM : HomeViewModelProtocol {
             // fetch ...
             let flow = GetSolTransactionDetail()
             flow.setViewInfo(info: ["id": txnSignature])
-            task = flow.processFlow()
+            task2 = flow.processFlow()
                 .receive(on: DispatchQueue.main)
                 .sink(receiveCompletion: { result in
                     if self.solSignatures.count > 0 { // user change to stake tab while loading transactions
@@ -468,7 +471,6 @@ class HomeVM : HomeViewModelProtocol {
     
     func getOneStake(id: String) {
         let flow = GetOneStake()
-        
         flow.setViewInfo(info: ["id": id])
         task = flow.processFlow()
             .receive(on: DispatchQueue.main)
@@ -476,10 +478,50 @@ class HomeVM : HomeViewModelProtocol {
                 
             }, receiveValue: { data in
                 let list = data.transactions ?? []
+                //print("list = \(list)")
                 if list.count > 0 {
-                    self.oneTransactions = list
+                    self.oneTempTransactions = list
+                    
+                    // trigger load Validator
+                    //self.fetchOneValidator()
                 }
             })
+    }
+    
+    func fetchOneValidator() {
+        if oneTempTransactions.count <= 0 {
+            return
+        }
+        
+        //print("list = \(oneTempTransactions)")
+        
+        let oneTxn = oneTempTransactions[0]
+        if oneTxn.des != "" {
+            // fetch ...
+            let flow = GetOneValidatorInfo(txn: oneTxn)
+            task2 = flow.processFlow()
+                .receive(on: DispatchQueue.main)
+                .sink(receiveCompletion: { result in
+                    if self.oneTempTransactions.count > 0 { // user change to stake tab while loading transactions
+                        self.oneTempTransactions.removeFirst()
+                    }
+                    
+                }, receiveValue: { data in
+                    //print("back here !!!! \(data)")
+                    if data.isSuccess && self.oneTempTransactions.count > 0 { // cancelled, user change to stake tab while loading transactions
+                        //print("\(data.transaction)")
+                        let txn = data.transaction ?? TransactionInfo.default
+                        if txn.id != "" {
+                            self.oneTransactions.append(txn)
+                        }
+                        else {
+                            //print("really??")
+                        }
+                    }
+
+                })
+            
+        }
     }
     
     func getTotalOne() -> Void {

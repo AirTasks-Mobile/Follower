@@ -15,15 +15,13 @@ struct OneStakeView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0){
             
-            Text("Delegator: \(txn.src)")
+            Text("Delegator: \(txn.src == srcId ? nick : txn.src)")
                 .font(Font.custom("Avenir-medium", size: 17))
                 .foregroundColor(Color.gray)
             
             Divider()
-            
-            Text("Validator: \(txn.des)")
-                .font(Font.custom("Avenir-medium", size: 17))
-                .foregroundColor(Color.gray)
+
+            ValidatorView(txn: txn)
             
             Divider()
          
@@ -38,12 +36,11 @@ struct OneStakeView: View {
                     .font(Font.custom("Avenir-black", size: 15))
                     .foregroundColor(Color.gray)
             }
-//            Text("Type: \(txn.type)")
-//                .font(Font.custom("Avenir-medium", size: 17))
-//                .foregroundColor(Color.gray)
+
 
         }
     }
+    
 }
 
 struct OneStakeView_Previews: PreviewProvider {

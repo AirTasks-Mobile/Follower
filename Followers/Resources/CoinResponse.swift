@@ -36,6 +36,7 @@ struct TransactionInfo : Hashable, Codable {
     var commission : String?    // Stellar asset code
     var stake : StakeAccountInfo?
     var liquidity : LiquidityAccountInfo?
+    var validator : ValidatorInfo?
     
     static let `default` = TransactionInfo(type: "", id: "", amt: "",src: "", des: "" ,date: "", fee: "", status: "", scheme: "",reward: "", commission: "")
 }
@@ -78,6 +79,22 @@ struct AssetInfo : Hashable, Codable {
     var isOk : Bool?
     var issuer : String?
     static let `default` = AssetInfo(type: "", code: "", isOk: false, issuer: "")
+}
+
+struct ValidatorInfo : Hashable, Codable {
+    var active : String?
+    var address : String?
+    var details : String?
+    var name : String?
+    var rate : String?
+    var maxRate : String?
+    var website : String?
+    var stake : String?
+    var votingPowerAdjusted : String?
+    var shardId : Int?
+    var status : String?
+    
+    static let `default` = ValidatorInfo(active: "", address: "", details: "", name: "", rate: "", website: "", stake: "", votingPowerAdjusted: "", shardId: 0)
 }
 
 // SOL
@@ -180,6 +197,59 @@ struct ONEUndelegations : Codable, Hashable {
     var Amount : Double?
     var Epoch : Int?
 }
+
+struct ONEVoting : Codable, Hashable {
+    var effectiveStake : Double?
+    var shardId : Int?
+    var votingPowerAdjusted : String?
+    
+    enum CodingKeys : String, CodingKey {
+        case effectiveStake = "effective-stake"
+        case shardId = "shard-id"
+        case votingPowerAdjusted = "voting-power-adjusted"
+    }
+}
+
+struct OneValidator : Codable, Hashable {
+    var address : String?
+    var details : String?
+    var name : String?
+    var rate : String?
+    var website : String?
+    var maxRate : String?
+    
+    enum CodingKeys : String, CodingKey {
+        case address
+        case details
+        case name
+        case rate
+        case website
+        case maxRate = "max-rate"
+    }
+}
+
+struct OneValidatorResult : Codable, Hashable {
+    var activeStatus : String?
+    var eposStatus : String?
+    var eposWinningStake : String?
+    var totalStake : Double?
+    //var currentEpochVotingPower : ONEVoting?
+    var validator : OneValidator?
+    
+    enum CodingKeys : String, CodingKey {
+        case activeStatus = "active-status"
+        //case currentEpochVotingPower = "current-epoch-voting-power"
+        case validator
+        case eposStatus = "epos-status"
+        case eposWinningStake = "epos-winning-stake"
+        case totalStake = "total-delegation"
+    }
+}
+
+struct OneError : Codable, Hashable {
+    var message : String?
+}
+
 // STELLAR
 struct XLMLink : Codable, Hashable {
     var href : String?

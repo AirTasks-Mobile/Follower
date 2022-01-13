@@ -63,7 +63,8 @@ struct SOLResponseStake : Decodable {
 struct ONEResponseGetBalance : Decodable {
     var jsonrpc : String?
     var id : String?
-    var result : Double
+    var result : Double?
+    var error : OneError?
 }
 
 struct ONEResponseGeAddress : Decodable {
@@ -84,6 +85,11 @@ struct ONEResponseGetStake : Decodable {
     var result : [ONEStakeResult]?
 }
 
+struct ONEResponseValidator : Decodable {
+    var jsonrpc : String?
+    var id : String?
+    var result : OneValidatorResult?
+}
 // ETH
 struct ETHResponseBalance : Decodable {
     var id : Int?
@@ -149,6 +155,8 @@ class InfoApi : ApiInterface {
             case .GET_ONE_ACC_INFO:
                 //let oneId = info?.token ?? ""
                 //let getInfoMainnet = "https://api.harmony.one/address?id=\(oneId)&tx_view=ALL"
+                return URL(string: oneMainnet)!
+            case .GET_ONE_VALIDATOR_INFO:
                 return URL(string: oneMainnet)!
             case .GET_ONE_STAKE_INFO:
                 return URL(string: oneMainnet)!
@@ -231,7 +239,7 @@ class InfoApi : ApiInterface {
             }
             .decode(type: T.self, decoder: JSONDecoder())
             .mapError{ error -> FlowError in
-                //print("error = \(error.localizedDescription)")
+                print("error = \(error.localizedDescription)")
                 return FlowError.FAIL
             }
             .eraseToAnyPublisher()
