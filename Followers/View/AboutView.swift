@@ -62,7 +62,7 @@ struct AboutView<T: RouteViewModelProtocol>: View {
                             .foregroundColor(Color.blue)
                             .padding(EdgeInsets(top: 3, leading: 25, bottom: 0, trailing: 27))
                     
-                    CircleButton(name: "yellow_flower_03")
+                    CircleButton(name: "mylogo")
                             .frame(width: 90, height: 90, alignment: .center)
                     Text("Thank you")
                             .font(Font.custom("Avenir-medium", size: 15))

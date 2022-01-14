@@ -26,7 +26,13 @@ struct HomePage<T: HomeViewModelProtocol>: View {
 
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 15) {
-                            BadgeButton(name: "CLOSE", action: backToLobby)
+                            //BadgeButton(name: "CLOSE", action: backToLobby)
+                            Button(action: {
+                                backToLobby()
+                                
+                            }, label: {
+                                BadgeTextView(text: .constant("CLOSE"),name: "")
+                            })
                             
                             Button(action: {
                                 routeVM.startSol()
@@ -65,7 +71,13 @@ struct HomePage<T: HomeViewModelProtocol>: View {
                                 BadgeTextView(text: $homeVM.totalEth,name: "ETH")
                             })
                                 
-                            BadgeButton(name: "ABOUT", action: onAbout)
+                            //BadgeButton(name: "ABOUT", action: onAbout)
+                            Button(action: {
+                                onAbout()
+                                
+                            }, label: {
+                                BadgeTextView(text: .constant("ABOUT"),name: "")
+                            })
                                 
                         }
                     }
