@@ -47,6 +47,11 @@ class GetSolStake : BaseFlow {
         var stakeTxn : [TransactionInfo] = []
         var idCount = 0
         for stake in info.result {
+            if stake == nil {
+                // with this activating stake will not show
+                // without this withdrew stake will show
+                continue
+            }
             var doubleSOL = Double(stake?.amount ?? 0) // 9
             let formattedReward = String(format: "%f", doubleSOL / GTEXT.SOL_ROUND)
             let formattedCommission = String(format: "%d", stake?.commission ?? 0)

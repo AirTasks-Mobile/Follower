@@ -64,7 +64,7 @@ struct ONETab<T : HomeViewModelProtocol>: View {
                 
             }
             .onAppear(perform: {
-                if homeVM.solAddressList.count == 0 {
+                if homeVM.oneAddressList.count == 0 {
                     isLoading = false
                 }
                 else {

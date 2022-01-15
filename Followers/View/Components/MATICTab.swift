@@ -63,7 +63,7 @@ struct MATICTab<T : HomeViewModelProtocol>: View {
 
             }
             .onAppear(perform: {
-                if homeVM.solAddressList.count == 0 {
+                if homeVM.maticAddressList.count == 0 {
                     isLoading = false
                 }
                 else {

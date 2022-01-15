@@ -63,7 +63,7 @@ struct BSCTab<T : HomeViewModelProtocol>: View {
 
             }
             .onAppear(perform: {
-                if homeVM.solAddressList.count == 0 {
+                if homeVM.bscAddressList.count == 0 {
                     isLoading = false
                 }
                 else {
