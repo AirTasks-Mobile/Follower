@@ -13,10 +13,11 @@ struct BSCTab<T : HomeViewModelProtocol>: View {
     var goBack : () -> Void
     
 
-    private let startColour : Color  = Color(red : 255.0/255, green: 215.0/255, blue: 0.0/255)
-    //private let startColour : Color  = Color(red : 82.0/255, green: 76.0/255, blue: 46.0/255)
-    //private let centerColour : Color  = Color(red : 255.0/255, green: 215.0/255, blue: 0.0/255)
-    private let endColour : Color = Color(red : 120.0/255, green: 116.0/255, blue: 93.0/255)
+//    private let startColour : Color  = Color(red : 255.0/255, green: 215.0/255, blue: 0.0/255)
+//    private let endColour : Color = Color(red : 120.0/255, green: 116.0/255, blue: 93.0/255)
+    
+    private let startColour : Color  = Color(red : 248.0/255, green: 244.0/255, blue: 89.0/255)
+    private let endColour : Color = Color(red : 40.0/255, green: 28.0/255, blue: 4.0/255)
     
     @State private var tabSelect = 2
     @State var bscAddress : String = ""
