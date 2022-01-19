@@ -44,7 +44,7 @@ struct XLMTransactionView: View {
                 Divider()
             }
 
-            if txn.type == GTEXT.XLM_TYPE_XPAY && txn.fee != GTEXT.STELLAR {
+            if txn.type == GTEXT.XLM_TYPE_XPAY {
                 Text("From Asset: \(txn.status)")
                     .font(Font.custom("Avenir-medium", size: 17))
                     .foregroundColor(Color.gray)

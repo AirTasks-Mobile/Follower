@@ -53,7 +53,7 @@ struct ListTransactionTab: View {
                         }
                         else if !stake {
                             
-                            Section(header: AmountView(text: "Amount: \(txn.scheme)", amt: "\(txn.amt)", isOut : isOutAmt(txn: txn)) ){
+                            Section(header: AmountView(text: "Amount: \(getAmount(txn: txn))", amt: "\(txn.amt)", isOut : isOutAmt(txn: txn)) ){
                                 if txn.scheme == GTEXT.STELLAR {
                                     XLMTransactionView(srcId: $id, nick: $nick, txn: txn)
                                 }
@@ -96,6 +96,14 @@ struct ListTransactionTab: View {
     
     func calDisplayList(index: Int) -> Void {
         
+    }
+    
+    func getAmount(txn: TransactionInfo) -> String {
+        if(txn.scheme == GTEXT.STELLAR){
+            return txn.commission ?? txn.scheme
+        }
+        
+        return txn.scheme
     }
 }
 

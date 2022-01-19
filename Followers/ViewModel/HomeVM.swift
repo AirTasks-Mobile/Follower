@@ -120,27 +120,27 @@ class HomeVM : HomeViewModelProtocol {
 
         // sol
         solCoins = []
-        solAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.SOL_LIST) ?? []
+        solAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.SOL_LIST)?.reversed() ?? []
         
         //
         oneCoins = []
-        oneAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.ONE_LIST) ?? []
+        oneAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.ONE_LIST)?.reversed() ?? []
         
         //
         maticCoins = []
-        maticAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.MATIC_LIST) ?? []
+        maticAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.MATIC_LIST)?.reversed() ?? []
         
         //
         bscCoins = []
-        bscAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.BSC_LIST) ?? []
+        bscAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.BSC_LIST)?.reversed() ?? []
         
         //
         ethCoins = []
-        ethAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.ETH_LIST) ?? []
+        ethAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.ETH_LIST)?.reversed() ?? []
         
         //
         xlmCoins = []
-        xlmAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.XLM_LIST) ?? []
+        xlmAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.XLM_LIST)?.reversed() ?? []
         
         var queue: [String] = []
         if solAddressList.count > 0 {
@@ -200,7 +200,7 @@ class HomeVM : HomeViewModelProtocol {
                     UserDefaults.standard.set(self.tempList, forKey: GTEXT.SOL_LIST)
 
                     self.solCoins = []
-                    self.solAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.SOL_LIST) ?? []
+                    self.solAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.SOL_LIST)?.reversed() ?? []
                     self.mainQueue = [GTEXT.SOLANA]
                 }
             })
@@ -436,7 +436,7 @@ class HomeVM : HomeViewModelProtocol {
                     UserDefaults.standard.set(self.tempList, forKey: GTEXT.ONE_LIST)
 
                     self.oneCoins = []
-                    self.oneAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.ONE_LIST) ?? []
+                    self.oneAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.ONE_LIST)?.reversed() ?? []
                     self.mainQueue = [GTEXT.HARMONY]
                 }
             })
@@ -608,7 +608,7 @@ class HomeVM : HomeViewModelProtocol {
                     UserDefaults.standard.set(self.tempList, forKey: GTEXT.MATIC_LIST)
 
                     self.maticCoins = []
-                    self.maticAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.MATIC_LIST) ?? []
+                    self.maticAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.MATIC_LIST)?.reversed() ?? []
                     self.mainQueue = [GTEXT.POLYGON]
                 }
             })
@@ -704,7 +704,7 @@ class HomeVM : HomeViewModelProtocol {
                     UserDefaults.standard.set(self.tempList, forKey: GTEXT.BSC_LIST)
 
                     self.bscCoins = []
-                    self.bscAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.BSC_LIST) ?? []
+                    self.bscAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.BSC_LIST)?.reversed() ?? []
                     self.mainQueue = [GTEXT.BINANCE]
                 }
             })
@@ -792,7 +792,7 @@ class HomeVM : HomeViewModelProtocol {
                     UserDefaults.standard.set(self.tempList, forKey: GTEXT.ETH_LIST)
 
                     self.ethCoins = []
-                    self.ethAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.ETH_LIST) ?? []
+                    self.ethAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.ETH_LIST)?.reversed() ?? []
                     self.mainQueue = [GTEXT.ETHEREUM]
                 }
             })
@@ -880,7 +880,7 @@ class HomeVM : HomeViewModelProtocol {
                     UserDefaults.standard.set(self.tempList, forKey: GTEXT.XLM_LIST)
 
                     self.xlmCoins = []
-                    self.xlmAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.XLM_LIST) ?? []
+                    self.xlmAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.XLM_LIST)?.reversed() ?? []
                     self.mainQueue = [GTEXT.STELLAR]
                 }
             })

@@ -292,6 +292,7 @@ struct XLMRecord : Codable, Hashable {
     var created_at : String?
     var asset : String?
     var asset_type : String?
+    var asset_code : String?
     var amount : String?
     var source_amount : String?
     var source_asset_code : String?

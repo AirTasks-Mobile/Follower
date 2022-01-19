@@ -65,21 +65,25 @@ class GetXLMTransaction : BaseFlow {
             switch (txnType){
             case GTEXT.XLM_TYPE_PAY:
                 let assetType = txn.asset_type ?? ""
+                let assetCode = txn.asset_code ?? ""
                 let desAcc = txn.to ?? ""
-                txnList.append(TransactionInfo(type: txnType, id: txnId, amt: txnAmt, src: srcAcc, des: desAcc, date: txnDate, fee: "", status: "", scheme: GTEXT.STELLAR, reward: assetType, commission: (assetType == GTEXT.XLM_ASSET ? GTEXT.STELLAR : assetType)))
+                txnList.append(TransactionInfo(type: txnType, id: txnId, amt: txnAmt, src: srcAcc, des: desAcc, date: txnDate, fee: "", status: "", scheme: GTEXT.STELLAR, reward: assetType, commission: (assetType == GTEXT.XLM_ASSET ? GTEXT.STELLAR : assetCode)))
                 break
             case GTEXT.XLM_TYPE_XPAY:
                 let assetType = txn.asset_type ?? ""
+                let assetCode = txn.asset_code ?? ""
                 let desAcc = txn.to ?? ""
                 let srcAssetType = txn.source_asset_type ?? ""
                 let srcAssetCode = txn.source_asset_code ?? ""
                 let srcAmt = txn.source_amount ?? ""
                 
-                txnList.append(TransactionInfo(type: txnType, id: txnId, amt: txnAmt, src: srcAcc, des: desAcc, date: txnDate, fee: (srcAssetType == GTEXT.XLM_ASSET ? GTEXT.STELLAR : srcAssetType), status: "\(srcAssetCode) \(srcAmt)", scheme: GTEXT.STELLAR, reward: assetType, commission: (assetType == GTEXT.XLM_ASSET ? GTEXT.STELLAR : assetType)))
+                txnList.append(TransactionInfo(type: txnType, id: txnId, amt: txnAmt, src: srcAcc, des: desAcc, date: txnDate, fee: (srcAssetType == GTEXT.XLM_ASSET ? GTEXT.STELLAR : srcAssetCode), status: "\(srcAssetType == GTEXT.XLM_ASSET ? GTEXT.STELLAR : srcAssetCode) \(srcAmt)", scheme: GTEXT.STELLAR, reward: assetType, commission: (assetType == GTEXT.XLM_ASSET ? GTEXT.STELLAR : assetCode)))
                 break
             case GTEXT.XLM_TYPE_CREATE_CLAIM:
                 let asset = txn.asset ?? ""
-                txnList.append(TransactionInfo(type: txnType, id: txnId, amt: txnAmt, src: srcAcc, des: "", date: txnDate, fee: "", status: "", scheme: GTEXT.STELLAR, reward: asset, commission: ""))
+                let assetPair = asset.components(separatedBy: ":")
+                let assetCode = assetPair[0] == GTEXT.STELLAR ? GTEXT.STELLAR : assetPair[0]
+                txnList.append(TransactionInfo(type: txnType, id: txnId, amt: txnAmt, src: srcAcc, des: "", date: txnDate, fee: "", status: "", scheme: GTEXT.STELLAR, reward: asset, commission: assetCode))
                 
                 break
             case GTEXT.XLM_TYPE_CREATE_ACCOUNT:

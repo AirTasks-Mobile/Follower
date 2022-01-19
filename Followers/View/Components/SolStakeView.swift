@@ -14,10 +14,7 @@ struct SolStakeView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0){
-            Text("Deposit: \(txn.scheme) \(txn.stake?.deposit ?? "")")
-                    .font(Font.custom("Avenir-medium", size: 17))
-                    .foregroundColor(Color.gray)
-            
+            BodyDeposit
             Divider()
             
             Text("Deposit Date: \(txn.stake?.date ?? "")")
@@ -46,6 +43,20 @@ struct SolStakeView: View {
                     .font(Font.custom("Avenir-medium", size: 17))
                     .foregroundColor(Color.gray)
 
+        }
+    }
+    
+    var BodyDeposit: some View {
+        VStack(alignment: .leading, spacing: 0){
+            Text("Deposit: \(txn.scheme) \(txn.stake?.deposit ?? "")")
+                    .font(Font.custom("Avenir-medium", size: 17))
+                    .foregroundColor(Color.gray)
+            
+            Divider()
+  
+            Text("Deposit Fee: \(txn.scheme) \(txn.stake?.fee ?? "")")
+                .font(Font.custom("Avenir-medium", size: 17))
+                .foregroundColor(Color.gray)
         }
     }
 }

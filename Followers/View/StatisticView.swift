@@ -29,7 +29,7 @@ struct StatisticView: View {
                 if isActive {
                     MyWebView(url: URL(string: getURL())!)
                         .frame(width: geo.size.width, height: geo.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                        .padding()
+                        //.padding()
                 }
             }
             .padding(EdgeInsets(top: 15, leading: 0, bottom: 0, trailing: 0))
