@@ -24,7 +24,7 @@ class GetSecretMsg : BaseFlow {
     }
     
     override func onExecute() -> AnyPublisher<FlowModel, FlowError> {
-        let gw = InfoApi(info : FlowModel(type: FLOW.GET_SECRET_MSG ,clearMsg: msg))
+        let gw = InfoApi(info : FlowModel(type: FLOW.GET_SECRET_MSG ))
         return gw.connectHost()
             .map{ res -> FlowModel in
                 return self.convertApiToFlow(info: res)
@@ -32,32 +32,10 @@ class GetSecretMsg : BaseFlow {
             .eraseToAnyPublisher()
     }
     
-    func convertFlowToView(info : FlowModel) -> FlowModel {
-        //let isOk = info.isSuccess
-        //let msg = info.message ?? ""
-        
-        return FlowModel(secretMsg: info.secretMsg)
-    }
     
-    override func getFlowModel(info: Data) -> FlowModel {
-        struct S_Secret_Msg : Decodable {
-            var status : String
-            var secretMsg : String
-        }
-        
-        do {
-            let flowData = try JSONDecoder().decode(S_Secret_Msg.self, from: info)
-            print("secret msg = \(flowData.secretMsg)")
-            if flowData.status.isEmpty || flowData.status == "" {
-                throw FlowError.FAIL
-            }
-            
-            return FlowModel(isSuccess: true, secretMsg: flowData.secretMsg)
-        }
-        catch {
-            print("catch you \(error)")
-            return FlowModel(isSuccess: false)
-        }
+    func convertApiToFlow(info: ResInfo) -> FlowModel{
+
+        return FlowModel(isSuccess: true, message: "a")
     }
 
 }

@@ -12,26 +12,45 @@ struct PageRoute<T: RouteViewModelProtocol>: View {
     @EnvironmentObject var lobbyVM : LobbyVM
     var homeVM = HomeVM()
     
-    @State var msg : String = ""
-    @State var backgroundColor : Color = Color(red : 219.0/255, green: 227.0/255, blue: 145.0/255)
-    
+//    @State var startColour : Color = Color(red : 219.0/255, green: 227.0/255, blue: 145.0/255)
+//    @State var endColour : Color = Color(red : 219.0/255, green: 227.0/255, blue: 145.0/255)
+//    @State var centerColour : Color = Color(red : 232.0/255, green: 206.0/255, blue: 100.0/255)
+//
     var body: some View {
         if routeVM.isHome {
-            HomePage<HomeVM>(msg: $msg, backgroundColor: $backgroundColor)
+            HomePage<HomeVM>()
                 .environmentObject(homeVM)
         }
-        else if routeVM.isState {
-            FollowerView(goBack: backHome)
+        else if routeVM.isSol {
+            SOLTab<HomeVM>(goBack: backHome)
+                .environmentObject(homeVM)
         }
-        else if routeVM.isScanQR {
-            ScanQRCodeView(msg: $msg, goBack: backHome)
+        else if routeVM.isOne {
+            ONETab<HomeVM>(goBack: backHome)
+                .environmentObject(homeVM)
         }
-        else if routeVM.isPigeon {
-            Pigeon(goBack: backHome)
+        else if routeVM.isMatic {
+            MATICTab<HomeVM>(goBack: backHome)
+                .environmentObject(homeVM)
+        }
+        else if routeVM.isAbout {
+            AboutView<RouteVM>()
+                .environmentObject(routeVM)
+        }
+        else if routeVM.isBsc{
+            BSCTab<HomeVM>(goBack: backHome)
+                .environmentObject(homeVM)
+        }
+        else if routeVM.isEth {
+            ETHTab<HomeVM>(goBack: backHome)
+                .environmentObject(homeVM)
+        }
+        else if routeVM.isXlm {
+            XLMTab<HomeVM>(goBack: backHome)
                 .environmentObject(homeVM)
         }
         else {
-            //LobbyView<LobbyVM>()
+            
         }
     }
     
@@ -47,6 +66,6 @@ struct PageRoute<T: RouteViewModelProtocol>: View {
 struct PageRoute_Previews: PreviewProvider {
     static var previews: some View {
         PageRoute<RouteVMUnitTest>()
-            .environmentObject(RouteVMUnitTest(isOnline: true, isHome: true, isScanQR: false, isState: false))
+            .environmentObject(RouteVMUnitTest(isOnline: true))
     }
 }

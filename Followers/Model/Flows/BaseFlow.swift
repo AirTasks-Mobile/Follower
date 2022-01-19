@@ -12,6 +12,31 @@ enum FLOW : String {
     case NORMAL = "NORMAL"
     case GET_CLEAR_MSG = "GET_CLEAR_MSG"
     case GET_SECRET_MSG = "GET_SECRET_MSG"
+    //
+    case GET_SOL_BALANCE = "GET_SOL_BALANCE"
+    case GET_SOL_ACC_INFO = "GET_ACCOUNT_INFO"
+    case GET_SOL_TXN_INFO = "GET_SOL_TXN_INFO"
+    case GET_SOL_STAKE_INFO = "GET_SOL_STAKE_INFO"
+    
+    //
+    case GET_ONE_BALANCE = "GET_ONE_BALANCE"
+    case GET_ONE_ACC_INFO = "GET_ONE_ACC_INFO"
+    case GET_ONE_STAKE_INFO = "GET_ONE_STAKE_INFO"
+    case GET_ONE_VALIDATOR_INFO = "GET_ONE_VALIDATOR_INFO"
+    
+    //
+    case GET_MATIC_BALANCE = "GET_MATIC_BALANCE"
+    case GET_MATIC_ACC_INFO = "GET_MATIC_ACC_INFO"
+    
+    //
+    case GET_BSC_BALANCE = "GET_BSC_BALANCE"
+    
+    //
+    case GET_ETH_BALANCE = "GET_ETH_BALANCE"
+    
+    //
+    case GET_STELLAR_ACCOUNT = "GET_XLM_ACCOUNT"
+    case GET_STELLAR_OPERATION = "GET_STELLAR_OPERATION"
 }
 
 enum FlowError : Error {
@@ -27,14 +52,16 @@ struct FlowModel {
     var type : FLOW = .NORMAL
     var message : String?
     var token : String?
-    
-    var secretMsg : String?
-    var clearMsg : String?
-    
-    var pigeon : [String:String]?
-    var sparrows : [String:String]?
-    var oStates : [String: String]?
-    var vStates : [String:String]?
+
+    var balance : String?
+    var signature : [String]?
+    var transaction : TransactionInfo?
+    var transactions : [TransactionInfo]?
+    var stakes : [String]?
+    var liqidities : [String]?
+    var assets : [AssetInfo]?
+    var cursor : String?
+    var page : Int?
     
     var deviceID : String?
     var userID : String?
@@ -54,12 +81,12 @@ class BaseFlow: FlowProtocol {
     }
     
     func onStart() -> Bool {
-        print("onStart")
+        //print("onStart")
         return true
     }
     
     func onEnd(info: FlowModel) {
-        print("onEnd")
+        //print("onEnd")
     }
     
     func onExecute() -> AnyPublisher<FlowModel, FlowError> {
@@ -68,24 +95,13 @@ class BaseFlow: FlowProtocol {
             .eraseToAnyPublisher()
     }
     
-    func getFlowModel(info : Data) -> FlowModel{
-        return FlowModel(isSuccess: false)
-    }
-    
-    func convertApiToFlow(info: ResInfo) -> FlowModel{
-
-        let payload = info.payload ?? ""
-        //let sec = info.res_sec ?? ""
-        //print("payload = \(payload)")
-        //print("sec = \(sec)")
-        //let isOK = (status == APPROVED)
+//    func getFlowModel(info : Data) -> FlowModel{
+//        return FlowModel(isSuccess: false)
+//    }
+//    
+    func convertApiToFlow<T: Decodable >(info: T) -> FlowModel {
         
-        let data = Data(payload.utf8)
-        
-        //let info = try?JSONDecoder().decode(S_Clear_Msg.self, from: data)
-       // print("clear msg = \(info?.clearMsg ?? "")")
-        
-        return getFlowModel(info: data)
+        return FlowModel(isSuccess: true, message: "it's prototype")
     }
     
     func processFlow() -> AnyPublisher<FlowModel, FlowError> {

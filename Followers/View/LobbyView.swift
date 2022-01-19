@@ -9,14 +9,15 @@ import SwiftUI
 
 struct LobbyView<T: LobbyViewModelProtocol>: View {
     @EnvironmentObject private var lobbyVM : T
+    @State var textTemp : String = ""
     var body: some View {
         GeometryReader { geo in
             VStack{
-            if !lobbyVM.isProcessing{
-                BadgeButton(name: "GO", action: startLogin)
+            if !lobbyVM.isProcessing {
+                BadgeButton(name: "MOON", action: startLogin)
             }
             else {
-                BadgeTextView(name: "Wait", primary: false)
+                BadgeTextView(text: $textTemp, name: "Wait", primary: false)
             }
             }
             .frame(width: geo.size.width, height: geo.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
@@ -37,18 +38,3 @@ struct LobbyView_Previews: PreviewProvider {
             .environmentObject(LobbyVMUnitTest(isOk: false, isProcessing: false))
     }
 }
-
-
-//                    HStack {
-//                        Image(systemName: "calendar")
-//                        Text("Select time slot")
-//                            .font(.title2)
-//                        Picker(selection: $selectedTime, label: Text(""), content: {
-//                            ForEach(0 ..< timeSlots.count){ count in
-//                                Text(self.timeSlots[count])
-//                                    .tag(count)
-//                            }
-//                        })
-//
-//                    }
-//                    .padding(.top, 20)

@@ -12,99 +12,249 @@ struct HomePage<T: HomeViewModelProtocol>: View {
     @EnvironmentObject var lobbyVM : LobbyVM
     @EnvironmentObject var routeVM : RouteVM
     
-    @Binding var msg : String
-    @Binding var backgroundColor : Color
+    
+    private let startColour : Color = Color(red : 219.0/255, green: 227.0/255, blue: 145.0/255)
+    private let endColour : Color = Color(red : 219.0/255, green: 227.0/255, blue: 145.0/255)
+    private let centerColour : Color = Color(red : 232.0/255, green: 206.0/255, blue: 100.0/255)
+    
     
     var body: some View {
-        //NavigationView {
-            GeometryReader { geometry in
-                VStack {
+            GeometryReader { geo in
+                VStack(alignment: .leading, spacing: 0) {
                     HeaderView()
-                        .frame(width: geometry.size.width, height: geometry.size.height * 0.15)
-                    
-                    ScrollView(.vertical) {
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 15) {
-                                BadgeButton(name: "Close", action: backToInfo)
-                                Button(action: {
-                                    routeVM.startState()
-                                }, label: {
-                                    BadgeTextView(name: "State")
-                                })
+                        .frame(width: geo.size.width, height: geo.size.height * 0.15)
 
-                                Button(action: {
-                                    routeVM.startPigeon()
-                                }, label: {
-                                    BadgeTextView(name: "Pigeon")
-                                })
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 15) {
+                            //BadgeButton(name: "CLOSE", action: backToLobby)
+                            Button(action: {
+                                backToLobby()
                                 
-                                Button(action: {
-                                    routeVM.startPigeon()
-                                }, label: {
-                                    BadgeTextView(name: "Saprrows")
-                                })
+                            }, label: {
+                                BadgeTextView(text: .constant("CLOSE"),name: "")
+                            })
+                            
+                            Button(action: {
+                                routeVM.startSol()
                                 
-                                Button(action: {
-                                    routeVM.startPigeon()
-                                }, label: {
-                                    BadgeTextView(name: "Go")
-                                })
+                            }, label: {
+                                BadgeTextView(text: $homeVM.totalSol,name: "SOL")
+                            })
+
+                            Button(action: {
+                                routeVM.startOne()
+                            }, label: {
+                                BadgeTextView(text: $homeVM.totalOne,name: "ONE")
+                            })
+                            
+                            Button(action: {
+                                routeVM.startXlm()
+                            }, label: {
+                                BadgeTextView(text: $homeVM.totalXlm,name: "XLM")
+                            })
                                 
-                                Button(action: {
-                                    routeVM.startPigeon()
-                                }, label: {
-                                    BadgeTextView(name: "Profile")
-                                })
+                            Button(action: {
+                                routeVM.startMatic()
+                            }, label: {
+                                BadgeTextView(text: $homeVM.totalMatic,name: "MATIC")
+                            })
+                            
+                            Button(action: {
+                                routeVM.startBsc()
+                            }, label: {
+                                BadgeTextView(text: $homeVM.totalBsc,name: "BSC")
+                            })
+                            
+                            Button(action: {
+                                routeVM.startEth()
+                            }, label: {
+                                BadgeTextView(text: $homeVM.totalEth,name: "ETH")
+                            })
                                 
-                            }
-                            //.navigationViewStyle(StackNavigationViewStyle())
+                            //BadgeButton(name: "ABOUT", action: onAbout)
+                            Button(action: {
+                                onAbout()
+                                
+                            }, label: {
+                                BadgeTextView(text: .constant("ABOUT"),name: "")
+                            })
+                                
                         }
-                        .frame(width: geometry.size.width, height: 90)
-                       
-                        DecodeMsgView(msg: $msg, clearMsg: homeVM.clearMsg, action: decodeMsg, actionScan: startScanner)
-                            .frame(width: geometry.size.width, height: 120)
-                            .padding(.top, 30)
-
-
+                    }
+                    .frame(width: geo.size.width, height: 90)
+                    
+                    ScrollView(.vertical, showsIndicators: false) {
+                        if homeVM.solAddressList.count > 0 || homeVM.oneAddressList.count > 0 || homeVM.maticAddressList.count > 0 || homeVM.bscAddressList.count > 0 {
+                            ActivityIndicator()
+                                .frame(width: 50, height: 50)
+                                .foregroundColor(Color(red: 239.0 / 255, green: 172.0 / 255, blue: 120.0 / 255, opacity: 0.9))
+                        }
                         
-                        StatisticView()
-                            .padding(.top, 30)
+                        ForEach(homeVM.solCoins, id: \.id) { sol in
+                            CoinTag(oneCoin: sol, name: "solana_logo")
+                                .frame(height: 90)
+                        }
+//                        .onDelete(perform: { indexSet in
+//                            print("index = \(indexSet)")
+//                            withAnimation {
+//                                //listCoin.remove(at: indexSet)
+//                                homeVM.solCoins.remove(atOffsets: indexSet)
+//                                //onDelCoin()
+//                            }
+//                        })
+                        
+                        
+                        ForEach(homeVM.oneCoins, id: \.id) { one in
+                            CoinTag(oneCoin: one, name: "one_logo")
+                                .frame(height: 90)
+                        }
+                        
+                        ForEach(homeVM.xlmCoins, id: \.id) { xlm in
+                            CoinTag(oneCoin: xlm, name: "stellar_logo")
+                                .frame(height: 90)
+                        }
+                        
+                        ForEach(homeVM.maticCoins, id: \.id) { matic in
+                            CoinTag(oneCoin: matic, name: "matic_logo")
+                                .frame(height: 90)
+                        }
+                        
+                        ForEach(homeVM.bscCoins, id: \.id) { bsc in
+                            CoinTag(oneCoin: bsc, name: "binance_logo")
+                                .frame(height: 90)
+                        }
+                        
+                        ForEach(homeVM.ethCoins, id: \.id) { eth in
+                            CoinTag(oneCoin: eth, name: "ethereum_logo")
+                                .frame(height: 90)
+                        }
                         
                     }
+                    .padding(EdgeInsets(top: 15, leading: 15, bottom: 5, trailing: 15))
+
+                    Spacer()
                     
                 }
                 .onAppear(perform: loadInfo)
-                .background(backgroundColor)
+                .onChange(of: homeVM.mainQueue, perform: { _ in
+                    if homeVM.mainQueue.count > 0 {
+                        let scheme = homeVM.mainQueue[0]
+                        if scheme == GTEXT.SOLANA {
+                            if homeVM.solAddressList.count == 0 {
+                                homeVM.mainQueue.removeFirst()
+                            }
+                            else {
+                                homeVM.startSol()
+                            }
+                        }
+                        else if scheme == GTEXT.HARMONY {
+                            if homeVM.oneAddressList.count == 0 {
+                                homeVM.mainQueue.removeFirst()
+                            }
+                            else {
+                                homeVM.startOne()
+                            }
+                        }
+                        else if scheme == GTEXT.STELLAR {
+                            if homeVM.xlmAddressList.count == 0 {
+                                homeVM.mainQueue.removeFirst()
+                            }
+                            else {
+                                homeVM.startXlm()
+                            }
+                        }
+                        else if scheme == GTEXT.POLYGON {
+                            if homeVM.maticAddressList.count == 0 {
+                                homeVM.mainQueue.removeFirst()
+                            }
+                            else {
+                                homeVM.startMatic()
+                            }
+                        }
+                        else if scheme == GTEXT.BINANCE {
+                            if homeVM.bscAddressList.count == 0 {
+                                homeVM.mainQueue.removeFirst()
+                            }
+                            else {
+                                homeVM.startBsc()
+                            }
+                        }
+                        else if scheme == GTEXT.ETHEREUM {
+                            if homeVM.ethAddressList.count == 0 {
+                                homeVM.mainQueue.removeFirst()
+                            }
+                            else {
+                                homeVM.startEth()
+                            }
+                        }
+                    }
+                })
+                .onChange(of: homeVM.solAddressList, perform: { _ in
+                    //print("Start Solll")
+                    if routeVM.isHome && homeVM.mainQueue.count > 0 && homeVM.mainQueue[0] == GTEXT.SOLANA {
+                        homeVM.startSol()
+                    }
+                })
+                .onChange(of: homeVM.oneAddressList, perform: { _ in
+                    //print("Start Oneeee \(homeVM.mainQueue)")
+                    if routeVM.isHome && homeVM.mainQueue.count > 0 && homeVM.mainQueue[0] == GTEXT.HARMONY {
+                        homeVM.startOne()
+                    }
+                })
+                .onChange(of: homeVM.maticAddressList, perform: { _ in
+                    //print("Start Maaaa")
+                    if routeVM.isHome && homeVM.mainQueue.count > 0 && homeVM.mainQueue[0] == GTEXT.POLYGON {
+                        homeVM.startMatic()
+                    }
+                })
+                .onChange(of: homeVM.bscAddressList, perform: { _ in
+                    //print("start Biiii")
+                    if routeVM.isHome && homeVM.mainQueue.count > 0 && homeVM.mainQueue[0] == GTEXT.BINANCE {
+                        homeVM.startBsc()
+                    }
+                })
+                .onChange(of: homeVM.ethAddressList, perform: { _ in
+                    //print("start Ettttt \(homeVM.mainQueue)")
+                    if routeVM.isHome && homeVM.mainQueue.count > 0 && homeVM.mainQueue[0] == GTEXT.ETHEREUM {
+                        homeVM.startEth()
+                    }
+                })
+                .onChange(of: homeVM.xlmAddressList, perform: { _ in
+                    //print("start Ettttt \(homeVM.mainQueue)")
+                    if routeVM.isHome && homeVM.mainQueue.count > 0 && homeVM.mainQueue[0] == GTEXT.STELLAR {
+                        homeVM.startXlm()
+                    }
+                })
+                .background(LinearGradient(gradient: Gradient(colors: [startColour, centerColour, endColour]), startPoint: .topLeading, endPoint: .bottomTrailing))
                 .edgesIgnoringSafeArea(.all)
-                
-            //} // end navigationview
-        }
+
+        } // End geo
         
     }
     func startScanner()
     {
-        routeVM.startScanQR()
+        //routeVM.startScanQR()
     }
     
     func loadInfo(){
-        print("loading.....")
-        homeVM.fetchInfo()
+        //print("loading.....")
+        homeVM.startHome()
     }
     
-    func backToInfo(){
+    func backToLobby(){
         lobbyVM.startLogOut()
     }
     
-    func decodeMsg()
-    {
-        homeVM.getClearMsg(info: msg)
+    func onAbout() -> Void {
+        routeVM.startAbout()
     }
+    
 }
 
 
 struct HomePage_Previews: PreviewProvider {
     static var previews: some View {
-        HomePage<HomeVMUnitTest>(msg: .constant("msg"), backgroundColor : .constant(Color(red : 219.0/255, green: 227.0/255, blue: 145.0/255)))
-            .environmentObject(HomeVMUnitTest(isOnline: true, pigeon: ["Pigeon" : "Number One"], sparrows: ["Sparrow" : "Number Two"], vState: ["State" : "State One"], oState: ["State" : "State Two"], clearMsg: "String"))
+        HomePage<HomeVMUnitTest>()
+            .environmentObject(HomeVMUnitTest(isOnline: true))
     }
 }

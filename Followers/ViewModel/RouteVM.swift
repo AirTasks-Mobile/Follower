@@ -12,28 +12,49 @@ protocol RouteViewModelProtocol : ObservableObject {
     var isOnline : Bool { get set }
     var isHome : Bool { get set }
     var isScanQR : Bool { get set }
-    var isState : Bool { get set }
-    var isPigeon : Bool { get set }
+    var isSol : Bool { get set }
+    var isOne : Bool { get set }
+    var isMatic : Bool { get set }
+    var isBsc : Bool { get set }
+    var isEth : Bool { get set }
+    var isXlm : Bool { get set }
+    var isAbout : Bool { get set }
     
     func backHome()
     func startScanQR()
-    func startState()
-    func startPigeon()
+    func startAbout()
+    
+    func startSol()
+    func startOne()
+    func startMatic()
+    func startBsc()
+    func startEth()
+    func startXlm()
 }
 
 class RouteVM : RouteViewModelProtocol {
     @Published var isOnline: Bool = true
     @Published var isHome: Bool = true
     @Published var isScanQR: Bool = false
-    @Published var isState: Bool = false
-    @Published var isPigeon: Bool = false
+    @Published var isSol: Bool = false
+    @Published var isOne: Bool = false
+    @Published var isMatic: Bool = false
+    @Published var isBsc: Bool = false
+    @Published var isEth: Bool = false
+    @Published var isXlm: Bool = false
+    @Published var isAbout: Bool = false
 
     func backHome() {
         isHome = true
         
         isScanQR = false
-        isState = false
-        isPigeon = false
+        isSol = false
+        isOne = false
+        isMatic = false
+        isAbout = false
+        isBsc = false
+        isEth = false
+        isXlm = false
     }
     
     func startScanQR() {
@@ -41,13 +62,62 @@ class RouteVM : RouteViewModelProtocol {
         isScanQR = true
     }
     
-    func startState() {
+    func startAbout() {
+        isAbout = true
         isHome = false
-        isState = true
     }
     
-    func startPigeon() {
+    func startSol() {
         isHome = false
-        isPigeon = true
+        isOne = false
+        isMatic = false
+        
+        isSol = true
+    }
+    
+    func startOne() {
+        isHome = false
+        isSol = false
+        isMatic = false
+        
+        isOne = true
+    }
+    
+    func startMatic() {
+        isHome = false
+        isSol = false
+        isOne = false
+        
+        isMatic = true
+    }
+    
+    func startBsc() {
+        isHome = false
+        isSol = false
+        isOne = false
+        isMatic = false
+        
+        isBsc = true 
+    }
+    
+    func startEth() {
+        isHome = false
+        isSol = false
+        isOne = false
+        isMatic = false
+        isBsc = false
+        
+        isEth = true 
+    }
+    
+    func startXlm() {
+        isHome = false
+        isSol = false
+        isOne = false
+        isMatic = false
+        isBsc = false
+        isEth = false
+        
+        isXlm = true
     }
 }

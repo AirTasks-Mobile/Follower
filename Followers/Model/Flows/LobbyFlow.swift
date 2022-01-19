@@ -19,7 +19,7 @@ class LobbyFlow : BaseFlow {
         
         userID = viewInfo["user_id"] ?? "new_user"
         //userID = "20210723130105fNQUhpfNR1RvcgX1KyzFykqJeAB8ONcKpHy0Vwci4"
-        print("current user id \(userID)")
+        //print("current user id \(userID)")
         id = viewInfo["device_id"] ?? ""
         
         let current_id = NSUUID().uuidString
@@ -30,12 +30,11 @@ class LobbyFlow : BaseFlow {
             UserDefaults.standard.setValue(current_id, forKey: "device_id")
         }
         else if id != current_id {
-            print("different device id")
+            //print("different device id")
             UserDefaults.standard.setValue(current_id, forKey: "device_id")
         }
         
-        
-        print("id= \(id)")
+        //print("id= \(id)")
         return true
     }
     
@@ -59,23 +58,9 @@ class LobbyFlow : BaseFlow {
             .eraseToAnyPublisher()
     }
   
-    override func getFlowModel(info: Data) -> FlowModel {
-        struct S_LogIn : Decodable {
-            var status : String
-            var token : String?
-            var user_id: String?
-        }
-        //let debug = String(data: info, encoding: .utf8) ?? ""
-        //print("data= \(debug)")
-        do {
-            let flowData = try JSONDecoder().decode(S_LogIn.self, from: info)
-            print("token = \(flowData.token ?? "")")
-            return FlowModel(isSuccess: true, token: flowData.token, userID: flowData.user_id)
-        }
-        catch {
-            print("catch you \(error)")
-            return FlowModel(isSuccess: false)
-        }
+    func convertApiToFlow(info: ResInfo) -> FlowModel{
+
         
+        return FlowModel(isSuccess: true, message: "a")
     }
 }

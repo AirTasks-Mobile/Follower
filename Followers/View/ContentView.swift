@@ -14,14 +14,13 @@ struct ContentView<T : LobbyViewModelProtocol>: View {
 
     var body: some View {
         if lobbyVM.isOk {
-//            HomePage<HomeVM>()
-//                .environmentObject(homeVM)
             PageRoute<RouteVM>()
                 .environmentObject(routeVM)
             
         }
         else {
             LobbyView<LobbyVM>()
+                .environmentObject(lobbyVM)
         }
     }
 }
@@ -29,6 +28,6 @@ struct ContentView<T : LobbyViewModelProtocol>: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView<LobbyVMUnitTest>()
-            .environmentObject(LobbyVMUnitTest(isOk: false, isProcessing: false))
+            .environmentObject(LobbyVMUnitTest(isOk: true, isProcessing: false))
     }
 }
