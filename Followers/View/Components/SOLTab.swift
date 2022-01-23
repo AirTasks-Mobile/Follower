@@ -49,7 +49,7 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
                     ListCoinTab(listCoin: $homeVM.solCoins, selectedCoin: $selectedSol, isLoading: $isLoading,onAddCoin: onClick, onDetail: getTransactions)
                         .tag(2)
                     
-                    AddCoinTab(titleText: "Solana Address Only", coinAddress: $solAddress, nickName: $solNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
+                    AddCoinTab(titleText: "Add SOL Address Only", coinAddress: $solAddress, nickName: $solNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
                         .tag(3)
                     
                     ListTransactionTab(nick: $selectedSol.nick, id: $selectedSol.id, transactions: $homeVM.solTransactions, isLoading: $isLoading, stake: $isStakeTab, isLast: $isLast, isStake: true,onStake: onGetSolStake, loadMore: loadMoreTransactions)
@@ -101,6 +101,9 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
                 else if isWeb == true
                 {
                     isWeb = false
+                }
+                if(tabSelect == 4 && selectedSol.id == ""){
+                    //tabSelect = 2;
                 }
             })
             .padding(EdgeInsets(top: 0, leading: 28, bottom: 15, trailing: 26))

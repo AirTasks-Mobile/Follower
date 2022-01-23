@@ -27,22 +27,22 @@ struct AboutView<T: RouteViewModelProtocol>: View {
                             .foregroundColor(Color.blue)
                             .padding(EdgeInsets(top: 5, leading: 25, bottom: 0, trailing: 27))
                     
-                    Text("It's nice to see you here.")
+                    Text("Here's how this App works")
                             .font(Font.custom("Avenir-medium", size: 15))
                             .foregroundColor(Color.blue)
                             .padding(EdgeInsets(top: 3, leading: 25, bottom: 0, trailing: 27))
                     
-                    Text("This App is to help you keep track your staking rewards and transaction history  on Solana and Harmony One networks. Stellar(XLM ) can see transaction history, together with all your  asset types. Ethereum, Polygon, Binance Smart Chain can see balances for now")
+                    Text("This App is to help you keep track your staking rewards and transaction history  on SOL and  One networks. XLM can see transaction history, together with all your  asset types. ETH, MATIC, BSC can see balances for now")
                             .font(Font.custom("Avenir-medium", size: 15))
                             .foregroundColor(Color.blue)
                             .padding(EdgeInsets(top: 3, leading: 25, bottom: 0, trailing: 27))
                     
-                    Text("To add a new coin/token. Tap on the icon with its name at the Top of Home Screen, tap 'Click To Add New Coin !'. Then you can enter/paste/scan an Address/Account. You would give it a nick name as well ")
+                    Text("To add a new coin/token. Tap on the icon with its name at the Top of Home Screen, tap 'Tap To Add New Coin !'. Then you can enter/paste/scan an Address/Account. You would give it a nick name as well ")
                             .font(Font.custom("Avenir-medium", size: 15))
                             .foregroundColor(Color.blue)
                             .padding(EdgeInsets(top: 3, leading: 25, bottom: 0, trailing: 27))
                     
-                    Text("To see transactions and staking rewards. Navigate to its page by tapping on icon associated with its name at the Top of Home Screen. Tap on account that you want to check, then tap 'Stake Reward?' (Solana only shows Stake Reward? after finishing loading transactions) ")
+                    Text("To see transactions and staking rewards. Navigate to its page by tapping on icon associated with its name at the Top of Home Screen. Tap on account that you want to check, then tap 'Stake Reward?' (SOL only shows Stake Reward? after finishing loading transactions) ")
                             .font(Font.custom("Avenir-medium", size: 15))
                             .foregroundColor(Color.blue)
                             .padding(EdgeInsets(top: 3, leading: 25, bottom: 0, trailing: 27))
@@ -52,7 +52,7 @@ struct AboutView<T: RouteViewModelProtocol>: View {
                             .foregroundColor(Color.blue)
                             .padding(EdgeInsets(top: 3, leading: 25, bottom: 0, trailing: 27))
                     
-                    Text("To see Stellar assets, other than XLM. Navigate to its page by tapping on icon associated with its name at the Top of Home Screen. Tap on account that you want to check, then tap 'Other Asset?' ")
+                    Text("To see assets, other than XLM. Navigate to its page by tapping on icon associated with its name at the Top of Home Screen. Tap on account that you want to check, then tap 'Other Asset?' ")
                             .font(Font.custom("Avenir-medium", size: 15))
                             .foregroundColor(Color.blue)
                             .padding(EdgeInsets(top: 3, leading: 25, bottom: 0, trailing: 27))

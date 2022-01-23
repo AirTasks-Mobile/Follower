@@ -56,4 +56,7 @@ struct GTEXT {
     static let XLM_TYPE_CREATE_ACCOUNT = "create_account"
     static let XLM_TYPE_DELETE_ACCOUNT = "account_merge"
     
+    //
+    static let FIRST_TIME = "first_time"
+    
 }

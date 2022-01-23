@@ -14,7 +14,7 @@ struct LobbyView<T: LobbyViewModelProtocol>: View {
         GeometryReader { geo in
             VStack{
             if !lobbyVM.isProcessing {
-                BadgeButton(name: "MOON", action: startLogin)
+                BadgeButton(name: getText(), action: startLogin)
             }
             else {
                 BadgeTextView(text: $textTemp, name: "Wait", primary: false)
@@ -29,6 +29,18 @@ struct LobbyView<T: LobbyViewModelProtocol>: View {
     
     func startLogin(){
         lobbyVM.startLogIn()
+    }
+    
+    func getText() -> String {
+        let firstTime : String = UserDefaults.standard.string(forKey: GTEXT.FIRST_TIME) ?? ""
+        
+        if firstTime == "" {
+            //UserDefaults.standard.set("NO", forKey: GTEXT.FIRST_TIME)
+            return "Tap above icon to start!"
+        }
+        
+    
+        return "MOON"
     }
 }
 

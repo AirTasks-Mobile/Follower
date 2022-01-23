@@ -48,7 +48,7 @@ struct MATICTab<T : HomeViewModelProtocol>: View {
                     ListCoinTab(listCoin: $homeVM.maticCoins, selectedCoin: $selectedMatic, isLoading: $isLoading,onAddCoin: onClick, onDetail: getTransactions)
                         .tag(2)
                     
-                    AddCoinTab(titleText: "Polygon Address Only", coinAddress: $maticAddress, nickName: $maticNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
+                    AddCoinTab(titleText: "Add MATIC Address Only", coinAddress: $maticAddress, nickName: $maticNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
                         .tag(3)
                     
 //                    ListTransactionTab(nick: $selectedMatic.nick, id: $selectedMatic.id, transactions: $homeVM.maticTransactions, isStake: false, onStake: { })

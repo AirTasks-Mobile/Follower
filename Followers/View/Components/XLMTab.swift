@@ -50,7 +50,7 @@ struct XLMTab<T: HomeViewModelProtocol>: View {
                     ListCoinTab(listCoin: $homeVM.xlmCoins, selectedCoin: $selectedXlm, isLoading: $isLoading,onAddCoin: onClick, onDetail: getTransactions)
                         .tag(2)
                     
-                    AddCoinTab(titleText: "Stellar Address Only", coinAddress: $xlmAddress, nickName: $xlmNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
+                    AddCoinTab(titleText: "Add XLM Address Only", coinAddress: $xlmAddress, nickName: $xlmNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
                         .tag(3)
                     
                     ListTransactionTab(nick: $selectedXlm.nick, id: $selectedXlm.id, transactions: $homeVM.xlmTransactions, isLoading: $isLoading, stake: $isStakeTab, isLast: $isLast,isStake: true, onStake: getOtherAssest, loadMore: loadMoreTransactions, textReward: "Other Asset?")
@@ -90,6 +90,9 @@ struct XLMTab<T: HomeViewModelProtocol>: View {
                 else if isWeb == true
                 {
                     isWeb = false
+                }
+                if(tabSelect == 4 && selectedXlm.id == ""){
+                    //tabSelect = 2;
                 }
             })
             .onChange(of: homeVM.xlmCursor, perform: { _ in
