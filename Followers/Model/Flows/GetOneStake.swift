@@ -46,8 +46,12 @@ class GetOneStake : BaseFlow {
             var doubleOne = stake.amount ?? 0
             let formattedValue = String(format: "%f", doubleOne / GTEXT.ONE_ROUND)
             
-            doubleOne = stake.reward ?? 0
-            let formattedReward = String(format: "%f", doubleOne / GTEXT.ONE_ROUND)
+            let doubleOneReward = stake.reward ?? 0
+            let formattedReward = String(format: "%f", doubleOneReward / GTEXT.ONE_ROUND)
+            
+            if doubleOne == 0 && doubleOneReward == 0 {
+                continue
+            }
         
             let val = stake.validator_address ?? ""
             let del = stake.delegator_address ?? ""
