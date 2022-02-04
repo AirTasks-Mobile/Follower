@@ -50,6 +50,9 @@ class GetSolStake : BaseFlow {
             if stake == nil {
                 // with this activating stake will not show
                 // without this withdrew stake will show
+                if stakeSol.count > idCount {
+                    idCount += 1
+                }
                 continue
             }
             var doubleSOL = Double(stake?.amount ?? 0) // 9
