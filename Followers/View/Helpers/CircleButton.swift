@@ -13,7 +13,9 @@ struct CircleButton: View {
     var body: some View {
         GeometryReader { geo in
             VStack(alignment: .leading, spacing: 0){
-                if name != "" && (name == "bitcoinsign.circle" || name == "dollarsign.circle" || name == "rectangle.stack.fill.badge.plus" || name == "delete.right") {
+                if name != "" && (name == "bitcoinsign.circle" || name == "dollarsign.circle" || name == "rectangle.stack.fill.badge.plus" || name == "delete.right" || name == "o.circle"
+                                  || name == "s.circle" || name == "m.circle" || name == "x.circle"
+                                  || name == "b.circle" || name == "e.circle") {
                     Image(systemName: name)
                         .resizable()
                         .frame(width: geo.size.height , height: geo.size.height, alignment: .center)

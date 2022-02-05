@@ -48,7 +48,7 @@ struct ETHTab<T: HomeViewModelProtocol>: View {
                     ListCoinTab(listCoin: $homeVM.ethCoins, selectedCoin: $selectedEth, isLoading: $isLoading,onAddCoin: onClick, onDetail: getTransactions)
                         .tag(2)
                     
-                    AddCoinTab(titleText: "ETH Address Only", coinAddress: $ethAddress, nickName: $ethNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
+                    AddCoinTab(titleText: "Add ETH Address Only", coinAddress: $ethAddress, nickName: $ethNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
                         .tag(3)
                     
                 

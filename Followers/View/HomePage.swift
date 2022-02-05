@@ -83,49 +83,43 @@ struct HomePage<T: HomeViewModelProtocol>: View {
                     }
                     .frame(width: geo.size.width, height: 90)
                     
+                    
                     ScrollView(.vertical, showsIndicators: false) {
                         if homeVM.solAddressList.count > 0 || homeVM.oneAddressList.count > 0 || homeVM.maticAddressList.count > 0 || homeVM.bscAddressList.count > 0 {
                             ActivityIndicator()
                                 .frame(width: 50, height: 50)
                                 .foregroundColor(Color(red: 239.0 / 255, green: 172.0 / 255, blue: 120.0 / 255, opacity: 0.9))
                         }
-                        
+                        // umbrella.fill
+                        // 0.circle
                         ForEach(homeVM.solCoins, id: \.id) { sol in
-                            CoinTag(oneCoin: sol, name: "solana_logo")
+                            CoinTag(oneCoin: sol, name: "s.circle")
                                 .frame(height: 90)
                         }
-//                        .onDelete(perform: { indexSet in
-//                            print("index = \(indexSet)")
-//                            withAnimation {
-//                                //listCoin.remove(at: indexSet)
-//                                homeVM.solCoins.remove(atOffsets: indexSet)
-//                                //onDelCoin()
-//                            }
-//                        })
                         
                         
                         ForEach(homeVM.oneCoins, id: \.id) { one in
-                            CoinTag(oneCoin: one, name: "one_logo")
+                            CoinTag(oneCoin: one, name: "o.circle")
                                 .frame(height: 90)
                         }
                         
                         ForEach(homeVM.xlmCoins, id: \.id) { xlm in
-                            CoinTag(oneCoin: xlm, name: "stellar_logo")
+                            CoinTag(oneCoin: xlm, name: "x.circle")
                                 .frame(height: 90)
                         }
                         
                         ForEach(homeVM.maticCoins, id: \.id) { matic in
-                            CoinTag(oneCoin: matic, name: "matic_logo")
+                            CoinTag(oneCoin: matic, name: "m.circle")
                                 .frame(height: 90)
                         }
                         
                         ForEach(homeVM.bscCoins, id: \.id) { bsc in
-                            CoinTag(oneCoin: bsc, name: "binance_logo")
+                            CoinTag(oneCoin: bsc, name: "b.circle")
                                 .frame(height: 90)
                         }
                         
                         ForEach(homeVM.ethCoins, id: \.id) { eth in
-                            CoinTag(oneCoin: eth, name: "ethereum_logo")
+                            CoinTag(oneCoin: eth, name: "e.circle")
                                 .frame(height: 90)
                         }
                         
@@ -231,6 +225,20 @@ struct HomePage<T: HomeViewModelProtocol>: View {
         } // End geo
         
     }
+    
+//    var firstView : some View {
+//        GeometryReader { geo in
+//            VStack(alignment: .center){
+//                Text("Please swipe left on those above icons (SOL, ONE...) to see About. And tap on About icon in order to see User Guide")
+//                    .font(Font.custom("Avenir-medium", size: 17))
+//                    .foregroundColor(.white)
+//        
+//            }
+//            .padding(EdgeInsets(top: 15, leading: 27, bottom: 0, trailing: 25))
+//        }
+//    }
+    
+    
     func startScanner()
     {
         //routeVM.startScanQR()

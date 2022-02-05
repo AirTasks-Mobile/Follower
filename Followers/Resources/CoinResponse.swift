@@ -37,6 +37,7 @@ struct TransactionInfo : Hashable, Codable {
     var stake : StakeAccountInfo?
     var liquidity : LiquidityAccountInfo?
     var validator : ValidatorInfo?
+    var subToken : [SubToken]?  // Token that is created on main networks
     
     static let `default` = TransactionInfo(type: "", id: "", amt: "",src: "", des: "" ,date: "", fee: "", status: "", scheme: "",reward: "", commission: "")
 }
@@ -97,6 +98,12 @@ struct ValidatorInfo : Hashable, Codable {
     static let `default` = ValidatorInfo(active: "", address: "", details: "", name: "", rate: "", website: "", stake: "", votingPowerAdjusted: "", shardId: 0)
 }
 
+struct SubToken : Hashable, Codable {
+    var token_name : String? // mint, to check back what token type is
+    var amount : String? // SOL
+    //var decimals : Int? // SOL, should format at Flow
+}
+
 // SOL
 
 struct SOLContext : Codable, Hashable {
@@ -142,6 +149,7 @@ struct SOLMeta : Codable, Hashable {
     var postBalances : [Double]? // here
     var preBalances : [Double]? // here
     var rewards : [Double]?  // here
+    var postTokenBalances : [SOLSubTokenInfo]? // sub token info
 }
 
 struct SOLTransaction : Codable, Hashable {
@@ -157,6 +165,18 @@ struct SOLReward : Codable, Hashable {
     var commission : Int?
     var epoch : Int?
     var postBalance : Double? // here
+}
+
+struct SOLSubTokenInfo : Codable, Hashable {
+    var accountIndex : Int?
+    var mint : String? // sub token (can use as token's name)
+    var owner : String?
+    var uiTokenAmount : SOLSubToken?
+}
+
+struct SOLSubToken : Hashable, Codable {
+    var amount : String?
+    var decimals : Int?
 }
 
 // ONE

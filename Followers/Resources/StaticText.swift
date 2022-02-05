@@ -46,6 +46,9 @@ struct GTEXT {
     static let SOL_STAKE_ACC = "Stake11111111111111111111111111111111111111"
     static let SOL_TRANSER_ACC = "11111111111111111111111111111111"
     static let SOL_RENT_ACC = "SysvarRent111111111111111111111111111111111"
+    static let SOL_TOKEN_ACC = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+    static let SOL_TXN_CREATE_MINT = "CREATE TOKEN" // create new token ( new coin )
+    static let SOL_TXN_CREATE_TOKEN_ACCOUNT = "CREATE TOKEN ACC"
     // ONE
     
     //STELLAR
@@ -55,5 +58,8 @@ struct GTEXT {
     static let XLM_TYPE_CREATE_CLAIM = "create_claimable_balance"
     static let XLM_TYPE_CREATE_ACCOUNT = "create_account"
     static let XLM_TYPE_DELETE_ACCOUNT = "account_merge"
+    
+    //
+    static let FIRST_TIME = "first_time"
     
 }

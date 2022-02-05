@@ -49,7 +49,7 @@ struct ONETab<T : HomeViewModelProtocol>: View {
                     ListCoinTab(listCoin: $homeVM.oneCoins, selectedCoin: $selectedOne, isLoading: $isLoading,onAddCoin: onClick, onDetail: getTransactions)
                         .tag(2)
                     
-                    AddCoinTab(titleText: "Harmony One Address Only", coinAddress: $oneAddress, nickName: $oneNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
+                    AddCoinTab(titleText: "Add One Address Only", coinAddress: $oneAddress, nickName: $oneNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
                         .tag(3)
                     
                     ListTransactionTab(nick: $selectedOne.nick, id: $selectedOne.id, transactions: $homeVM.oneTransactions, isLoading: $oneLoading, stake: $isStakeTab, isLast: $isLast,isStake: true, onStake: onOneStake, loadMore: loadMoreTransactions)
@@ -89,6 +89,9 @@ struct ONETab<T : HomeViewModelProtocol>: View {
                 else if isWeb == true
                 {
                     isWeb = false
+                }
+                if(tabSelect == 4 && selectedOne.id == ""){
+                    //tabSelect = 2;
                 }
             })
             .onChange(of: homeVM.onePage, perform: { _ in

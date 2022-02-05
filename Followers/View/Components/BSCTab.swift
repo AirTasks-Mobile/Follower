@@ -49,7 +49,7 @@ struct BSCTab<T : HomeViewModelProtocol>: View {
                     ListCoinTab(listCoin: $homeVM.bscCoins, selectedCoin: $selectedBsc, isLoading: $isLoading,onAddCoin: onClick, onDetail: getTransactions)
                         .tag(2)
                     
-                    AddCoinTab(titleText: "Binace Smart Chain Address", coinAddress: $bscAddress, nickName: $bscNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
+                    AddCoinTab(titleText: "Add BSC Address Only", coinAddress: $bscAddress, nickName: $bscNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
                         .tag(3)
                     
 //                    ListTransactionTab(nick: $selectedBsc.nick, id: $selectedBsc.id, transactions: $homeVM.bscTransactions, isStake: false, onStake: { })

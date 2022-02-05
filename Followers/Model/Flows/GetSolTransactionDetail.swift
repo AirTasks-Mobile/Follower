@@ -51,27 +51,51 @@ class GetSolTransactionDetail : BaseFlow {
         var doubleTemp = Double(fee)
         let formattedFee = String(format: "%f", doubleTemp / GTEXT.SOL_ROUND)
         
+        let subToken : [SOLSubTokenInfo] = info.result?.meta?.postTokenBalances ?? []
+        
+        var listToken : [SubToken] = []
+        for token in subToken {
+            let mint = token.mint ?? ""
+            let amountSubToken = token.uiTokenAmount?.amount ?? ""
+            let dec = token.uiTokenAmount?.decimals ?? 0
+            
+            if mint != "" && amountSubToken != "0" {
+                if dec > 0 {
+                    let doubleAmt = Double(amountSubToken) ?? 0
+                    let round = pow(Double(10), Double(dec))
+                    let newAmtSubToken = String(format: "%f", doubleAmt / round)
+                
+                    listToken.append(SubToken(token_name: mint, amount: newAmtSubToken))
+                }
+                else {
+                    listToken.append(SubToken(token_name: mint, amount: amountSubToken))
+                }
+            }
+        }
+        
         
         var type = " "
-        for acc in accounts {
-            if acc == GTEXT.SOL_STAKE_ACC {
+        
+        if accounts.contains(GTEXT.SOL_RENT_ACC) {
+            if accounts.contains(GTEXT.SOL_STAKE_ACC) {
                 type = GTEXT.TXN_STAKE
             }
-            else if acc == GTEXT.SOL_TRANSER_ACC {
-                type = GTEXT.TXN_TRANSFER
+            else if accounts.contains(GTEXT.SOL_TOKEN_ACC){
+                if accounts.count == 5 {
+                    type = GTEXT.SOL_TXN_CREATE_MINT
+                }
+                else if accounts.count == 7 {
+                    type = GTEXT.SOL_TXN_CREATE_TOKEN_ACCOUNT
+                }
             }
+        }
+        else if accounts.contains(GTEXT.SOL_STAKE_ACC){
+            type = GTEXT.TXN_UNSTAKE
+        }
+        else if accounts.contains(GTEXT.SOL_TRANSER_ACC) {
+            type = GTEXT.TXN_TRANSFER
         }
         
-        if type == GTEXT.TXN_STAKE && accounts.count >= 3 {
-            
-            if accounts[2] == GTEXT.SOL_RENT_ACC {
-                // it's stake
-            }
-            else {
-                // it's unstake
-                type = GTEXT.TXN_UNSTAKE
-            }
-        }
 
         
         let mdate = NSDate(timeIntervalSince1970: Double(epochTime))
@@ -114,11 +138,19 @@ class GetSolTransactionDetail : BaseFlow {
             }
 //            txn = TransactionInfo(type: transactionType, id: txnSignature, amt: formattedAmt, src: accounts[1], des: accounts[0], date: localDate, fee: formattedFee, status: "", scheme: GTEXT.SOLANA)
         }
+//        else if type == GTEXT.SOL_TXN_CREATE_TOKEN_ACCOUNT {
+//            formattedAmt = String(format: "%f", doubleTemp / GTEXT.SOL_ROUND)
+//
+//
+//            txn = TransactionInfo(type: type, id: txnSignature, amt: formattedAmt, src: accounts[0], des: accounts[1], date: localDate, fee: formattedFee, status: "", scheme: GTEXT.SOLANA, subToken: listToken)
+//        }
         else {
             //doubleTemp = Double(postBal[1]) - Double(preBal[1])
             formattedAmt = String(format: "%f", doubleTemp / GTEXT.SOL_ROUND)
-            
-            txn = TransactionInfo(type: type, id: txnSignature, amt: formattedAmt, src: accounts[0], des: accounts[1], date: localDate, fee: formattedFee, status: "", scheme: GTEXT.SOLANA)
+            if listToken.count > 0 {
+                type = "\(type) (\(listToken[0].amount ?? ""))" // test
+            }
+            txn = TransactionInfo(type: type, id: txnSignature, amt: formattedAmt, src: accounts[0], des: accounts[1], date: localDate, fee: formattedFee, status: "", scheme: GTEXT.SOLANA, subToken: listToken)
         }
         
         

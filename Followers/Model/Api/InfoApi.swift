@@ -118,9 +118,9 @@ class InfoApi : ApiInterface {
     }
     func getURL() -> URL {
         let url = "http://192.168.1.103:5000/api"
-        let solMainnet = "https://api.mainnet-beta.solana.com"
+        //let solMainnet = "https://api.mainnet-beta.solana.com"
         //let solDevnet = "https://api.devnet.solana.com"
-        //let solLocal = "http://localhost:8899"
+        let solMainnet = "http://127.0.0.1:8899" // localhost
         
         let oneMainnet = "https://api.harmony.one"
         //let oneDevnet = "https://api.s0.pops.one"

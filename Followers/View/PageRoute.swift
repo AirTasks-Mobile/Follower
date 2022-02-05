@@ -17,7 +17,11 @@ struct PageRoute<T: RouteViewModelProtocol>: View {
 //    @State var centerColour : Color = Color(red : 232.0/255, green: 206.0/255, blue: 100.0/255)
 //
     var body: some View {
-        if routeVM.isHome {
+        if isFirstTime() {
+            AboutView<RouteVM>()
+                .environmentObject(routeVM)
+        }
+        else if routeVM.isHome {
             HomePage<HomeVM>()
                 .environmentObject(homeVM)
         }
@@ -60,6 +64,17 @@ struct PageRoute<T: RouteViewModelProtocol>: View {
     
     func backLobby(){
         lobbyVM.startLogOut()
+    }
+    
+    func isFirstTime() -> Bool {
+        let firstTime : String = UserDefaults.standard.string(forKey: GTEXT.FIRST_TIME) ?? ""
+        
+        if firstTime == "" {
+            UserDefaults.standard.set("NO", forKey: GTEXT.FIRST_TIME)
+            return true
+        }
+        
+        return false
     }
 }
 
