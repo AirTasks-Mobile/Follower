@@ -87,6 +87,20 @@ struct ListTransactionTab: View {
                 Spacer()
                 Spacer()
             }
+        } // end VStack
+        
+     
+    }
+    
+    var bodyEmpty : some View {
+        VStack(alignment: .center) {
+            Image(systemName: "clear")
+                .resizable()
+                .foregroundColor(.gray)
+                .frame(width: 50, height: 50, alignment: .center)
+            Text("No selected coin !")
+                .font(Font.custom("Avenir-black", size: 25))
+                .foregroundColor(.gray)
         }
     }
     
