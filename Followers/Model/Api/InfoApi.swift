@@ -35,6 +35,12 @@ struct SOLResponeGetBalance : Decodable {
     var id : Int32
 }
 
+struct SOLResponeGetTokenBalance : Decodable {
+    var jsonrpc : String
+    var result : SOLTokenResult?
+    var id : Int32
+}
+
 struct SOLResponeMulAcc : Decodable {
     var jsonrpc : String?
     var result : SOLMulResult?
@@ -117,7 +123,7 @@ class InfoApi : ApiInterface {
         self.info = info
     }
     func getURL() -> URL {
-        let url = "http://192.168.1.103:5000/api"
+    
         //let solMainnet = "https://api.mainnet-beta.solana.com"
         //let solDevnet = "https://api.devnet.solana.com"
         let solMainnet = "http://127.0.0.1:8899" // localhost
@@ -136,12 +142,6 @@ class InfoApi : ApiInterface {
         let xlmMainnet = "https://horizon.stellar.org"
         
         switch info?.type {
-            case .NORMAL:
-                return URL(string: url + "/check_in")!
-            case .GET_CLEAR_MSG:
-               return URL(string: url + "/secure")!
-            case .GET_SECRET_MSG:
-                return URL(string: url + "/secure")!
             case .GET_SOL_BALANCE:
                 return URL(string: solMainnet)!
             case .GET_SOL_ACC_INFO:
@@ -149,6 +149,8 @@ class InfoApi : ApiInterface {
             case .GET_SOL_TXN_INFO:
                 return URL(string: solMainnet)!
             case .GET_SOL_STAKE_INFO:
+                return URL(string: solMainnet)!
+            case .GET_SOL_TOKEN_BALANCE:
                 return URL(string: solMainnet)!
             case .GET_ONE_BALANCE:
                 return URL(string: oneMainnet)!
@@ -186,7 +188,7 @@ class InfoApi : ApiInterface {
                 break
         }
      
-        return URL(string: url + "/mock_clear")!
+        return URL(string: "")!
     }
     
     func getMethod() -> String {

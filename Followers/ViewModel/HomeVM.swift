@@ -36,6 +36,7 @@ protocol HomeViewModelProtocol : ObservableObject {
     var onePage : Int { get set }
     //var maticSignatures : [String] { get set }
     var xlmCursor : String { get set }
+    var assets : [AssetInfo] { get set }
     
     var totalSol : String { get set }
     var totalOne : String { get set }
@@ -54,6 +55,8 @@ protocol HomeViewModelProtocol : ObservableObject {
     func getSolTxn(id : String)
     func fetchSolTxnDetail()
     func fetchSolStake(sol : [StakeAccountInfo])
+    func startSolAsset(assets: [AssetInfo])
+    func fetchSolAssets()
     //
     func startOne()
     func storeOne(id: String, nick: String)
@@ -111,6 +114,7 @@ class HomeVM : HomeViewModelProtocol {
     @Published var totalEth: String = ""
     @Published var totalXlm: String = ""
     @Published var mainQueue: [String] = []
+    @Published var assets: [AssetInfo] = []
     
     private var task : AnyCancellable?
     private var task2 : AnyCancellable? // 2nd task, there are too many calls, can't know who cancel who @@
@@ -301,6 +305,32 @@ class HomeVM : HomeViewModelProtocol {
                 //print("back here !!!! \(data)")
                 if data.isSuccess {
                     self.solTransactions = data.transactions!
+                }
+            })
+    }
+    
+    func startSolAsset(assets: [AssetInfo]) {
+        if assets.count > 0 {
+            self.assets = assets
+        }
+    }
+    
+    func fetchSolAssets() {
+        if assets.count == 0 {
+            return;
+        }
+        
+        let asset = assets[0]
+        let flow = GetSolTokenBalance(asset: asset)
+        task2 = flow.processFlow()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { result in
+                if self.assets.count > 0 {
+                    self.assets.removeFirst()
+                }
+            }, receiveValue: { data in
+                if data.isSuccess {
+                    self.solTransactions.append(data.transaction!)
                 }
             })
     }

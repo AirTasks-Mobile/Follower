@@ -23,24 +23,15 @@ struct XLMTransactionView: View {
                 .foregroundColor(Color.gray)
             Divider()
             if txn.type == GTEXT.XLM_TYPE_XPAY || txn.type == GTEXT.XLM_TYPE_PAY || txn.type == GTEXT.XLM_TYPE_CREATE_CLAIM {
-                if txn.src == srcId {
-                    Text("From: \(nick)")
-                        .font(Font.custom("Avenir-medium", size: 17))
-                        .foregroundColor(Color.gray)
-                    Divider()
-                    Text("To: \(txn.des)")
-                        .font(Font.custom("Avenir-medium", size: 13))
-                        .foregroundColor(Color.gray)
-                }
-                else {
-                    Text("From: \(txn.src)")
-                        .font(Font.custom("Avenir-medium", size: 13))
-                        .foregroundColor(Color.gray)
-                    Divider()
-                    Text("To: \(nick)")
-                        .font(Font.custom("Avenir-medium", size: 17))
-                        .foregroundColor(Color.gray)
-                }
+            
+                Text("From: \(getStoredXlmAddressName(id:srcId, nick: nick, address: txn.src, scheme: txn.scheme))")
+                    .font(Font.custom("Avenir-medium", size: 17))
+                    .foregroundColor(Color.gray)
+                Divider()
+                Text("To: \(getStoredXlmAddressName(id:srcId, nick: nick, address: txn.des, scheme: txn.scheme))")
+                    .font(Font.custom("Avenir-medium", size: 13))
+                    .foregroundColor(Color.gray)
+                
                 Divider()
             }
 
@@ -87,6 +78,27 @@ struct XLMTransactionView: View {
         }
         
         return mType
+    }
+    
+    func getStoredXlmAddressName(id: String, nick: String, address: String, scheme: String) -> String {
+        if id == address {
+            return nick
+        }
+        
+        let storedList : [String] = UserDefaults.standard.stringArray(forKey: GTEXT.XLM_LIST) ?? []
+
+        
+        for storedId in storedList {
+            if let storedData = UserDefaults.standard.object(forKey: storedId) as? Data {
+                if let storedInfo = try? JSONDecoder().decode(CoinInfo.self, from: storedData){
+                    if storedInfo.id == address {
+                        return storedInfo.nick
+                    }
+                }
+            }
+        }
+        
+        return address
     }
 }
 

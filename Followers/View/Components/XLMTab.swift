@@ -53,7 +53,7 @@ struct XLMTab<T: HomeViewModelProtocol>: View {
                     AddCoinTab(titleText: "Add XLM Address Only", coinAddress: $xlmAddress, nickName: $xlmNickname, onAddCoin: onClick, onScanAddress: scanAddress, onScanNick: scanNick)
                         .tag(3)
                     
-                    ListTransactionTab(nick: $selectedXlm.nick, id: $selectedXlm.id, transactions: $homeVM.xlmTransactions, isLoading: $isLoading, stake: $isStakeTab, isLast: $isLast,isStake: true, onStake: getOtherAssest, loadMore: loadMoreTransactions, textReward: "Other Asset?")
+                    ListTransactionTab(nick: $selectedXlm.nick, id: $selectedXlm.id, transactions: $homeVM.xlmTransactions, isLoading: $isLoading, stake: $isStakeTab, isLast: $isLast,isStake: true, onStake: { }, loadMore: loadMoreTransactions, onAsset: getOtherAssest, textReward: "Other Asset?")
                         .tag(4)
                 
                 }

@@ -59,6 +59,8 @@
 		3FB7E4F226A7BEDB0024E639 /* BagdeIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7E4F126A7BEDB0024E639 /* BagdeIcon.swift */; };
 		3FB7E4F426A7C6C40024E639 /* RouteVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7E4F326A7C6C40024E639 /* RouteVM.swift */; };
 		3FB7E4F826A7C8ED0024E639 /* RouteVMUnitTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7E4F726A7C8ED0024E639 /* RouteVMUnitTest.swift */; };
+		3FCB85C127AEBF0C007F0FCD /* GetSolTokenBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCB85C027AEBF0C007F0FCD /* GetSolTokenBalance.swift */; };
+		3FCB85C327AEDEDD007F0FCD /* TransactionListBarSol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCB85C227AEDEDD007F0FCD /* TransactionListBarSol.swift */; };
 		3FD5CC3E26A50DAB00A7E40D /* IconTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5CC3D26A50DAB00A7E40D /* IconTextView.swift */; };
 		3FD5CC4026A50E8300A7E40D /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5CC3F26A50E8300A7E40D /* IconButton.swift */; };
 		3FD5CC4326A5103000A7E40D /* LobbyVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5CC4226A5103000A7E40D /* LobbyVM.swift */; };
@@ -163,6 +165,8 @@
 		3FB7E4F126A7BEDB0024E639 /* BagdeIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BagdeIcon.swift; sourceTree = "<group>"; };
 		3FB7E4F326A7C6C40024E639 /* RouteVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteVM.swift; sourceTree = "<group>"; };
 		3FB7E4F726A7C8ED0024E639 /* RouteVMUnitTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteVMUnitTest.swift; sourceTree = "<group>"; };
+		3FCB85C027AEBF0C007F0FCD /* GetSolTokenBalance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetSolTokenBalance.swift; sourceTree = "<group>"; };
+		3FCB85C227AEDEDD007F0FCD /* TransactionListBarSol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListBarSol.swift; sourceTree = "<group>"; };
 		3FD5CC3D26A50DAB00A7E40D /* IconTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconTextView.swift; sourceTree = "<group>"; };
 		3FD5CC3F26A50E8300A7E40D /* IconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
 		3FD5CC4226A5103000A7E40D /* LobbyVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyVM.swift; sourceTree = "<group>"; };
@@ -295,6 +299,7 @@
 				3F10D459278E850C004626B5 /* TransctionListBar.swift */,
 				3F10D45B278E851E004626B5 /* TransactionListBarXlm.swift */,
 				3F2F55C2278FDE3B0018BFD6 /* ValidatorView.swift */,
+				3FCB85C227AEDEDD007F0FCD /* TransactionListBarSol.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -319,6 +324,7 @@
 				3F7302A727887F3900E045BA /* GetXLMAccount.swift */,
 				3F4453CE278941DF007697EF /* GetXLMTransaction.swift */,
 				3F2F55C0278FBBCD0018BFD6 /* GetOneValidatorInfo.swift */,
+				3FCB85C027AEBF0C007F0FCD /* GetSolTokenBalance.swift */,
 			);
 			path = Flows;
 			sourceTree = "<group>";
@@ -594,6 +600,7 @@
 				3FA48EA526A599AF00CD0D5C /* GetClearMsg.swift in Sources */,
 				3F20825327816BAC00C32DE9 /* TextInputField.swift in Sources */,
 				3FD5CC5826A5412300A7E40D /* HomeVMUnitTest.swift in Sources */,
+				3FCB85C327AEDEDD007F0FCD /* TransactionListBarSol.swift in Sources */,
 				3FD5CC5226A52A8100A7E40D /* LobbyView.swift in Sources */,
 				3FFF29AD2786C0F90058B642 /* ActivityIndicator.swift in Sources */,
 				3FB7E4F826A7C8ED0024E639 /* RouteVMUnitTest.swift in Sources */,
@@ -602,6 +609,7 @@
 				3F12E47D27846D3F004B4830 /* GetOneTransaction.swift in Sources */,
 				3F04B87727856393008A7551 /* TransactionView.swift in Sources */,
 				3FD5CC5C26A5491B00A7E40D /* HeaderSymbol.swift in Sources */,
+				3FCB85C127AEBF0C007F0FCD /* GetSolTokenBalance.swift in Sources */,
 				3FF461C82785D3EB006D494F /* GetBscBalance.swift in Sources */,
 				3F20825527816FB200C32DE9 /* StaticText.swift in Sources */,
 				3FD5CC6226A55D6B00A7E40D /* BadgeTextView.swift in Sources */,

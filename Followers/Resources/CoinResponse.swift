@@ -102,6 +102,9 @@ struct SubToken : Hashable, Codable {
     var token_name : String? // mint, to check back what token type is
     var amount : String? // SOL
     //var decimals : Int? // SOL, should format at Flow
+    var token_owner : String?
+    var token_id : String?
+    var token_owner_id : String?
 }
 
 // SOL
@@ -113,6 +116,18 @@ struct SOLContext : Codable, Hashable {
 struct SOLResult : Codable, Hashable {
     var context : SOLContext?
     var value : Double? // here ?????
+}
+
+struct SOLTokenResult : Codable, Hashable {
+    var context : SOLContext?
+    var value : SOLTokenValue?
+}
+
+struct SOLTokenValue : Codable, Hashable {
+    var amount : String?
+    var decimals : Int?
+    var uiAmount : Double?
+    var uiAmountString : String?
 }
 
 struct SOLMulResult : Codable, Hashable {
@@ -150,6 +165,7 @@ struct SOLMeta : Codable, Hashable {
     var preBalances : [Double]? // here
     var rewards : [Double]?  // here
     var postTokenBalances : [SOLSubTokenInfo]? // sub token info
+    var preTokenBalances : [SOLSubTokenInfo]?
 }
 
 struct SOLTransaction : Codable, Hashable {
@@ -177,6 +193,8 @@ struct SOLSubTokenInfo : Codable, Hashable {
 struct SOLSubToken : Hashable, Codable {
     var amount : String?
     var decimals : Int?
+    var uiAmount : Double?
+    var uiAmountString : String?
 }
 
 // ONE
