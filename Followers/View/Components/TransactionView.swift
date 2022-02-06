@@ -13,6 +13,8 @@ struct TransactionView: View {
     var txn : TransactionInfo
     
     //var texxtColor : Color = Color(red: 255.0/255, green: 255.0/255, blue: 255.0/255)
+    @State var toCopy = false
+    @State var fromCopy = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0){
@@ -27,10 +29,11 @@ struct TransactionView: View {
                     .foregroundColor(Color.gray)
                 Button(action: {
                     UIPasteboard.general.setValue(txn.src, forPasteboardType: "public.plain-text")
+                    self.fromCopy = !self.fromCopy
                 }){
                     Image(systemName: "doc.on.doc")
                         .resizable()
-                        .foregroundColor(.gray)
+                        .foregroundColor(fromCopy ? Color.orange : Color.gray)
                         .frame(width: 17, height: 17, alignment: .leading)
                 }
             }
@@ -42,10 +45,11 @@ struct TransactionView: View {
                     .foregroundColor(Color.gray)
                 Button(action: {
                     UIPasteboard.general.setValue(txn.des, forPasteboardType: "public.plain-text")
+                    self.toCopy = !self.toCopy
                 }){
                     Image(systemName: "doc.on.doc")
                         .resizable()
-                        .foregroundColor(.gray)
+                        .foregroundColor(toCopy ? Color.orange : Color.gray)
                         .frame(width: 17, height: 17, alignment: .leading)
                 }
             }
@@ -68,6 +72,7 @@ struct TransactionView: View {
             }
 
         }
+        .buttonStyle(PlainButtonStyle())
         //.padding(EdgeInsets(top: 25, leading: 15, bottom: 0, trailing: 15))
     }
     

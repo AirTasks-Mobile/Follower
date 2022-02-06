@@ -200,6 +200,7 @@ class HomeVM : HomeViewModelProtocol {
                 let key = GTEXT.SOLANA + "_" + id
                 if let encodedSol = try? JSONEncoder().encode(sol) {
                     UserDefaults.standard.set(encodedSol, forKey: key)
+                    self.tempList = self.tempList.filter(){$0 != key}   // here!!!
                     self.tempList.append(key)
                     UserDefaults.standard.set(self.tempList, forKey: GTEXT.SOL_LIST)
 
@@ -462,6 +463,7 @@ class HomeVM : HomeViewModelProtocol {
                 let key = GTEXT.HARMONY + "_" + id
                 if let encodedOne = try? JSONEncoder().encode(one) {
                     UserDefaults.standard.set(encodedOne, forKey: key)
+                    self.tempList = self.tempList.filter(){$0 != key}   // here!!!
                     self.tempList.append(key)
                     UserDefaults.standard.set(self.tempList, forKey: GTEXT.ONE_LIST)
 
@@ -634,6 +636,7 @@ class HomeVM : HomeViewModelProtocol {
                 let key = GTEXT.POLYGON + "_" + id
                 if let encodedMatic = try? JSONEncoder().encode(matic) {
                     UserDefaults.standard.set(encodedMatic, forKey: key)
+                    self.tempList = self.tempList.filter(){$0 != key}   // here!!!
                     self.tempList.append(key)
                     UserDefaults.standard.set(self.tempList, forKey: GTEXT.MATIC_LIST)
 
@@ -730,6 +733,7 @@ class HomeVM : HomeViewModelProtocol {
                 let key = GTEXT.BINANCE + "_" + id
                 if let encodedBsc = try? JSONEncoder().encode(bsc) {
                     UserDefaults.standard.set(encodedBsc, forKey: key)
+                    self.tempList = self.tempList.filter(){$0 != key}   // here!!!
                     self.tempList.append(key)
                     UserDefaults.standard.set(self.tempList, forKey: GTEXT.BSC_LIST)
 
@@ -818,6 +822,7 @@ class HomeVM : HomeViewModelProtocol {
                 let key = GTEXT.ETHEREUM + "_" + id
                 if let encodedEth = try? JSONEncoder().encode(eth) {
                     UserDefaults.standard.set(encodedEth, forKey: key)
+                    self.tempList = self.tempList.filter(){$0 != key}   // here!!!
                     self.tempList.append(key)
                     UserDefaults.standard.set(self.tempList, forKey: GTEXT.ETH_LIST)
 
@@ -906,6 +911,7 @@ class HomeVM : HomeViewModelProtocol {
                 let key = GTEXT.STELLAR + "_" + id
                 if let encodedXlm = try? JSONEncoder().encode(xlm) {
                     UserDefaults.standard.set(encodedXlm, forKey: key)
+                    self.tempList = self.tempList.filter(){$0 != key}   // here!!!
                     self.tempList.append(key)
                     UserDefaults.standard.set(self.tempList, forKey: GTEXT.XLM_LIST)
 

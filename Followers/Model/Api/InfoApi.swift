@@ -31,7 +31,7 @@ struct SOLRespone : Decodable {
 
 struct SOLResponeGetBalance : Decodable {
     var jsonrpc : String
-    var result : SOLResult
+    var result : SOLResult?
     var id : Int32
 }
 
@@ -99,7 +99,7 @@ struct ONEResponseValidator : Decodable {
 // ETH
 struct ETHResponseBalance : Decodable {
     var id : Int?
-    var result : String
+    var result : String?
 }
 
 // Stellar
@@ -124,9 +124,9 @@ class InfoApi : ApiInterface {
     }
     func getURL() -> URL {
     
-        //let solMainnet = "https://api.mainnet-beta.solana.com"
-        //let solDevnet = "https://api.devnet.solana.com"
-        let solMainnet = "http://127.0.0.1:8899" // localhost
+        let solMainnet = "https://api.mainnet-beta.solana.com"
+        //let solMainnet = "https://api.devnet.solana.com" // devnet
+        //let solMainnet = "http://127.0.0.1:8899" // localhost
         
         let oneMainnet = "https://api.harmony.one"
         //let oneDevnet = "https://api.s0.pops.one"

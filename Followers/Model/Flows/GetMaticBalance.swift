@@ -34,7 +34,8 @@ class GetMaticBalance : BaseFlow {
     }
     
     func convertApiToFlow(info: ETHResponseBalance) -> FlowModel{
-        let doubleValue = Double(info.result ) ?? 0
+        let ret = info.result ?? "0"
+        let doubleValue = Double(ret) ?? 0
         let formattedValue = String(format: "%f", doubleValue / GTEXT.ETH_ROUND)
   
         

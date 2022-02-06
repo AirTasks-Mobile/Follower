@@ -23,14 +23,35 @@ struct XLMTransactionView: View {
                 .foregroundColor(Color.gray)
             Divider()
             if txn.type == GTEXT.XLM_TYPE_XPAY || txn.type == GTEXT.XLM_TYPE_PAY || txn.type == GTEXT.XLM_TYPE_CREATE_CLAIM {
-            
-                Text("From: \(getStoredXlmAddressName(id:srcId, nick: nick, address: txn.src, scheme: txn.scheme))")
-                    .font(Font.custom("Avenir-medium", size: 17))
-                    .foregroundColor(Color.gray)
+                HStack{
+                    Text("From: \(getStoredXlmAddressName(id:srcId, nick: nick, address: txn.src, scheme: txn.scheme))")
+                        .font(Font.custom("Avenir-medium", size: 17))
+                        .foregroundColor(Color.gray)
+                    
+                    Button(action: {
+                        UIPasteboard.general.setValue(txn.src, forPasteboardType: "public.plain-text")
+                    }){
+                        Image(systemName: "doc.on.doc")
+                            .resizable()
+                            .foregroundColor(.gray)
+                            .frame(width: 17, height: 17, alignment: .leading)
+                    }
+                }
                 Divider()
-                Text("To: \(getStoredXlmAddressName(id:srcId, nick: nick, address: txn.des, scheme: txn.scheme))")
-                    .font(Font.custom("Avenir-medium", size: 13))
-                    .foregroundColor(Color.gray)
+                HStack{
+                    Text("To: \(getStoredXlmAddressName(id:srcId, nick: nick, address: txn.des, scheme: txn.scheme))")
+                        .font(Font.custom("Avenir-medium", size: 13))
+                        .foregroundColor(Color.gray)
+                    
+                    Button(action: {
+                        UIPasteboard.general.setValue(txn.des, forPasteboardType: "public.plain-text")
+                    }){
+                        Image(systemName: "doc.on.doc")
+                            .resizable()
+                            .foregroundColor(.gray)
+                            .frame(width: 17, height: 17, alignment: .leading)
+                    }
+                }
                 
                 Divider()
             }
@@ -48,6 +69,7 @@ struct XLMTransactionView: View {
                 .foregroundColor(Color.gray)
 
         }
+        .buttonStyle(PlainButtonStyle())
         //.padding(EdgeInsets(top: 25, leading: 15, bottom: 0, trailing: 15))
     }
     
