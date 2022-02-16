@@ -10,6 +10,11 @@ import Combine
 
 class GetSolTransactionDetail : BaseFlow {
     private var txnSignature : String = ""
+    private var solId : String
+    
+    init(id: String) {
+        solId = id 
+    }
     
     override func onStart() -> Bool {
         if viewInfo.isEmpty {
@@ -43,6 +48,7 @@ class GetSolTransactionDetail : BaseFlow {
         let postBal : [Double] = info.result?.meta?.postBalances ?? []
         let preBal : [Double] = info.result?.meta?.preBalances ?? []
         //let reward = info.result?.meta?.rewards ?? []
+        
         
         if epochTime == 0 || accounts.count < 2 || postBal.count < 2 {
             return FlowModel(isSuccess: false)
@@ -146,7 +152,23 @@ class GetSolTransactionDetail : BaseFlow {
         
         let txn : TransactionInfo
         //doubleTemp = Double(postBal[1])
-        doubleTemp = Double(postBal[1]) - Double(preBal[1])
+        
+        let index = accounts.firstIndex(of: solId) ?? -1
+        
+        //let totalPos = postBal.reduce(0, +)
+        //let totalPre = preBal.reduce(0, +)
+     
+
+        if index > 1 {
+            doubleTemp = Double(postBal[index]) - Double(preBal[index])
+        }
+        else if index == 0 {
+            // send out
+            doubleTemp = Double(preBal[0]) - Double(postBal[0]) - fee
+        }
+        else {
+            doubleTemp = Double(postBal[1]) - Double(preBal[1])
+        }
         var formattedAmt = ""
         
         if type == GTEXT.TXN_STAKE {
@@ -157,7 +179,12 @@ class GetSolTransactionDetail : BaseFlow {
         }
         else if type == GTEXT.TXN_UNSTAKE {
             var transactionType = ""
-            doubleTemp = Double(preBal[1]) - Double(postBal[1])
+            if index  > 1 {
+                doubleTemp = Double(preBal[index]) - Double(postBal[index])
+            }
+            else {
+                doubleTemp = Double(preBal[1]) - Double(postBal[1])
+            }
             formattedAmt = String(format: "%f", doubleTemp / GTEXT.SOL_ROUND)
       
             if doubleTemp > 0 {
@@ -166,7 +193,13 @@ class GetSolTransactionDetail : BaseFlow {
             }
             else if doubleTemp < 0 {
                 transactionType = GTEXT.TXN_STAKE + "(split)"
-                let newBalance =  Double(postBal[1]) - Double(preBal[1])
+                var newBalance : Double
+                if index  > 1 {
+                    newBalance =  Double(postBal[index]) - Double(preBal[index])
+                }
+                else {
+                    newBalance =  Double(postBal[1]) - Double(preBal[1])
+                }
                 formattedAmt = String(format: "%f", newBalance / GTEXT.SOL_ROUND)
                 txn = TransactionInfo(type: transactionType, id: txnSignature, amt: formattedAmt, src: accounts[2], des: accounts[1], date: localDate, fee: formattedFee, status: "", scheme: GTEXT.SOLANA)
    

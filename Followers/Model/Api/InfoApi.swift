@@ -127,6 +127,7 @@ class InfoApi : ApiInterface {
         let solMainnet = "https://api.mainnet-beta.solana.com"
         //let solMainnet = "https://api.devnet.solana.com" // devnet
         //let solMainnet = "http://127.0.0.1:8899" // localhost
+        //let solMainnet = "http://192.168.1.202:8899"
         
         let oneMainnet = "https://api.harmony.one"
         //let oneDevnet = "https://api.s0.pops.one"
@@ -241,7 +242,7 @@ class InfoApi : ApiInterface {
             }
             .decode(type: T.self, decoder: JSONDecoder())
             .mapError{ error -> FlowError in
-                print("error = \(error.localizedDescription)")
+                //print("error = \(error.localizedDescription)")
                 return FlowError.FAIL
             }
             .eraseToAnyPublisher()

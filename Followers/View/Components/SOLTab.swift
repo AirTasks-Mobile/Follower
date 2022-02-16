@@ -95,7 +95,7 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
                         isLoading = true
                     }
                     
-                    homeVM.fetchSolTxnDetail()
+                    homeVM.fetchSolTxnDetail(solId: selectedSol.id)
                 }
                 else {
                     isLoading = false
@@ -138,7 +138,7 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
         if homeVM.solTransactions.count > 51 {
             homeVM.solTransactions.removeFirst(GTEXT.COIN_TXN_BLOCK)
         }
-        homeVM.fetchSolTxnDetail()
+        homeVM.fetchSolTxnDetail(solId: selectedSol.id)
     }
     
     func getTransactions() -> Void {

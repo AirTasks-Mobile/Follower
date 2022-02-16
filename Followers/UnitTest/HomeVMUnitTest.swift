@@ -98,7 +98,7 @@ class HomeVMUnitTest : HomeViewModelProtocol {
     
     var totalMatic: String
     
-    func fetchSolTxnDetail() {
+    func fetchSolTxnDetail(solId : String) {
         //
     }
     

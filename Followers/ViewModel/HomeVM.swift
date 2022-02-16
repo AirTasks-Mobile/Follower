@@ -53,7 +53,7 @@ protocol HomeViewModelProtocol : ObservableObject {
     func startSol()
     func storeSol(id: String, nick: String)
     func getSolTxn(id : String)
-    func fetchSolTxnDetail()
+    func fetchSolTxnDetail(solId : String)
     func fetchSolStake(sol : [StakeAccountInfo])
     func startSolAsset(assets: [AssetInfo])
     func fetchSolAssets()
@@ -264,7 +264,7 @@ class HomeVM : HomeViewModelProtocol {
             })
     }
     
-    func fetchSolTxnDetail() -> Void {
+    func fetchSolTxnDetail(solId : String) -> Void {
         if solSignatures.count <= 0 {
             return
         }
@@ -272,7 +272,7 @@ class HomeVM : HomeViewModelProtocol {
         let txnSignature = solSignatures[0]
         if txnSignature != "" {
             // fetch ...
-            let flow = GetSolTransactionDetail()
+            let flow = GetSolTransactionDetail(id: solId)
             flow.setViewInfo(info: ["id": txnSignature])
             task2 = flow.processFlow()
                 .receive(on: DispatchQueue.main)
