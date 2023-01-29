@@ -137,8 +137,8 @@ class InfoApi : ApiInterface {
         
         let maticMainnet = "https://polygon-rpc.com"
         
-        let ethAchemyMainnet = "https://eth-mainnet.alchemyapi.io/v2/tBdd0HrN3GLMirZ04eBnKPCOOuBml7HF"
-        // achemy websocket : wss://eth-mainnet.alchemyapi.io/v2/tBdd0HrN3GLMirZ04eBnKPCOOuBml7HF
+        let ethAchemyMainnet = "https://eth-mainnet.alchemyapi.io/v2/api_key"
+        // achemy websocket : wss://eth-mainnet.alchemyapi.io/v2/api_key
         
         let xlmMainnet = "https://horizon.stellar.org"
         
