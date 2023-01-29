@@ -36,6 +36,7 @@ protocol HomeViewModelProtocol : ObservableObject {
     var onePage : Int { get set }
     //var maticSignatures : [String] { get set }
     var xlmCursor : String { get set }
+    var assets : [AssetInfo] { get set }
     
     var totalSol : String { get set }
     var totalOne : String { get set }
@@ -52,8 +53,10 @@ protocol HomeViewModelProtocol : ObservableObject {
     func startSol()
     func storeSol(id: String, nick: String)
     func getSolTxn(id : String)
-    func fetchSolTxnDetail()
+    func fetchSolTxnDetail(solId : String)
     func fetchSolStake(sol : [StakeAccountInfo])
+    func startSolAsset(assets: [AssetInfo])
+    func fetchSolAssets()
     //
     func startOne()
     func storeOne(id: String, nick: String)
@@ -111,6 +114,7 @@ class HomeVM : HomeViewModelProtocol {
     @Published var totalEth: String = ""
     @Published var totalXlm: String = ""
     @Published var mainQueue: [String] = []
+    @Published var assets: [AssetInfo] = []
     
     private var task : AnyCancellable?
     private var task2 : AnyCancellable? // 2nd task, there are too many calls, can't know who cancel who @@
@@ -196,6 +200,7 @@ class HomeVM : HomeViewModelProtocol {
                 let key = GTEXT.SOLANA + "_" + id
                 if let encodedSol = try? JSONEncoder().encode(sol) {
                     UserDefaults.standard.set(encodedSol, forKey: key)
+                    self.tempList = self.tempList.filter(){$0 != key}   // here!!!
                     self.tempList.append(key)
                     UserDefaults.standard.set(self.tempList, forKey: GTEXT.SOL_LIST)
 
@@ -259,7 +264,7 @@ class HomeVM : HomeViewModelProtocol {
             })
     }
     
-    func fetchSolTxnDetail() -> Void {
+    func fetchSolTxnDetail(solId : String) -> Void {
         if solSignatures.count <= 0 {
             return
         }
@@ -267,7 +272,7 @@ class HomeVM : HomeViewModelProtocol {
         let txnSignature = solSignatures[0]
         if txnSignature != "" {
             // fetch ...
-            let flow = GetSolTransactionDetail()
+            let flow = GetSolTransactionDetail(id: solId)
             flow.setViewInfo(info: ["id": txnSignature])
             task2 = flow.processFlow()
                 .receive(on: DispatchQueue.main)
@@ -301,6 +306,32 @@ class HomeVM : HomeViewModelProtocol {
                 //print("back here !!!! \(data)")
                 if data.isSuccess {
                     self.solTransactions = data.transactions!
+                }
+            })
+    }
+    
+    func startSolAsset(assets: [AssetInfo]) {
+        if assets.count > 0 {
+            self.assets = assets
+        }
+    }
+    
+    func fetchSolAssets() {
+        if assets.count == 0 {
+            return;
+        }
+        
+        let asset = assets[0]
+        let flow = GetSolTokenBalance(asset: asset)
+        task2 = flow.processFlow()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { result in
+                if self.assets.count > 0 {
+                    self.assets.removeFirst()
+                }
+            }, receiveValue: { data in
+                if data.isSuccess {
+                    self.solTransactions.append(data.transaction!)
                 }
             })
     }
@@ -432,6 +463,7 @@ class HomeVM : HomeViewModelProtocol {
                 let key = GTEXT.HARMONY + "_" + id
                 if let encodedOne = try? JSONEncoder().encode(one) {
                     UserDefaults.standard.set(encodedOne, forKey: key)
+                    self.tempList = self.tempList.filter(){$0 != key}   // here!!!
                     self.tempList.append(key)
                     UserDefaults.standard.set(self.tempList, forKey: GTEXT.ONE_LIST)
 
@@ -604,6 +636,7 @@ class HomeVM : HomeViewModelProtocol {
                 let key = GTEXT.POLYGON + "_" + id
                 if let encodedMatic = try? JSONEncoder().encode(matic) {
                     UserDefaults.standard.set(encodedMatic, forKey: key)
+                    self.tempList = self.tempList.filter(){$0 != key}   // here!!!
                     self.tempList.append(key)
                     UserDefaults.standard.set(self.tempList, forKey: GTEXT.MATIC_LIST)
 
@@ -700,6 +733,7 @@ class HomeVM : HomeViewModelProtocol {
                 let key = GTEXT.BINANCE + "_" + id
                 if let encodedBsc = try? JSONEncoder().encode(bsc) {
                     UserDefaults.standard.set(encodedBsc, forKey: key)
+                    self.tempList = self.tempList.filter(){$0 != key}   // here!!!
                     self.tempList.append(key)
                     UserDefaults.standard.set(self.tempList, forKey: GTEXT.BSC_LIST)
 
@@ -788,6 +822,7 @@ class HomeVM : HomeViewModelProtocol {
                 let key = GTEXT.ETHEREUM + "_" + id
                 if let encodedEth = try? JSONEncoder().encode(eth) {
                     UserDefaults.standard.set(encodedEth, forKey: key)
+                    self.tempList = self.tempList.filter(){$0 != key}   // here!!!
                     self.tempList.append(key)
                     UserDefaults.standard.set(self.tempList, forKey: GTEXT.ETH_LIST)
 
@@ -876,6 +911,7 @@ class HomeVM : HomeViewModelProtocol {
                 let key = GTEXT.STELLAR + "_" + id
                 if let encodedXlm = try? JSONEncoder().encode(xlm) {
                     UserDefaults.standard.set(encodedXlm, forKey: key)
+                    self.tempList = self.tempList.filter(){$0 != key}   // here!!!
                     self.tempList.append(key)
                     UserDefaults.standard.set(self.tempList, forKey: GTEXT.XLM_LIST)
 

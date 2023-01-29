@@ -33,8 +33,8 @@ struct AddCoinTab: View {
                     Text("Add")
                         .font(Font.custom("Avenir-heavy", size: 17))
                         .foregroundColor(Color(red: 1/255.0, green: 187/255.0, blue: 205/255.0))
+                        .frame(width: geo.size.width - 20, height: 50, alignment: .center)
                 }
-                .frame(width: geo.size.width - 20, height: 50, alignment: .center)
                 .background(Color(red: 255/0/255, green: 255.0/255, blue: 255.0/255, opacity: 0.5))
                 .cornerRadius(8.0)
                 .padding(EdgeInsets(top: 50, leading: 10, bottom: 0, trailing: 10))

@@ -10,6 +10,11 @@ import Combine
 
 class GetSolTransactionDetail : BaseFlow {
     private var txnSignature : String = ""
+    private var solId : String
+    
+    init(id: String) {
+        solId = id 
+    }
     
     override func onStart() -> Bool {
         if viewInfo.isEmpty {
@@ -44,6 +49,7 @@ class GetSolTransactionDetail : BaseFlow {
         let preBal : [Double] = info.result?.meta?.preBalances ?? []
         //let reward = info.result?.meta?.rewards ?? []
         
+        
         if epochTime == 0 || accounts.count < 2 || postBal.count < 2 {
             return FlowModel(isSuccess: false)
         }
@@ -51,26 +57,59 @@ class GetSolTransactionDetail : BaseFlow {
         var doubleTemp = Double(fee)
         let formattedFee = String(format: "%f", doubleTemp / GTEXT.SOL_ROUND)
         
-        let subToken : [SOLSubTokenInfo] = info.result?.meta?.postTokenBalances ?? []
+        let postTokenBalances : [SOLSubTokenInfo] = info.result?.meta?.postTokenBalances ?? []
+        let preTokenBalances : [SOLSubTokenInfo] = info.result?.meta?.preTokenBalances ?? []
         
         var listToken : [SubToken] = []
-        for token in subToken {
+        for token in postTokenBalances {
             let mint = token.mint ?? ""
-            let amountSubToken = token.uiTokenAmount?.amount ?? ""
-            let dec = token.uiTokenAmount?.decimals ?? 0
+            let uiAmountString = token.uiTokenAmount?.uiAmountString ?? ""
+            //let uiAmount = token.uiTokenAmount?.uiAmount ?? -1
+            let accIndex = token.accountIndex ?? -1
+            let owner = token.owner ?? ""
             
-            if mint != "" && amountSubToken != "0" {
-                if dec > 0 {
-                    let doubleAmt = Double(amountSubToken) ?? 0
-                    let round = pow(Double(10), Double(dec))
-                    let newAmtSubToken = String(format: "%f", doubleAmt / round)
+            let preTokenBal = preTokenBalances.filter(){$0.accountIndex == accIndex}
+            let tokenName = getStoredTokenName(token: mint)
+            let ownerName = getStoredTokenName(token: owner)
+            
+            if preTokenBal.count > 0 {
+                let preTokenAmt = preTokenBal[0].uiTokenAmount?.uiAmount ?? 0
+                let postTokenAmt = token.uiTokenAmount?.uiAmount ?? 0
                 
-                    listToken.append(SubToken(token_name: mint, amount: newAmtSubToken))
+                if postTokenAmt >= preTokenAmt {
+                    let newAmtSubToken = String(format: "%f", postTokenAmt - preTokenAmt)
+                    listToken.append(SubToken(token_name: tokenName, amount: "+ \(Utils.formatNumber(num: newAmtSubToken))", token_owner: ownerName, token_id: mint, token_owner_id: owner))
                 }
                 else {
-                    listToken.append(SubToken(token_name: mint, amount: amountSubToken))
+                    let newAmtSubToken = String(format: "%f", preTokenAmt - postTokenAmt)
+                    listToken.append(SubToken(token_name: tokenName, amount: "- \(Utils.formatNumber(num: newAmtSubToken))", token_owner: ownerName, token_id: mint, token_owner_id: owner))
                 }
             }
+            else {
+                listToken.append(SubToken(token_name: tokenName, amount: "+ \(Utils.formatNumber(num: uiAmountString))", token_owner: ownerName, token_id: mint, token_owner_id: owner))
+            }
+            
+//            let amountSubToken = token.uiTokenAmount?.amount ?? ""
+//            if mint != "" && amountSubToken != "0" {
+//                listToken.append(SubToken(token_name: mint, amount: uiAmount))
+//
+//                if uiAmount != "" {
+//                    listToken.append(SubToken(token_name: mint, amount: uiAmount))
+//                }
+//                else {
+//                    let dec = token.uiTokenAmount?.decimals ?? 0
+//                    if dec > 0 {
+//                        let doubleAmt = Double(amountSubToken) ?? 0
+//                        let round = pow(Double(10), Double(dec))
+//                        let newAmtSubToken = String(format: "%f", doubleAmt / round)
+//
+//                        listToken.append(SubToken(token_name: mint, amount: newAmtSubToken))
+//                    }
+//                    else {
+//                        listToken.append(SubToken(token_name: mint, amount: amountSubToken))
+//                    }
+//                }
+//           }
         }
         
         
@@ -87,6 +126,9 @@ class GetSolTransactionDetail : BaseFlow {
                 else if accounts.count == 7 {
                     type = GTEXT.SOL_TXN_CREATE_TOKEN_ACCOUNT
                 }
+                else {
+                    type = "Custom Transaction"
+                }
             }
         }
         else if accounts.contains(GTEXT.SOL_STAKE_ACC){
@@ -94,6 +136,9 @@ class GetSolTransactionDetail : BaseFlow {
         }
         else if accounts.contains(GTEXT.SOL_TRANSER_ACC) {
             type = GTEXT.TXN_TRANSFER
+        }
+        else if accounts.contains(GTEXT.SOL_TOKEN_ACC){
+            type = GTEXT.TXN_MINT
         }
         
 
@@ -107,7 +152,23 @@ class GetSolTransactionDetail : BaseFlow {
         
         let txn : TransactionInfo
         //doubleTemp = Double(postBal[1])
-        doubleTemp = Double(postBal[1]) - Double(preBal[1])
+        
+        let index = accounts.firstIndex(of: solId) ?? -1
+        
+        //let totalPos = postBal.reduce(0, +)
+        //let totalPre = preBal.reduce(0, +)
+     
+
+        if index > 1 {
+            doubleTemp = Double(postBal[index]) - Double(preBal[index])
+        }
+        else if index == 0 {
+            // send out
+            doubleTemp = Double(preBal[0]) - Double(postBal[0]) - fee
+        }
+        else {
+            doubleTemp = Double(postBal[1]) - Double(preBal[1])
+        }
         var formattedAmt = ""
         
         if type == GTEXT.TXN_STAKE {
@@ -118,7 +179,12 @@ class GetSolTransactionDetail : BaseFlow {
         }
         else if type == GTEXT.TXN_UNSTAKE {
             var transactionType = ""
-            doubleTemp = Double(preBal[1]) - Double(postBal[1])
+            if index  > 1 {
+                doubleTemp = Double(preBal[index]) - Double(postBal[index])
+            }
+            else {
+                doubleTemp = Double(preBal[1]) - Double(postBal[1])
+            }
             formattedAmt = String(format: "%f", doubleTemp / GTEXT.SOL_ROUND)
       
             if doubleTemp > 0 {
@@ -127,7 +193,13 @@ class GetSolTransactionDetail : BaseFlow {
             }
             else if doubleTemp < 0 {
                 transactionType = GTEXT.TXN_STAKE + "(split)"
-                let newBalance =  Double(postBal[1]) - Double(preBal[1])
+                var newBalance : Double
+                if index  > 1 {
+                    newBalance =  Double(postBal[index]) - Double(preBal[index])
+                }
+                else {
+                    newBalance =  Double(postBal[1]) - Double(preBal[1])
+                }
                 formattedAmt = String(format: "%f", newBalance / GTEXT.SOL_ROUND)
                 txn = TransactionInfo(type: transactionType, id: txnSignature, amt: formattedAmt, src: accounts[2], des: accounts[1], date: localDate, fee: formattedFee, status: "", scheme: GTEXT.SOLANA)
    
@@ -136,24 +208,31 @@ class GetSolTransactionDetail : BaseFlow {
                 transactionType = GTEXT.TXN_UNSTAKE
                 txn = TransactionInfo(type: transactionType, id: txnSignature, amt: formattedAmt, src: accounts[1], des: accounts[0], date: localDate, fee: formattedFee, status: "", scheme: GTEXT.SOLANA)
             }
-//            txn = TransactionInfo(type: transactionType, id: txnSignature, amt: formattedAmt, src: accounts[1], des: accounts[0], date: localDate, fee: formattedFee, status: "", scheme: GTEXT.SOLANA)
+
         }
-//        else if type == GTEXT.SOL_TXN_CREATE_TOKEN_ACCOUNT {
-//            formattedAmt = String(format: "%f", doubleTemp / GTEXT.SOL_ROUND)
-//
-//
-//            txn = TransactionInfo(type: type, id: txnSignature, amt: formattedAmt, src: accounts[0], des: accounts[1], date: localDate, fee: formattedFee, status: "", scheme: GTEXT.SOLANA, subToken: listToken)
-//        }
         else {
             //doubleTemp = Double(postBal[1]) - Double(preBal[1])
             formattedAmt = String(format: "%f", doubleTemp / GTEXT.SOL_ROUND)
-            if listToken.count > 0 {
-                type = "\(type) (\(listToken[0].amount ?? ""))" // test
-            }
             txn = TransactionInfo(type: type, id: txnSignature, amt: formattedAmt, src: accounts[0], des: accounts[1], date: localDate, fee: formattedFee, status: "", scheme: GTEXT.SOLANA, subToken: listToken)
         }
         
         
         return FlowModel(isSuccess: true, transaction: txn)
+    }
+    
+    func getStoredTokenName(token: String) -> String {
+        let solAddressList = UserDefaults.standard.stringArray(forKey: GTEXT.SOL_LIST) ?? []
+        
+        for solId in solAddressList {
+            if let solData = UserDefaults.standard.object(forKey: solId) as? Data {
+                if let solInfo = try? JSONDecoder().decode(CoinInfo.self, from: solData){
+                    if solInfo.id == token {
+                        return solInfo.nick
+                    }
+                }
+            }
+        }
+        
+        return token
     }
 }

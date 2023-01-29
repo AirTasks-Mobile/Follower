@@ -30,6 +30,7 @@ struct GTEXT {
     static let TXN_UNSTAKE = "UNSTAKE"
     static let TXN_STAKE_REWARD = "STAKE_REWARD"
     static let TXN_STAKE_WITDRAW = "WITHDRAW"
+    static let TXN_MINT = "MINT"
     
     static let ONE_ROUND : Double = 1000000000000000000
     static let SOL_ROUND : Double = 1000000000

@@ -31,7 +31,13 @@ struct SOLRespone : Decodable {
 
 struct SOLResponeGetBalance : Decodable {
     var jsonrpc : String
-    var result : SOLResult
+    var result : SOLResult?
+    var id : Int32
+}
+
+struct SOLResponeGetTokenBalance : Decodable {
+    var jsonrpc : String
+    var result : SOLTokenResult?
     var id : Int32
 }
 
@@ -93,7 +99,7 @@ struct ONEResponseValidator : Decodable {
 // ETH
 struct ETHResponseBalance : Decodable {
     var id : Int?
-    var result : String
+    var result : String?
 }
 
 // Stellar
@@ -117,10 +123,11 @@ class InfoApi : ApiInterface {
         self.info = info
     }
     func getURL() -> URL {
-        let url = "http://192.168.1.103:5000/api"
-        //let solMainnet = "https://api.mainnet-beta.solana.com"
-        //let solDevnet = "https://api.devnet.solana.com"
-        let solMainnet = "http://127.0.0.1:8899" // localhost
+    
+        let solMainnet = "https://api.mainnet-beta.solana.com"
+        //let solMainnet = "https://api.devnet.solana.com" // devnet
+        //let solMainnet = "http://127.0.0.1:8899" // localhost
+        //let solMainnet = "http://192.168.1.202:8899"
         
         let oneMainnet = "https://api.harmony.one"
         //let oneDevnet = "https://api.s0.pops.one"
@@ -130,18 +137,12 @@ class InfoApi : ApiInterface {
         
         let maticMainnet = "https://polygon-rpc.com"
         
-        let ethAchemyMainnet = "https://eth-mainnet.alchemyapi.io/v2/tBdd0HrN3GLMirZ04eBnKPCOOuBml7HF"
-        // achemy websocket : wss://eth-mainnet.alchemyapi.io/v2/tBdd0HrN3GLMirZ04eBnKPCOOuBml7HF
+        let ethAchemyMainnet = "https://eth-mainnet.alchemyapi.io/v2/api_key"
+        // achemy websocket : wss://eth-mainnet.alchemyapi.io/v2/api_key
         
         let xlmMainnet = "https://horizon.stellar.org"
         
         switch info?.type {
-            case .NORMAL:
-                return URL(string: url + "/check_in")!
-            case .GET_CLEAR_MSG:
-               return URL(string: url + "/secure")!
-            case .GET_SECRET_MSG:
-                return URL(string: url + "/secure")!
             case .GET_SOL_BALANCE:
                 return URL(string: solMainnet)!
             case .GET_SOL_ACC_INFO:
@@ -149,6 +150,8 @@ class InfoApi : ApiInterface {
             case .GET_SOL_TXN_INFO:
                 return URL(string: solMainnet)!
             case .GET_SOL_STAKE_INFO:
+                return URL(string: solMainnet)!
+            case .GET_SOL_TOKEN_BALANCE:
                 return URL(string: solMainnet)!
             case .GET_ONE_BALANCE:
                 return URL(string: oneMainnet)!
@@ -186,7 +189,7 @@ class InfoApi : ApiInterface {
                 break
         }
      
-        return URL(string: url + "/mock_clear")!
+        return URL(string: "")!
     }
     
     func getMethod() -> String {
@@ -239,7 +242,7 @@ class InfoApi : ApiInterface {
             }
             .decode(type: T.self, decoder: JSONDecoder())
             .mapError{ error -> FlowError in
-                print("error = \(error.localizedDescription)")
+                //print("error = \(error.localizedDescription)")
                 return FlowError.FAIL
             }
             .eraseToAnyPublisher()

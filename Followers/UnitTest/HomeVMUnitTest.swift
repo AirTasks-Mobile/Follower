@@ -9,6 +9,16 @@ import Foundation
 import Combine
 
 class HomeVMUnitTest : HomeViewModelProtocol {
+    var assets: [AssetInfo]
+    
+    func startSolAsset(assets: [AssetInfo]) {
+        //
+    }
+    
+    func fetchSolAssets() {
+        //
+    }
+    
     func fetchOneValidator() {
         //
     }
@@ -88,7 +98,7 @@ class HomeVMUnitTest : HomeViewModelProtocol {
     
     var totalMatic: String
     
-    func fetchSolTxnDetail() {
+    func fetchSolTxnDetail(solId : String) {
         //
     }
     
@@ -202,6 +212,7 @@ class HomeVMUnitTest : HomeViewModelProtocol {
         totalXlm = ""
         
         mainQueue = [""]
+        assets = [AssetInfo.default]
     }
 
 }

@@ -54,9 +54,13 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
                         .tag(3)
                         //.simultaneousGesture(DragGesture())
                     
-                    ListTransactionTab(nick: $selectedSol.nick, id: $selectedSol.id, transactions: $homeVM.solTransactions, isLoading: $isLoading, stake: $isStakeTab, isLast: $isLast, isStake: true,onStake: onGetSolStake, loadMore: loadMoreTransactions)
-                        .tag(4)
+//                    ListTransactionTab(nick: $selectedSol.nick, id: $selectedSol.id, transactions: $homeVM.solTransactions, isLoading: $isLoading, stake: $isStakeTab, isLast: $isLast, isStake: true,onStake: onGetSolStake, loadMore: loadMoreTransactions)
+//                        .tag(4)
                         //.simultaneousGesture(DragGesture())
+                    
+                    
+                    ListTransactionTab(nick: $selectedSol.nick, id: $selectedSol.id, transactions: $homeVM.solTransactions, isLoading: $isLoading, stake: $isStakeTab, isLast: $isLast, isStake: true,onStake: onGetSolStake, loadMore: loadMoreTransactions, onAsset: onGetToken, textReward: "both")
+                        .tag(4)
                 
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -91,7 +95,7 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
                         isLoading = true
                     }
                     
-                    homeVM.fetchSolTxnDetail()
+                    homeVM.fetchSolTxnDetail(solId: selectedSol.id)
                 }
                 else {
                     isLoading = false
@@ -107,6 +111,11 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
                 }
                 if(tabSelect == 4 && selectedSol.id == ""){
                     //tabSelect = 2;
+                }
+            })
+            .onChange(of: homeVM.assets, perform: { _ in
+                if homeVM.assets.count > 0 {
+                    homeVM.fetchSolAssets()
                 }
             })
             .padding(EdgeInsets(top: 0, leading: 28, bottom: 15, trailing: 26))
@@ -129,7 +138,7 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
         if homeVM.solTransactions.count > 51 {
             homeVM.solTransactions.removeFirst(GTEXT.COIN_TXN_BLOCK)
         }
-        homeVM.fetchSolTxnDetail()
+        homeVM.fetchSolTxnDetail(solId: selectedSol.id)
     }
     
     func getTransactions() -> Void {
@@ -194,6 +203,33 @@ struct SOLTab<T : HomeViewModelProtocol>: View {
         homeVM.fetchSolStake(sol: solStakes)
         homeVM.solSignatures = [] // stop loading transactions
         homeVM.solTransactions = []
+    }
+    
+    func onGetToken() -> Void {
+        var solAssets : [AssetInfo] = []
+        for txn in homeVM.solTransactions {
+            if txn.type == GTEXT.SOL_TXN_CREATE_TOKEN_ACCOUNT {
+                for token in txn.subToken ?? [] {
+                    let owner = token.token_owner_id ?? ""
+                    if owner == selectedSol.id {
+                        let tokenAcc = txn.des // query balance with this
+                        let tokenName = token.token_name ?? ""
+                        
+                        if tokenAcc != "" && tokenName != "" {
+                            solAssets.append(AssetInfo(type: tokenName, code: tokenAcc))
+                        }
+                    }
+                }
+            }
+        }
+        
+        if solAssets.count > 0 {
+            homeVM.assets = []
+            homeVM.startSolAsset(assets: solAssets)
+            homeVM.solTransactions = []
+        }
+        
+        
     }
     
     func scanAddress() -> Void {

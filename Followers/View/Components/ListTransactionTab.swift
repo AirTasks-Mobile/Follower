@@ -17,15 +17,24 @@ struct ListTransactionTab: View {
     var isStake : Bool = false
     var onStake : () -> Void
     var loadMore : () -> Void
+    var onAsset : () -> Void
     var textReward : String = "Stake Reward?"
     
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
-            if textReward == "Stake Reward?" {
-                TransctionListBar(isLoading: $isLoading, isClick: $stake, nick: nick, id: id, isBtn: isStake, onClick: onStake)
+            if id == "" {
+                bodyEmpty
             }
             else {
-                TransactionListBarXlm(isLoading: $isLoading, isClick: $stake, nick: nick, id: id, isBtn: isStake, onClick: onStake, textReward: textReward)
+                if textReward == "both"{
+                    TransactionListBarSol(isLoading: $isLoading, isClick: $stake, nick: nick, id: id, isBtn: isStake, onStake: onStake, onAsset: onAsset)
+                }
+                else if textReward == "Stake Reward?" {
+                    TransctionListBar(isLoading: $isLoading, isClick: $stake, nick: nick, id: id, isBtn: isStake, onClick: onStake)
+                }
+                else {
+                    TransactionListBarXlm(isLoading: $isLoading, isClick: $stake, nick: nick, id: id, isBtn: isStake, onClick: onAsset, textReward: textReward)
+                }
             }
             
             if transactions.count > 0 { // for iOS 14, not display staking transactions
@@ -48,7 +57,7 @@ struct ListTransactionTab: View {
                            
                             }
                         }
-                        else if txn.type == GTEXT.STELLAR {
+                        else if txn.type == GTEXT.STELLAR || txn.type == GTEXT.SOLANA {
                             XlmAssetView(srcId: $id, nick: $nick, txn: txn)
                         }
                         else if !stake {
@@ -97,9 +106,9 @@ struct ListTransactionTab: View {
             Image(systemName: "clear")
                 .resizable()
                 .foregroundColor(.gray)
-                .frame(width: 50, height: 50, alignment: .center)
+                .frame(width: 25, height: 25, alignment: .center)
             Text("No selected coin !")
-                .font(Font.custom("Avenir-black", size: 25))
+                .font(Font.custom("Avenir-meidum", size: 17))
                 .foregroundColor(.gray)
         }
     }
@@ -123,6 +132,6 @@ struct ListTransactionTab: View {
 
 struct ListTransactionTab_Previews: PreviewProvider {
     static var previews: some View {
-        ListTransactionTab(nick: .constant(""), id: .constant(""), transactions: .constant([TransactionInfo.default]), isLoading: .constant(true), stake: .constant(false), isLast: .constant(false),onStake: { }, loadMore: { })
+        ListTransactionTab(nick: .constant(""), id: .constant(""), transactions: .constant([TransactionInfo.default]), isLoading: .constant(true), stake: .constant(false), isLast: .constant(false),onStake: { }, loadMore: { }, onAsset: { })
     }
 }

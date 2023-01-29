@@ -15,7 +15,7 @@ struct Utils {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
                 //formatter.usesSignificantDigits = true
-                //formatter.minimumSignificantDigits = 1 // default
+        formatter.minimumSignificantDigits = 1 // default
         formatter.maximumSignificantDigits = 18 // default
         let value = NSDecimalNumber(string: num)
     

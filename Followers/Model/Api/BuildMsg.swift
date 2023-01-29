@@ -45,6 +45,8 @@ class BuildMsg {
                 return getSolTransactionInfoBody()
             case .GET_SOL_STAKE_INFO:
                 return getSolStakeBody()
+            case .GET_SOL_TOKEN_BALANCE:
+                return getSolTokenBalanceBody()
             case .GET_ONE_BALANCE:
                 return getOneBalanceBody()
             case .GET_ONE_ACC_INFO:
@@ -80,6 +82,26 @@ class BuildMsg {
         // bob : EWBy8H1XxKb4yzs436TZBxJ7hPoPipYePDixzz1KZ71h
         // my : DpgoQ5ZR6EnjrgWjD9m5cxxGu6NLCypFLTd36nDDjBJb
         //let accountList = ["9eYn5QXiWEmC6jCqkBUgdqCbAZXJtmopktz5XYwCPGCM", "EWBy8H1XxKb4yzs436TZBxJ7hPoPipYePDixzz1KZ71h"]
+        let sendInfo = SolInfo(params: [reqInfo?.token ?? ""])
+        
+        guard let body = try? JSONEncoder().encode(sendInfo) else {
+            return nil
+        }
+        
+        //print("body = \(body)")
+        //print("JSON body: \(String(data: body, encoding: .utf8))")
+        
+        return body
+    }
+    
+    func getSolTokenBalanceBody() -> Data? {
+        struct SolInfo : Codable {
+            var jsonrpc : String = "2.0"
+            var id : Int = 1
+            var method : String = "getTokenAccountBalance"
+            var params : [String]
+        }
+        
         let sendInfo = SolInfo(params: [reqInfo?.token ?? ""])
         
         guard let body = try? JSONEncoder().encode(sendInfo) else {
